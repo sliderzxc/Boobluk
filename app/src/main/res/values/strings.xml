@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Boobluk</string>
+    <string name="info_about_reset_password">Enter the email associated with your account and we\'ll send an email with instructions to reset your password.</string>
+</resources>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "55359200487",
+    "project_id": "boobluk",
+    "storage_bucket": "boobluk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55359200487:android:d644ef844656996eb9d642",
+        "android_client_info": {
+          "package_name": "com.test.boobluk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "55359200487-0jr8um6mha7qlee7idlmah7sc10e06sj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.test.boobluk",
+            "certificate_hash": "9c45469bdd5cd7a6605a13e2bbb1bfdb2a5fb78a"
+          }
+        },
+        {
+          "client_id": "55359200487-9uoge80t2gta7qh11dt1tg811s02eplc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcTMk8mXwK9UdOr2TT2irH1ytzK5scFQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "55359200487-9uoge80t2gta7qh11dt1tg811s02eplc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
