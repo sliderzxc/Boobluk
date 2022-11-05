@@ -1,26 +1,34 @@
 package com.test.boobluk.screens.fragments.authentication.login
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.R
+import com.test.boobluk.app.App
 import com.test.boobluk.databinding.FragmentLoginBinding
-import com.test.boobluk.helper.constants.Constants.EMAIL_ADDRESS_IS_INCORRECT
-import com.test.boobluk.helper.constants.Constants.EMAIL_WAS_NOT_FOUND
-import com.test.boobluk.helper.constants.Constants.EMAIL_WAS_NOT_FOUND_INFO
-import com.test.boobluk.helper.constants.Constants.PASSWORD_IS_INCORRECT
-import com.test.boobluk.helper.constants.Constants.PASSWORD_IS_INCORRECT_INFO
-import com.test.boobluk.helper.navigation.goToForgotPasswordFragment
-import com.test.boobluk.helper.navigation.goToMainFragment
-import com.test.boobluk.helper.navigation.goToRegisterFragment
+import com.test.boobluk.utils.constants.Constants.EMAIL_ADDRESS_IS_INCORRECT
+import com.test.boobluk.utils.constants.Constants.EMAIL_WAS_NOT_FOUND
+import com.test.boobluk.utils.constants.Constants.EMAIL_WAS_NOT_FOUND_INFO
+import com.test.boobluk.utils.constants.Constants.PASSWORD_IS_INCORRECT
+import com.test.boobluk.utils.constants.Constants.PASSWORD_IS_INCORRECT_INFO
+import com.test.boobluk.utils.navigation.goToForgotPasswordFragment
+import com.test.boobluk.utils.navigation.goToMainFragment
+import com.test.boobluk.utils.navigation.goToRegisterFragment
+import com.test.boobluk.utils.toast.showDarkMotionColorToast
+import javax.inject.Inject
 
 class LoginFragment : Fragment() {
     private val binding by lazy { FragmentLoginBinding.inflate(layoutInflater) }
+    @Inject
+    lateinit var loginViewModelFactory: LoginViewModelFactory
+    private val loginViewModel: LoginViewModel by activityViewModels { loginViewModelFactory }
     private var auth = Firebase.auth
 
     override fun onStart() {
@@ -39,19 +47,19 @@ class LoginFragment : Fragment() {
     }
 
     private fun init() {
+        inject()
         loginOnClickListener()
         signUpClickListener()
         forgotPasswordClickListener()
         doOnTextsChanges()
     }
 
+    private fun inject() {
+        (activity?.applicationContext as App).appComponent.inject(this)
+    }
+
     private fun doOnTextsChanges() {
-        binding.etEmail.doOnTextChanged { _, _, _, _ ->
-            binding.textInputLayoutEmail.error = null
-        }
-        binding.etPassword.doOnTextChanged { _, _, _, _ ->
-            binding.textInputLayoutPassword.error = null
-        }
+        loginViewModel.doOnTextsChanged(binding = binding)
     }
 
     private fun forgotPasswordClickListener() {
@@ -62,46 +70,11 @@ class LoginFragment : Fragment() {
 
     private fun loginOnClickListener() {
         binding.btnLogin.setOnClickListener {
-            val email = binding.etEmail.text.toString()
-            val password = binding.etPassword.text.toString()
-
-            if (binding.etEmail.text.isNullOrEmpty()) {
-                binding.textInputLayoutPassword.error = null
-                binding.textInputLayoutEmail.error = getString(R.string.email_is_empty)
-                return@setOnClickListener
-            }
-
-            if (binding.etPassword.text.isNullOrEmpty()) {
-                binding.textInputLayoutEmail.error = null
-                binding.textInputLayoutPassword.error = getString(R.string.password_is_empty)
-                return@setOnClickListener
-            }
-
-            auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
-                if (auth.currentUser?.isEmailVerified == true) {
-                    goToMainFragment()
-                }
-            }.addOnFailureListener {
-                val exception = it.message.toString()
-
-                if (exception == PASSWORD_IS_INCORRECT_INFO) {
-                    binding.textInputLayoutPassword.error = PASSWORD_IS_INCORRECT
-                    binding.textInputLayoutEmail.error = null
-                    return@addOnFailureListener
-                }
-
-                if (exception == EMAIL_ADDRESS_IS_INCORRECT) {
-                    binding.textInputLayoutPassword.error = null
-                    binding.textInputLayoutEmail.error = EMAIL_ADDRESS_IS_INCORRECT
-                    return@addOnFailureListener
-                }
-
-                if (exception == EMAIL_WAS_NOT_FOUND_INFO) {
-                    binding.textInputLayoutPassword.error = null
-                    binding.textInputLayoutEmail.error = EMAIL_WAS_NOT_FOUND
-                    return@addOnFailureListener
-                }
-            }
+            loginViewModel.signInAndValidEditTexts(
+                binding = binding,
+                loginFragment = this,
+                auth = auth
+            )
         }
     }
 
@@ -112,8 +85,9 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkIfUserLoginAndConfirmedEmail() {
-        if (auth.currentUser != null && auth.currentUser?.isEmailVerified == true) {
-            goToMainFragment()
-        }
+        loginViewModel.checkIfUserLoginAndConfirmedEmail(
+            auth = auth,
+            loginFragment = this
+        )
     }
 }

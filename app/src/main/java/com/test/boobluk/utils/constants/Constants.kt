@@ -1,4 +1,4 @@
-package com.test.boobluk.helper.constants
+package com.test.boobluk.utils.constants
 
 object Constants {
     const val EMAIL_ADDRESS_IS_BUSY = "The email address is already in use by another account."

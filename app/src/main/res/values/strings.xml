@@ -6,4 +6,6 @@
     <string name="password_is_empty">Password is empty</string>
     <string name="password_is_too_short">Password is too short</string>
     <string name="password_do_not_match">Password don\'t match</string>
+    <string name="check_email_to_confirm_account">Please check your email to confirm your account</string>
+    <string name="check_email_to_get_instructions">Please check your email to get instructions</string>
 </resources>

@@ -1,25 +1,23 @@
 package com.test.boobluk.screens.fragments.authentication.register
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.test.boobluk.R
+import com.test.boobluk.app.App
 import com.test.boobluk.databinding.FragmentRegisterBinding
-import com.test.boobluk.helper.constants.Constants.EMAIL_ADDRESS_IS_BUSY
-import com.test.boobluk.helper.constants.Constants.EMAIL_ADDRESS_IS_INCORRECT
-import com.test.boobluk.helper.navigation.goToLoginFragment
-import com.test.boobluk.helper.navigation.goToMainFragment
-import www.sanju.motiontoast.MotionToast
-import www.sanju.motiontoast.MotionToastStyle
+import com.test.boobluk.utils.navigation.goToLoginFragment
+import javax.inject.Inject
 
 class RegisterFragment : Fragment() {
     private val binding by lazy { FragmentRegisterBinding.inflate(layoutInflater) }
+    @Inject
+    lateinit var registerViewModelFactory: RegisterViewModelFactory
+    private val registerViewModel: RegisterViewModel by activityViewModels { registerViewModelFactory }
     private var auth = Firebase.auth
 
     override fun onStart() {
@@ -38,89 +36,23 @@ class RegisterFragment : Fragment() {
     }
 
     private fun init() {
+        inject()
         registerOnClickListener()
         signInClickListener()
         doOnTextsChanges()
     }
 
+    private fun inject() {
+        (activity?.applicationContext as App).appComponent.inject(this)
+    }
+
     private fun doOnTextsChanges() {
-        binding.etEmail.doOnTextChanged { _, _, _, _ ->
-            binding.textInputLayoutEmail.error = null
-        }
-        binding.etPassword.doOnTextChanged { _, _, _, _ ->
-            binding.textInputLayoutPassword.error = null
-        }
-        binding.etConfirmPassword.doOnTextChanged { _, _, _, _ ->
-            binding.textInputLayoutConfirmPassword.error = null
-        }
+        registerViewModel.doOnTextsChanges(binding)
     }
 
     private fun registerOnClickListener() {
         binding.btnRegister.setOnClickListener {
-            val email = binding.etEmail.text
-            val password = binding.etPassword.text
-            val confirmPassword = binding.etConfirmPassword.text
-
-            if (email.isNullOrEmpty()) {
-                binding.textInputLayoutConfirmPassword.error = null
-                binding.textInputLayoutPassword.error = null
-                binding.textInputLayoutEmail.error = getString(R.string.email_is_empty)
-                return@setOnClickListener
-            }
-
-            if (password.isNullOrEmpty()) {
-                binding.textInputLayoutConfirmPassword.error = null
-                binding.textInputLayoutEmail.error = null
-                binding.textInputLayoutPassword.error = getString(R.string.password_is_empty)
-                return@setOnClickListener
-            }
-
-            if (password.length < 6) {
-                binding.textInputLayoutConfirmPassword.error = null
-                binding.textInputLayoutEmail.error = null
-                binding.textInputLayoutPassword.error = getString(R.string.password_is_too_short)
-                return@setOnClickListener
-            }
-
-            if (confirmPassword.isNullOrEmpty()) {
-                binding.textInputLayoutPassword.error = null
-                binding.textInputLayoutEmail.error = null
-                binding.textInputLayoutConfirmPassword.error = getString(R.string.password_is_empty)
-                return@setOnClickListener
-            }
-
-            if (password.toString() != confirmPassword.toString()) {
-                binding.textInputLayoutEmail.error = null
-                binding.textInputLayoutPassword.error = null
-                binding.textInputLayoutConfirmPassword.error = getString(R.string.password_do_not_match)
-                return@setOnClickListener
-            }
-
-            auth.createUserWithEmailAndPassword(email.toString(), password.toString()).addOnSuccessListener {
-                auth.currentUser?.sendEmailVerification()?.addOnSuccessListener {
-                    MotionToast.darkColorToast(
-                        requireActivity(),
-                        null,
-                        "Please check your email to confirm your account",
-                        MotionToastStyle.INFO,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        null
-                    )
-                }
-            }.addOnFailureListener {
-                val exception = it.message.toString()
-
-                if (exception == EMAIL_ADDRESS_IS_BUSY) {
-                    binding.textInputLayoutEmail.error = EMAIL_ADDRESS_IS_BUSY
-                    return@addOnFailureListener
-                }
-
-                if (exception == EMAIL_ADDRESS_IS_INCORRECT) {
-                    binding.textInputLayoutEmail.error = EMAIL_ADDRESS_IS_INCORRECT
-                    return@addOnFailureListener
-                }
-            }
+            registerViewModel.createUserAndCheckValidEditTexts(this, binding, auth)
         }
     }
 
@@ -131,8 +63,6 @@ class RegisterFragment : Fragment() {
     }
 
     private fun checkIfUserRegisteredAndConfirmedEmail() {
-        if (auth.currentUser != null && auth.currentUser?.isEmailVerified == true) {
-            goToMainFragment()
-        }
+        registerViewModel.checkIfUserRegisteredAndConfirmedEmail(auth, this)
     }
 }

@@ -1,14 +1,17 @@
 package com.test.boobluk.screens.fragments.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.test.boobluk.app.App
 import com.test.boobluk.databinding.FragmentMainBinding
-import com.test.boobluk.helper.navigation.goToLoginFragment
+import com.test.boobluk.utils.navigation.goToLoginFragment
 
 class MainFragment : Fragment() {
     private val binding by lazy { FragmentMainBinding.inflate(layoutInflater) }
@@ -22,10 +25,16 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
+        Log.d("MyLog", auth.uid.toString())
     }
 
     private fun init() {
+        inject()
         signOutClickListener()
+    }
+
+    private fun inject() {
+        (activity?.applicationContext as App).appComponent.inject(this)
     }
 
     private fun signOutClickListener() {

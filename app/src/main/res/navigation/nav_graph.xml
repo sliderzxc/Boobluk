@@ -51,12 +51,6 @@
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/actionFromRegisterFragmentToMainFragment"
-            app:destination="@id/mainFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment

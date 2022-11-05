@@ -1,4 +1,4 @@
-package com.test.boobluk.helper.navigation
+package com.test.boobluk.utils.navigation
 
 import androidx.navigation.fragment.findNavController
 import com.test.boobluk.screens.fragments.authentication.login.LoginFragment
@@ -30,10 +30,5 @@ fun LoginFragment.goToForgotPasswordFragment() {
 
 fun RegisterFragment.goToLoginFragment() {
     val direction = RegisterFragmentDirections.actionFromRegisterFragmentToLoginFragment()
-    this.findNavController().navigate(direction)
-}
-
-fun RegisterFragment.goToMainFragment() {
-    val direction = RegisterFragmentDirections.actionFromRegisterFragmentToMainFragment()
     this.findNavController().navigate(direction)
 }
