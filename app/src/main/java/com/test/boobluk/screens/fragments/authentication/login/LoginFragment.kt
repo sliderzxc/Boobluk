@@ -1,15 +1,16 @@
 package com.test.boobluk.screens.fragments.authentication.login
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.test.boobluk.R
 import com.test.boobluk.databinding.FragmentLoginBinding
-import com.test.boobluk.helper.constants.Constants.EMAIL_IS_INCORRECT
+import com.test.boobluk.helper.constants.Constants.EMAIL_ADDRESS_IS_INCORRECT
 import com.test.boobluk.helper.constants.Constants.EMAIL_WAS_NOT_FOUND
 import com.test.boobluk.helper.constants.Constants.EMAIL_WAS_NOT_FOUND_INFO
 import com.test.boobluk.helper.constants.Constants.PASSWORD_IS_INCORRECT
@@ -17,8 +18,6 @@ import com.test.boobluk.helper.constants.Constants.PASSWORD_IS_INCORRECT_INFO
 import com.test.boobluk.helper.navigation.goToForgotPasswordFragment
 import com.test.boobluk.helper.navigation.goToMainFragment
 import com.test.boobluk.helper.navigation.goToRegisterFragment
-import www.sanju.motiontoast.MotionToast
-import www.sanju.motiontoast.MotionToastStyle
 
 class LoginFragment : Fragment() {
     private val binding by lazy { FragmentLoginBinding.inflate(layoutInflater) }
@@ -43,6 +42,16 @@ class LoginFragment : Fragment() {
         loginOnClickListener()
         signUpClickListener()
         forgotPasswordClickListener()
+        doOnTextsChanges()
+    }
+
+    private fun doOnTextsChanges() {
+        binding.etEmail.doOnTextChanged { _, _, _, _ ->
+            binding.textInputLayoutEmail.error = null
+        }
+        binding.etPassword.doOnTextChanged { _, _, _, _ ->
+            binding.textInputLayoutPassword.error = null
+        }
     }
 
     private fun forgotPasswordClickListener() {
@@ -57,57 +66,40 @@ class LoginFragment : Fragment() {
             val password = binding.etPassword.text.toString()
 
             if (binding.etEmail.text.isNullOrEmpty()) {
-                binding.textInputLayoutPassword.helperText = null
-                binding.textInputLayoutEmail.helperText = "Email is empty"
+                binding.textInputLayoutPassword.error = null
+                binding.textInputLayoutEmail.error = getString(R.string.email_is_empty)
                 return@setOnClickListener
             }
 
             if (binding.etPassword.text.isNullOrEmpty()) {
-                binding.textInputLayoutEmail.helperText = null
-                binding.textInputLayoutPassword.helperText = "Password is empty"
+                binding.textInputLayoutEmail.error = null
+                binding.textInputLayoutPassword.error = getString(R.string.password_is_empty)
                 return@setOnClickListener
             }
 
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+            auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
                 if (auth.currentUser?.isEmailVerified == true) {
                     goToMainFragment()
                 }
             }.addOnFailureListener {
-                Log.d("MyLog", it.message.toString())
-                if (it.message.toString() == PASSWORD_IS_INCORRECT_INFO) {
-                    MotionToast.darkColorToast(
-                        requireActivity(),
-                        null,
-                        PASSWORD_IS_INCORRECT,
-                        MotionToastStyle.ERROR,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        null
-                    )
+                val exception = it.message.toString()
+
+                if (exception == PASSWORD_IS_INCORRECT_INFO) {
+                    binding.textInputLayoutPassword.error = PASSWORD_IS_INCORRECT
+                    binding.textInputLayoutEmail.error = null
+                    return@addOnFailureListener
                 }
 
-                if (it.message.toString() == EMAIL_IS_INCORRECT) {
-                    MotionToast.darkColorToast(
-                        requireActivity(),
-                        null,
-                        EMAIL_IS_INCORRECT,
-                        MotionToastStyle.ERROR,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        null
-                    )
+                if (exception == EMAIL_ADDRESS_IS_INCORRECT) {
+                    binding.textInputLayoutPassword.error = null
+                    binding.textInputLayoutEmail.error = EMAIL_ADDRESS_IS_INCORRECT
+                    return@addOnFailureListener
                 }
 
-                if (it.message.toString() == EMAIL_WAS_NOT_FOUND_INFO) {
-                    MotionToast.darkColorToast(
-                        requireActivity(),
-                        null,
-                        EMAIL_WAS_NOT_FOUND,
-                        MotionToastStyle.ERROR,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        null
-                    )
+                if (exception == EMAIL_WAS_NOT_FOUND_INFO) {
+                    binding.textInputLayoutPassword.error = null
+                    binding.textInputLayoutEmail.error = EMAIL_WAS_NOT_FOUND
+                    return@addOnFailureListener
                 }
             }
         }

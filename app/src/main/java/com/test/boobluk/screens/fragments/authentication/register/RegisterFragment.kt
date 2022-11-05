@@ -1,14 +1,18 @@
 package com.test.boobluk.screens.fragments.authentication.register
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.test.boobluk.R
 import com.test.boobluk.databinding.FragmentRegisterBinding
 import com.test.boobluk.helper.constants.Constants.EMAIL_ADDRESS_IS_BUSY
+import com.test.boobluk.helper.constants.Constants.EMAIL_ADDRESS_IS_INCORRECT
 import com.test.boobluk.helper.navigation.goToLoginFragment
 import com.test.boobluk.helper.navigation.goToMainFragment
 import www.sanju.motiontoast.MotionToast
@@ -36,51 +40,64 @@ class RegisterFragment : Fragment() {
     private fun init() {
         registerOnClickListener()
         signInClickListener()
+        doOnTextsChanges()
+    }
+
+    private fun doOnTextsChanges() {
+        binding.etEmail.doOnTextChanged { _, _, _, _ ->
+            binding.textInputLayoutEmail.error = null
+        }
+        binding.etPassword.doOnTextChanged { _, _, _, _ ->
+            binding.textInputLayoutPassword.error = null
+        }
+        binding.etConfirmPassword.doOnTextChanged { _, _, _, _ ->
+            binding.textInputLayoutConfirmPassword.error = null
+        }
     }
 
     private fun registerOnClickListener() {
         binding.btnRegister.setOnClickListener {
-            val email = binding.etEmail.text.toString()
-            val password = binding.etPassword.text.toString()
-            val confirmPassword = binding.etConfirmPassword.text.toString()
+            val email = binding.etEmail.text
+            val password = binding.etPassword.text
+            val confirmPassword = binding.etConfirmPassword.text
 
-            if (binding.etEmail.text.isNullOrEmpty()) {
-                binding.textInputLayoutConfirmPassword.helperText = null
-                binding.textInputLayoutPassword.helperText = null
-                binding.textInputLayoutEmail.helperText = "Email is empty"
+            if (email.isNullOrEmpty()) {
+                binding.textInputLayoutConfirmPassword.error = null
+                binding.textInputLayoutPassword.error = null
+                binding.textInputLayoutEmail.error = getString(R.string.email_is_empty)
                 return@setOnClickListener
             }
 
-            if (binding.etPassword.text.isNullOrEmpty()) {
-                binding.textInputLayoutConfirmPassword.helperText = null
-                binding.textInputLayoutEmail.helperText = null
-                binding.textInputLayoutPassword.helperText = "Password is empty"
+            if (password.isNullOrEmpty()) {
+                binding.textInputLayoutConfirmPassword.error = null
+                binding.textInputLayoutEmail.error = null
+                binding.textInputLayoutPassword.error = getString(R.string.password_is_empty)
                 return@setOnClickListener
             }
 
-            if (binding.etPassword.text!!.length < 6) {
-                binding.textInputLayoutConfirmPassword.helperText = null
-                binding.textInputLayoutEmail.helperText = null
-                binding.textInputLayoutPassword.helperText = "Password is too short"
+            if (password.length < 6) {
+                binding.textInputLayoutConfirmPassword.error = null
+                binding.textInputLayoutEmail.error = null
+                binding.textInputLayoutPassword.error = getString(R.string.password_is_too_short)
                 return@setOnClickListener
             }
 
-            if (binding.etConfirmPassword.text.isNullOrEmpty()) {
-                binding.textInputLayoutPassword.helperText = null
-                binding.textInputLayoutEmail.helperText = null
-                binding.textInputLayoutConfirmPassword.helperText = "Password is empty"
+            if (confirmPassword.isNullOrEmpty()) {
+                binding.textInputLayoutPassword.error = null
+                binding.textInputLayoutEmail.error = null
+                binding.textInputLayoutConfirmPassword.error = getString(R.string.password_is_empty)
                 return@setOnClickListener
             }
 
-            if (password != confirmPassword) {
-                binding.textInputLayoutEmail.helperText = null
-                binding.textInputLayoutPassword.helperText = null
-                binding.textInputLayoutConfirmPassword.helperText = "Password don't match"
+            if (password.toString() != confirmPassword.toString()) {
+                binding.textInputLayoutEmail.error = null
+                binding.textInputLayoutPassword.error = null
+                binding.textInputLayoutConfirmPassword.error = getString(R.string.password_do_not_match)
                 return@setOnClickListener
             }
 
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                auth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+            auth.createUserWithEmailAndPassword(email.toString(), password.toString()).addOnSuccessListener {
+                auth.currentUser?.sendEmailVerification()?.addOnSuccessListener {
                     MotionToast.darkColorToast(
                         requireActivity(),
                         null,
@@ -92,16 +109,16 @@ class RegisterFragment : Fragment() {
                     )
                 }
             }.addOnFailureListener {
-                if (it.message.toString() == EMAIL_ADDRESS_IS_BUSY) {
-                    MotionToast.darkColorToast(
-                        requireActivity(),
-                        null,
-                        EMAIL_ADDRESS_IS_BUSY,
-                        MotionToastStyle.ERROR,
-                        MotionToast.GRAVITY_BOTTOM,
-                        MotionToast.LONG_DURATION,
-                        null
-                    )
+                val exception = it.message.toString()
+
+                if (exception == EMAIL_ADDRESS_IS_BUSY) {
+                    binding.textInputLayoutEmail.error = EMAIL_ADDRESS_IS_BUSY
+                    return@addOnFailureListener
+                }
+
+                if (exception == EMAIL_ADDRESS_IS_INCORRECT) {
+                    binding.textInputLayoutEmail.error = EMAIL_ADDRESS_IS_INCORRECT
+                    return@addOnFailureListener
                 }
             }
         }

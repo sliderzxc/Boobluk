@@ -5,9 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.test.boobluk.R
 import com.test.boobluk.databinding.FragmentForgotPasswordBinding
+import com.test.boobluk.helper.constants.Constants.EMAIL_ADDRESS_IS_INCORRECT
+import com.test.boobluk.helper.constants.Constants.EMAIL_WAS_NOT_FOUND
+import com.test.boobluk.helper.constants.Constants.EMAIL_WAS_NOT_FOUND_INFO
 import www.sanju.motiontoast.MotionToast
 import www.sanju.motiontoast.MotionToastStyle
 
@@ -27,18 +32,25 @@ class ForgotPasswordFragment : Fragment() {
 
     private fun init() {
         sendInstructionsClickListener()
+        doOnTextsChanges()
+    }
+
+    private fun doOnTextsChanges() {
+        binding.etEmail.doOnTextChanged { _, _, _, _ ->
+            binding.textInputLayoutEmail.error = null
+        }
     }
 
     private fun sendInstructionsClickListener() {
         binding.btnSendInstructions.setOnClickListener {
-            val email = binding.etEmail.text.toString()
+            val email = binding.etEmail.text
 
-            if (binding.etEmail.text.isNullOrEmpty()) {
-                binding.textInputLayoutEmail.helperText = "Email is empty"
+            if (email.isNullOrEmpty()) {
+                binding.textInputLayoutEmail.error = getString(R.string.email_is_empty)
                 return@setOnClickListener
             }
 
-            auth.sendPasswordResetEmail(email).addOnCompleteListener {
+            auth.sendPasswordResetEmail(email.toString()).addOnSuccessListener {
                 MotionToast.darkColorToast(
                     requireActivity(),
                     null,
@@ -48,6 +60,18 @@ class ForgotPasswordFragment : Fragment() {
                     MotionToast.LONG_DURATION,
                     null
                 )
+            }.addOnFailureListener {
+                val exception = it.message.toString()
+
+                if (exception == EMAIL_ADDRESS_IS_INCORRECT) {
+                    binding.textInputLayoutEmail.error = EMAIL_ADDRESS_IS_INCORRECT
+                    return@addOnFailureListener
+                }
+
+                if (exception == EMAIL_WAS_NOT_FOUND_INFO) {
+                    binding.textInputLayoutEmail.error = EMAIL_WAS_NOT_FOUND
+                    return@addOnFailureListener
+                }
             }
         }
     }
