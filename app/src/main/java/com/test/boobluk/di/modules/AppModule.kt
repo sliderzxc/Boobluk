@@ -1,8 +1,8 @@
 package com.test.boobluk.di.modules
 
-import com.test.boobluk.firebase.login.LoginFirebaseHelper
-import com.test.boobluk.firebase.password.ForgotPasswordFirebaseHelper
-import com.test.boobluk.firebase.register.RegisterFirebaseHelper
+import com.test.boobluk.firebase.utils.login.LoginFirebaseHelper
+import com.test.boobluk.firebase.utils.password.ForgotPasswordFirebaseHelper
+import com.test.boobluk.firebase.utils.register.RegisterFirebaseHelper
 import dagger.Module
 import dagger.Provides
 

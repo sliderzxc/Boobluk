@@ -3,10 +3,10 @@ package com.test.boobluk.screens.fragments.authentication.login
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import com.test.boobluk.databinding.FragmentLoginBinding
-import com.test.boobluk.firebase.login.LoginFirebaseHelper
+import com.test.boobluk.firebase.utils.login.LoginFirebaseHelper
 import com.test.boobluk.utils.navigation.goToMainFragment
-import kotlin.math.log
 
 class LoginViewModel(
     val loginFirebaseHelper: LoginFirebaseHelper
@@ -15,19 +15,20 @@ class LoginViewModel(
     fun signInAndValidEditTexts(
         binding: FragmentLoginBinding,
         loginFragment: LoginFragment,
-        auth: FirebaseAuth
+        firebase: Firebase
     ) {
         loginFirebaseHelper.signInAndValidEditTexts(
             binding = binding,
             loginFragment = loginFragment,
-            auth = auth
+            firebase = firebase
         )
     }
 
-    fun checkIfUserLoginAndConfirmedEmail(auth: FirebaseAuth, loginFragment: LoginFragment) {
-        if (auth.currentUser != null && auth.currentUser?.isEmailVerified == true) {
-            loginFragment.goToMainFragment()
-        }
+    fun checkIfUserLoginAndConfirmedEmail(firebase: Firebase, loginFragment: LoginFragment) {
+        loginFirebaseHelper.checkIfUserLoginAndConfirmedEmail(
+            firebase = firebase,
+            loginFragment = loginFragment
+        )
     }
 
     fun doOnTextsChanged(binding: FragmentLoginBinding) {

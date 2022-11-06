@@ -1,6 +1,5 @@
-package com.test.boobluk.firebase.password
+package com.test.boobluk.firebase.utils.password
 
-import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.test.boobluk.R
 import com.test.boobluk.databinding.FragmentForgotPasswordBinding

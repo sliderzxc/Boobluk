@@ -16,8 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Boobluk"
         tools:targetApi="31">
+
         <activity
             android:name=".screens.activities.main.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

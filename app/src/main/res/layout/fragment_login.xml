@@ -23,22 +23,22 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutPassword"
+        android:id="@+id/textInputLayoutUsername"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:hint="Password"
+        android:layout_marginTop="20dp"
+        android:hint="Username"
+        app:endIconMode="clear_text"
         app:helperTextTextColor="@color/red"
-        app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayoutEmail"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textInputLayoutEmail"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail"
-        app:startIconDrawable="@drawable/icon_key">
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:startIconDrawable="@drawable/icon_info">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPassword"
+            android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
@@ -51,14 +51,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
-        app:helperTextTextColor="@color/red"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="30dp"
         android:hint="Email"
         app:endIconMode="clear_text"
+        app:helperTextTextColor="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSignIn"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUsername"
         app:startIconDrawable="@drawable/icon_email">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -68,6 +68,29 @@
             android:singleLine="true"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:hint="Password"
+        app:endIconMode="password_toggle"
+        app:helperTextTextColor="@color/red"
+        app:layout_constraintEnd_toEndOf="@+id/textInputLayoutEmail"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textInputLayoutEmail"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail"
+        app:startIconDrawable="@drawable/icon_key">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView

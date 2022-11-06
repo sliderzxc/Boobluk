@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.app.App
 import com.test.boobluk.databinding.FragmentRegisterBinding
@@ -18,7 +19,7 @@ class RegisterFragment : Fragment() {
     @Inject
     lateinit var registerViewModelFactory: RegisterViewModelFactory
     private val registerViewModel: RegisterViewModel by activityViewModels { registerViewModelFactory }
-    private var auth = Firebase.auth
+    private val firebase = Firebase
 
     override fun onStart() {
         super.onStart()
@@ -52,7 +53,7 @@ class RegisterFragment : Fragment() {
 
     private fun registerOnClickListener() {
         binding.btnRegister.setOnClickListener {
-            registerViewModel.createUserAndCheckValidEditTexts(this, binding, auth)
+            registerViewModel.createUserAndCheckValidEditTexts(this, binding, firebase)
         }
     }
 
@@ -63,6 +64,6 @@ class RegisterFragment : Fragment() {
     }
 
     private fun checkIfUserRegisteredAndConfirmedEmail() {
-        registerViewModel.checkIfUserRegisteredAndConfirmedEmail(auth, this)
+        registerViewModel.checkIfUserRegisteredAndConfirmedEmail(firebase, this)
     }
 }

@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.ktx.app
 import com.test.boobluk.R
 import com.test.boobluk.app.App
 import com.test.boobluk.databinding.FragmentLoginBinding
@@ -29,7 +31,7 @@ class LoginFragment : Fragment() {
     @Inject
     lateinit var loginViewModelFactory: LoginViewModelFactory
     private val loginViewModel: LoginViewModel by activityViewModels { loginViewModelFactory }
-    private var auth = Firebase.auth
+    private val firebase = Firebase
 
     override fun onStart() {
         super.onStart()
@@ -73,7 +75,7 @@ class LoginFragment : Fragment() {
             loginViewModel.signInAndValidEditTexts(
                 binding = binding,
                 loginFragment = this,
-                auth = auth
+                firebase = firebase
             )
         }
     }
@@ -86,7 +88,7 @@ class LoginFragment : Fragment() {
 
     private fun checkIfUserLoginAndConfirmedEmail() {
         loginViewModel.checkIfUserLoginAndConfirmedEmail(
-            auth = auth,
+            firebase = firebase,
             loginFragment = this
         )
     }

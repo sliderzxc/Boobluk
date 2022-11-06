@@ -2,7 +2,7 @@ package com.test.boobluk.screens.fragments.authentication.password
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.test.boobluk.firebase.password.ForgotPasswordFirebaseHelper
+import com.test.boobluk.firebase.utils.password.ForgotPasswordFirebaseHelper
 import javax.inject.Inject
 
 class ForgotPasswordViewModelFactory @Inject constructor(

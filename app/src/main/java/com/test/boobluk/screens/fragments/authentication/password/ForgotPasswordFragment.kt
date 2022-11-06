@@ -17,7 +17,7 @@ class ForgotPasswordFragment : Fragment() {
     @Inject
     lateinit var forgotPasswordViewModelFactory: ForgotPasswordViewModelFactory
     private val forgotPasswordViewModel: ForgotPasswordViewModel by activityViewModels { forgotPasswordViewModelFactory }
-    private var auth = Firebase.auth
+    private val auth = Firebase.auth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
