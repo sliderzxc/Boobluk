@@ -2,17 +2,15 @@ package com.test.boobluk.firebase.utils.register
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.R
-import com.test.boobluk.databinding.FragmentLoginBinding
 import com.test.boobluk.databinding.FragmentRegisterBinding
 import com.test.boobluk.firebase.database.registerAndAddUserToDatabase
 import com.test.boobluk.screens.fragments.authentication.register.RegisterFragment
 import com.test.boobluk.utils.constants.Constants.EMAIL_ADDRESS_IS_BUSY
 import com.test.boobluk.utils.constants.Constants.EMAIL_ADDRESS_IS_INCORRECT
 import com.test.boobluk.utils.navigation.goToLoginFragment
-import com.test.boobluk.utils.toast.showDarkMotionColorToast
+import com.test.boobluk.utils.toast.showDarkMotionInfoColorToast
 
 class RegisterFirebaseHelper {
 
@@ -91,7 +89,7 @@ class RegisterFirebaseHelper {
         firebase.auth.createUserWithEmailAndPassword(email.toString(), password.toString()).addOnSuccessListener {
             registerAndAddUserToDatabase(firebase, binding)
             firebase.auth.currentUser?.sendEmailVerification()?.addOnSuccessListener {
-                showDarkMotionColorToast(
+                showDarkMotionInfoColorToast(
                     fragment = registerFragment,
                     text = registerFragment.getString(R.string.check_email_to_confirm_account)
                 )

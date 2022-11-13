@@ -12,7 +12,7 @@
         android:label="LoginFragment" >
         <action
             android:id="@+id/actionFromLoginFragmentToMainFragment"
-            app:destination="@id/mainFragment"
+            app:destination="@id/itemChatsNavigation"
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true"/>
@@ -28,16 +28,13 @@
     </fragment>
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.test.boobluk.screens.fragments.main.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        android:id="@+id/itemChatsNavigation"
+        android:name="com.test.boobluk.screens.fragments.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat">
         <action
-            android:id="@+id/actionFromMainFragmentToLoginFragment"
-            app:destination="@id/loginFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true"/>
+            android:id="@+id/actionFromChatFragmentToAddNewChatFragment"
+            app:destination="@id/addNewChatFragment" />
     </fragment>
 
     <fragment
@@ -59,7 +56,43 @@
         android:label="ForgotPasswordFragment"
         tools:layout="@layout/fragment_forgot_password">
         <action
-            android:id="@+id/action_forgotPasswordFragment_to_loginFragment"
+            android:id="@+id/actionFromForgotPasswordToLoginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/itemEditProfileNavigation"
+        android:name="com.test.boobluk.screens.fragments.profile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/actionFromEditProfileFragmentToAddNewChatFragment"
+            app:destination="@id/addNewChatFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/itemSettingsNavigation"
+        android:name="com.test.boobluk.screens.fragments.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/actionFromSettingsFragmentToAddNewChatFragment"
+            app:destination="@id/addNewChatFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/itemSearchNavigation"
+        android:name="com.test.boobluk.screens.fragments.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/actionFromSearchFragmentToAddNewChatFragment"
+            app:destination="@id/addNewChatFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addNewChatFragment"
+        android:name="com.test.boobluk.screens.fragments.add.AddNewChatFragment"
+        android:label="fragment_add_new_chat"
+        tools:layout="@layout/fragment_add_new_chat" />
 </navigation>

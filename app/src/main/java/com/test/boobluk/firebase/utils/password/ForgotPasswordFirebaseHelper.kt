@@ -5,7 +5,7 @@ import com.test.boobluk.R
 import com.test.boobluk.databinding.FragmentForgotPasswordBinding
 import com.test.boobluk.screens.fragments.authentication.password.ForgotPasswordFragment
 import com.test.boobluk.utils.constants.Constants
-import com.test.boobluk.utils.toast.showDarkMotionColorToast
+import com.test.boobluk.utils.toast.showDarkMotionInfoColorToast
 
 class ForgotPasswordFirebaseHelper {
 
@@ -21,7 +21,7 @@ class ForgotPasswordFirebaseHelper {
             return
         }
         auth.sendPasswordResetEmail(email.toString()).addOnSuccessListener {
-            showDarkMotionColorToast(forgotPasswordFragment, forgotPasswordFragment.getString(R.string.check_email_to_get_instructions))
+            showDarkMotionInfoColorToast(forgotPasswordFragment, forgotPasswordFragment.getString(R.string.check_email_to_get_instructions))
         }.addOnFailureListener {
             val exception = it.message.toString()
 

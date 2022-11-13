@@ -8,4 +8,7 @@ object Constants {
 
     const val EMAIL_WAS_NOT_FOUND_INFO = "There is no user record corresponding to this identifier. The user may have been deleted."
     const val PASSWORD_IS_INCORRECT_INFO = "The password is invalid or the user does not have a password."
+
+    const val REFERENCE_USER_INFO = "usersInfo"
+    const val REFERENCES_NEW_USER_AVATAR = "gs://boobluk.appspot.com/userAvatars/no-avatar.png"
 }

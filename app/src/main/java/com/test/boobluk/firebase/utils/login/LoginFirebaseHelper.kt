@@ -8,8 +8,7 @@ import com.test.boobluk.firebase.database.loginAndUpdateUserInDatabase
 import com.test.boobluk.screens.fragments.authentication.login.LoginFragment
 import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.navigation.goToMainFragment
-import com.test.boobluk.utils.toast.showDarkMotionColorToast
-import kotlin.math.log
+import com.test.boobluk.utils.toast.showDarkMotionInfoColorToast
 
 class LoginFirebaseHelper {
 
@@ -59,7 +58,7 @@ class LoginFirebaseHelper {
                 loginFragment.goToMainFragment()
             }
             if (firebase.auth.currentUser?.isEmailVerified == false){
-                showDarkMotionColorToast(fragment = loginFragment, loginFragment.getString(R.string.check_email_to_confirm_account))
+                showDarkMotionInfoColorToast(fragment = loginFragment, loginFragment.getString(R.string.check_email_to_confirm_account))
             }
         }.addOnFailureListener {
             val exception = it.message.toString()

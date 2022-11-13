@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemChatsNavigation"
+        android:title="Chats"
+        android:icon="@drawable/icon_chat"/>
+
+    <item
+        android:id="@+id/itemSearchNavigation"
+        android:title="Search"
+        android:icon="@drawable/icon_search"/>
+
+    <item android:id="@+id/itemAddChatNavigation"
+        android:title="" />
+
+    <item
+        android:id="@+id/itemEditProfileNavigation"
+        android:title="Profile"
+        android:icon="@drawable/icon_profile"/>
+
+    <item android:id="@+id/itemSettingsNavigation"
+        android:title="Settings"
+        android:icon="@drawable/icon_settings" />
+</menu>

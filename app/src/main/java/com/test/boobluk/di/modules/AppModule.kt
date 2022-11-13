@@ -2,6 +2,7 @@ package com.test.boobluk.di.modules
 
 import com.test.boobluk.firebase.utils.login.LoginFirebaseHelper
 import com.test.boobluk.firebase.utils.password.ForgotPasswordFirebaseHelper
+import com.test.boobluk.firebase.utils.profile.EditProfileFirebaseHelper
 import com.test.boobluk.firebase.utils.register.RegisterFirebaseHelper
 import dagger.Module
 import dagger.Provides
@@ -18,4 +19,7 @@ class AppModule {
 
     @Provides
     fun provideLoginFirebaseHelper() = LoginFirebaseHelper()
+
+    @Provides
+    fun provideEditProfileFirebaseHelper() = EditProfileFirebaseHelper()
 }

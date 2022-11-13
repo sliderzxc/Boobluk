@@ -2,11 +2,12 @@ package com.test.boobluk.di.modules
 
 import com.test.boobluk.firebase.utils.login.LoginFirebaseHelper
 import com.test.boobluk.firebase.utils.password.ForgotPasswordFirebaseHelper
+import com.test.boobluk.firebase.utils.profile.EditProfileFirebaseHelper
 import com.test.boobluk.firebase.utils.register.RegisterFirebaseHelper
-import com.test.boobluk.screens.fragments.authentication.login.LoginViewModel
 import com.test.boobluk.screens.fragments.authentication.login.LoginViewModelFactory
 import com.test.boobluk.screens.fragments.authentication.password.ForgotPasswordViewModelFactory
 import com.test.boobluk.screens.fragments.authentication.register.RegisterViewModelFactory
+import com.test.boobluk.screens.fragments.profile.EditProfileViewModelFactory
 import dagger.Module
 import dagger.Provides
 
@@ -18,7 +19,7 @@ class ViewModelModule {
         registerFirebaseHelper: RegisterFirebaseHelper
     ) : RegisterViewModelFactory {
         return RegisterViewModelFactory(
-            firebaseHelper = registerFirebaseHelper
+            registerFirebaseHelper = registerFirebaseHelper
         )
     }
 
@@ -37,6 +38,15 @@ class ViewModelModule {
     ) : LoginViewModelFactory {
         return LoginViewModelFactory(
             loginFirebaseHelper = loginFirebaseHelper
+        )
+    }
+
+    @Provides
+    fun provideEditProfileViewModelFactory(
+        editProfileFirebaseHelper: EditProfileFirebaseHelper
+    ) : EditProfileViewModelFactory {
+        return EditProfileViewModelFactory(
+            editProfileFirebaseHelper =  editProfileFirebaseHelper
         )
     }
 

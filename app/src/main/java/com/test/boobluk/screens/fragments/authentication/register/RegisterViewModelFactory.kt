@@ -6,11 +6,11 @@ import com.test.boobluk.firebase.utils.register.RegisterFirebaseHelper
 import javax.inject.Inject
 
 class RegisterViewModelFactory @Inject constructor(
-    val firebaseHelper: RegisterFirebaseHelper
+    val registerFirebaseHelper: RegisterFirebaseHelper
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return RegisterViewModel(
-            registerFirebaseHelper = firebaseHelper
+            registerFirebaseHelper = registerFirebaseHelper
         ) as T
     }
 }

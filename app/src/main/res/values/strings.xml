@@ -10,4 +10,7 @@
     <string name="password_do_not_match">Password don\'t match</string>
     <string name="check_email_to_confirm_account">Please check your email to confirm your account</string>
     <string name="check_email_to_get_instructions">Please check your email to get instructions</string>
+    <string name="find_yourself_an_interlocutor">Find yourself an interlocutor, just write his nickname</string>
+    <string name="we_cannot_show_your_password">We cannot show you the current password, it\'s dangerous</string>
+    <string name="all_changes_saved">All changes have been saved</string>
 </resources>
