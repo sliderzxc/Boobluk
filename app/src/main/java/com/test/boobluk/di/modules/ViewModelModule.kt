@@ -8,6 +8,7 @@ import com.test.boobluk.screens.fragments.authentication.login.LoginViewModelFac
 import com.test.boobluk.screens.fragments.authentication.password.ForgotPasswordViewModelFactory
 import com.test.boobluk.screens.fragments.authentication.register.RegisterViewModelFactory
 import com.test.boobluk.screens.fragments.profile.EditProfileViewModelFactory
+import com.test.boobluk.utils.image.ImageHelper
 import dagger.Module
 import dagger.Provides
 
@@ -43,10 +44,12 @@ class ViewModelModule {
 
     @Provides
     fun provideEditProfileViewModelFactory(
-        editProfileFirebaseHelper: EditProfileFirebaseHelper
+        editProfileFirebaseHelper: EditProfileFirebaseHelper,
+        imageHelper: ImageHelper
     ) : EditProfileViewModelFactory {
         return EditProfileViewModelFactory(
-            editProfileFirebaseHelper =  editProfileFirebaseHelper
+            editProfileFirebaseHelper =  editProfileFirebaseHelper,
+            imageHelper = imageHelper
         )
     }
 

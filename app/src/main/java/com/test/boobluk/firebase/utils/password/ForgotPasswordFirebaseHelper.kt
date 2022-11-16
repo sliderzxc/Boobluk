@@ -14,7 +14,7 @@ class ForgotPasswordFirebaseHelper {
         forgotPasswordFragment: ForgotPasswordFragment,
         auth: FirebaseAuth
     ) {
-        val email = binding.etEmail.text
+        val email = binding.etEmail.text?.trim()
 
         if (email.isNullOrEmpty()) {
             binding.textInputLayoutEmail.error = forgotPasswordFragment.getString(R.string.email_is_empty)

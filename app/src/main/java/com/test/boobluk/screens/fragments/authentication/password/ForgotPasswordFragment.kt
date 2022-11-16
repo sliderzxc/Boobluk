@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.app.App
@@ -33,6 +34,13 @@ class ForgotPasswordFragment : Fragment() {
         inject()
         sendInstructionsClickListener()
         doOnTextsChanged()
+        buttonBackClickListener()
+    }
+
+    private fun buttonBackClickListener() {
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun inject() {

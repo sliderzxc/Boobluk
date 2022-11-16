@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -17,6 +18,8 @@ import com.test.boobluk.app.App
 import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentAddNewChatBinding
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USER_INFO
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class AddNewChatFragment : Fragment() {
     private val binding by lazy { FragmentAddNewChatBinding.inflate(layoutInflater) }

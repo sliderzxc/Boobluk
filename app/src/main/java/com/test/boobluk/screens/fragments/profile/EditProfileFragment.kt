@@ -1,7 +1,13 @@
 package com.test.boobluk.screens.fragments.profile
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.ktx.Firebase
@@ -17,12 +23,14 @@ import com.test.boobluk.utils.navigation.goToAddNewFragment
 import com.test.boobluk.utils.toast.showDarkMotionInfoColorToast
 import com.test.boobluk.utils.toast.showDarkMotionSuccessColorToast
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 class EditProfileFragment : Fragment() {
     private val binding by lazy { FragmentEditProfileBinding.inflate(layoutInflater) }
     @Inject
     lateinit var editProfileViewModelFactory: EditProfileViewModelFactory
     private val editProfileViewModel: EditProfileViewModel by activityViewModels { editProfileViewModelFactory }
+    private var launcher by Delegates.notNull<ActivityResultLauncher<Intent>>()
     private val firebase = Firebase
 
     override fun onCreateView(
@@ -38,9 +46,19 @@ class EditProfileFragment : Fragment() {
     private fun init() {
         inject()
         initConfig()
+        initLauncher()
         bottomNavigationViewClickListener()
         buttonAddNewChatClickListener()
         saveChangesClickListenerAndSaveChanges()
+        onClickChooseImageListener()
+    }
+
+    private fun initLauncher() {
+        launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                binding.ivUserAvatar.setImageURI(result.data?.data)
+            }
+        }
     }
 
     private fun initConfig() {
@@ -53,21 +71,11 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun saveChangesClickListenerAndSaveChanges() {
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.saveChanges -> {
-                    editProfileViewModel.saveAllChanges(
-                        firebase = firebase,
-                        binding = binding
-                    )
-                    showDarkMotionSuccessColorToast(
-                        fragment = this,
-                        getString(R.string.all_changes_saved)
-                    )
-                }
-            }
-            true
-        }
+        editProfileViewModel.toolbarClickListenerAndSaveChanges(
+            firebase = firebase,
+            binding = binding,
+            fragment = this
+        )
     }
 
     private fun inject() {
@@ -81,21 +89,17 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun bottomNavigationViewClickListener() {
-        binding.mainBottomNavigationView.menu.getItem(3).isChecked = true
-        binding.mainBottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.itemChatsNavigation -> {
-                    parentFragmentManager.changeFragment(ChatFragment())
-                }
-                R.id.itemSearchNavigation -> {
-                    parentFragmentManager.changeFragment(SearchFragment())
-                }
-                R.id.itemSettingsNavigation -> {
-                    parentFragmentManager.changeFragment(SettingsFragment())
-                }
-                else -> true
-            }
-        }
+        editProfileViewModel.bottomNavigationViewClickListener(
+            binding = binding,
+            parentFragmentManager = parentFragmentManager
+        )
+    }
+
+    private fun onClickChooseImageListener() {
+        editProfileViewModel.onClickChooseImageListener(
+            binding = binding,
+            launcher = launcher
+        )
     }
 
 }

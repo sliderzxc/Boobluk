@@ -37,10 +37,10 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     class UserViewHolder(item: View) : ViewHolder(item) {
         val binding by lazy { ItemAboutUserBinding.bind(item) }
-        fun bind(userInfo: UserInfo, view: View) {
+        fun bind(userInfo: UserInfo) {
             binding.tvUsername.text = userInfo.username
             binding.tvEmail.text = userInfo.email
-            Glide.with(view).load(userInfo.avatar).into(binding.ivUserIcon)
+            Glide.with(itemView).load(userInfo.avatar).into(binding.ivUserIcon)
         }
     }
 
@@ -50,7 +50,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        holder.bind(listOfUsersInfo[position], holder.itemView)
+        holder.bind(listOfUsersInfo[position])
     }
 
     override fun getItemCount() = listOfUsersInfo.size

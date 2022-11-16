@@ -10,5 +10,8 @@ object Constants {
     const val PASSWORD_IS_INCORRECT_INFO = "The password is invalid or the user does not have a password."
 
     const val REFERENCE_USER_INFO = "usersInfo"
-    const val REFERENCES_NEW_USER_AVATAR = "gs://boobluk.appspot.com/userAvatars/no-avatar.png"
+    const val REFERENCE_USERNAME = "username"
+    const val REFERENCE_BIO = "bio"
+    const val REFERENCE_NEW_USER_AVATAR = "gs://boobluk.appspot.com/userAvatars/no-avatar.png"
+    const val REFERENCE_PACKAGE_USER_AVATARS = "gs://boobluk.appspot.com/userAvatars"
 }

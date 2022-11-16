@@ -13,9 +13,9 @@ import com.test.boobluk.utils.toast.showDarkMotionInfoColorToast
 class LoginFirebaseHelper {
 
     fun signInAndValidEditTexts(binding: FragmentLoginBinding, loginFragment: LoginFragment, firebase: Firebase) {
-        val username = binding.etUsername.text
-        val email = binding.etEmail.text
-        val password = binding.etPassword.text
+        val username = binding.etUsername.text?.trim()
+        val email = binding.etEmail.text?.trim()
+        val password = binding.etPassword.text?.trim()
 
         if (username.isNullOrEmpty()) {
             clearTextInputLayoutPasswordError(binding = binding)
@@ -54,8 +54,12 @@ class LoginFirebaseHelper {
 
         firebase.auth.signInWithEmailAndPassword(email.toString(), password.toString()).addOnSuccessListener {
             if (firebase.auth.currentUser?.isEmailVerified == true) {
-                loginAndUpdateUserInDatabase(firebase = firebase, binding = binding)
-                loginFragment.goToMainFragment()
+                loginAndUpdateUserInDatabase(
+                    firebase = firebase,
+                    binding = binding,
+                    loginFragment = loginFragment,
+                    loginFirebaseHelper = this
+                )
             }
             if (firebase.auth.currentUser?.isEmailVerified == false){
                 showDarkMotionInfoColorToast(fragment = loginFragment, loginFragment.getString(R.string.check_email_to_confirm_account))
@@ -65,18 +69,21 @@ class LoginFirebaseHelper {
 
             if (exception == Constants.PASSWORD_IS_INCORRECT_INFO) {
                 clearTextInputLayoutEmailError(binding = binding)
+                clearTextInputLayoutUsernameError(binding = binding)
                 binding.textInputLayoutPassword.error = Constants.PASSWORD_IS_INCORRECT
                 return@addOnFailureListener
             }
 
             if (exception == Constants.EMAIL_ADDRESS_IS_INCORRECT) {
                 clearTextInputLayoutPasswordError(binding = binding)
+                clearTextInputLayoutUsernameError(binding = binding)
                 binding.textInputLayoutEmail.error = Constants.EMAIL_ADDRESS_IS_INCORRECT
                 return@addOnFailureListener
             }
 
             if (exception == Constants.EMAIL_WAS_NOT_FOUND_INFO) {
                 clearTextInputLayoutPasswordError(binding = binding)
+                clearTextInputLayoutUsernameError(binding = binding)
                 binding.textInputLayoutEmail.error = Constants.EMAIL_WAS_NOT_FOUND
                 return@addOnFailureListener
             }
@@ -89,12 +96,12 @@ class LoginFirebaseHelper {
         }
     }
 
-    private fun clearTextInputLayoutPasswordError(binding: FragmentLoginBinding) {
+    fun clearTextInputLayoutPasswordError(binding: FragmentLoginBinding) {
         binding.textInputLayoutPassword.error = null
         binding.textInputLayoutPassword.isErrorEnabled = false
     }
 
-    private fun clearTextInputLayoutEmailError(binding: FragmentLoginBinding) {
+    fun clearTextInputLayoutEmailError(binding: FragmentLoginBinding) {
         binding.textInputLayoutEmail.error = null
         binding.textInputLayoutEmail.isErrorEnabled = false
     }

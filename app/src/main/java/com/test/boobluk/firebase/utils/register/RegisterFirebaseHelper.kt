@@ -25,10 +25,10 @@ class RegisterFirebaseHelper {
         binding: FragmentRegisterBinding,
         firebase: Firebase
     ) {
-        val username = binding.etUsername.text
-        val email = binding.etEmail.text
-        val password = binding.etPassword.text
-        val confirmPassword = binding.etConfirmPassword.text
+        val username = binding.etUsername.text?.trim()
+        val email = binding.etEmail.text?.trim()
+        val password = binding.etPassword.text?.trim()
+        val confirmPassword = binding.etConfirmPassword.text?.trim()
 
         if (username.isNullOrEmpty()) {
             clearTextInputLayoutEmailError(binding = binding)

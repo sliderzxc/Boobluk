@@ -40,6 +40,10 @@ class LoginViewModel(
             binding.textInputLayoutPassword.error = null
             binding.textInputLayoutPassword.isErrorEnabled = false
         }
+        binding.etUsername.doOnTextChanged { _, _, _, _ ->
+            binding.textInputLayoutUsername.error = null
+            binding.textInputLayoutUsername.isErrorEnabled = false
+        }
     }
 
 }

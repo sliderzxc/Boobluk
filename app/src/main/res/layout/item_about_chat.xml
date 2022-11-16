@@ -17,19 +17,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeWidth="2dp"
+        app:strokeColor="@color/light_brown"
+        app:strokeWidth="1dp"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tvUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="6dp"
         android:text="Username"
         android:textColor="#252525"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivUserIcon"
         app:layout_constraintTop_toTopOf="parent" />
