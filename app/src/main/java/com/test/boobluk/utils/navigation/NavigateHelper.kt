@@ -4,21 +4,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import com.test.boobluk.R
+import com.test.boobluk.screens.fragments.add.AddNewChatFragment
+import com.test.boobluk.screens.fragments.add.AddNewChatFragmentDirections
 import com.test.boobluk.screens.fragments.authentication.login.LoginFragment
 import com.test.boobluk.screens.fragments.authentication.login.LoginFragmentDirections
 import com.test.boobluk.screens.fragments.authentication.register.RegisterFragment
 import com.test.boobluk.screens.fragments.authentication.register.RegisterFragmentDirections
 import com.test.boobluk.screens.fragments.chat.ChatFragment
 import com.test.boobluk.screens.fragments.chat.ChatFragmentDirections
+import com.test.boobluk.screens.fragments.chats.ListOfChatsFragment
+import com.test.boobluk.screens.fragments.chats.ListOfChatsFragmentDirections
 import com.test.boobluk.screens.fragments.profile.EditProfileFragment
-import com.test.boobluk.screens.fragments.profile.EditProfileFragmentDirections
 import com.test.boobluk.screens.fragments.search.SearchFragment
-import com.test.boobluk.screens.fragments.search.SearchFragmentDirections
 import com.test.boobluk.screens.fragments.settings.SettingsFragment
-import com.test.boobluk.screens.fragments.settings.SettingsFragmentDirections
 
 fun LoginFragment.goToMainFragment() {
-    val direction = LoginFragmentDirections.actionFromLoginFragmentToMainFragment()
+    val direction = LoginFragmentDirections.actionFromLoginFragmentToListOfChatsFragment()
     this.findNavController().navigate(direction)
 }
 
@@ -37,24 +38,39 @@ fun RegisterFragment.goToLoginFragment() {
     this.findNavController().navigate(direction)
 }
 
-fun ChatFragment.goToAddNewFragment() {
-    val direction = ChatFragmentDirections.actionFromChatFragmentToAddNewChatFragment()
+fun ListOfChatsFragment.goToAddNewFragment() {
+    val direction = ListOfChatsFragmentDirections.actionFromChatFragmentToAddNewChatFragment()
     this.findNavController().navigate(direction)
 }
 
 fun SearchFragment.goToAddNewFragment() {
-    val direction = ChatFragmentDirections.actionFromChatFragmentToAddNewChatFragment()
+    val direction = ListOfChatsFragmentDirections.actionFromChatFragmentToAddNewChatFragment()
     this.findNavController().navigate(direction)
 }
 
 fun EditProfileFragment.goToAddNewFragment() {
-    val direction = ChatFragmentDirections.actionFromChatFragmentToAddNewChatFragment()
+    val direction = ListOfChatsFragmentDirections.actionFromChatFragmentToAddNewChatFragment()
     this.findNavController().navigate(direction)
 }
 
 fun SettingsFragment.goToAddNewFragment() {
-    val direction = ChatFragmentDirections.actionFromChatFragmentToAddNewChatFragment()
+    val direction = ListOfChatsFragmentDirections.actionFromChatFragmentToAddNewChatFragment()
     this.findNavController().navigate(direction)
+}
+
+fun AddNewChatFragment.goToChatFragment() {
+    val direction = AddNewChatFragmentDirections.actionFromAddNewChatFragmentToChatFragment()
+    this.findNavController().navigate(direction)
+}
+
+fun ListOfChatsFragment.goToChatFragment() {
+    val direction = ListOfChatsFragmentDirections.actionFromListOfChatsFragmentToChatFragment()
+    this.findNavController().navigate(direction)
+}
+
+fun ChatFragment.goToListOfChatsFragment() {
+    val direction = ChatFragmentDirections.actionFromChatFragmentToListOfChatsFragment()
+    findNavController().navigate(direction)
 }
 
 fun FragmentManager.changeFragment(fragment: Fragment): Boolean {

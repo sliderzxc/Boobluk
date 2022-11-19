@@ -2,7 +2,7 @@ package com.test.boobluk.screens.fragments.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.test.boobluk.firebase.utils.profile.EditProfileFirebaseHelper
+import com.test.boobluk.firebase.profile.EditProfileFirebaseHelper
 import com.test.boobluk.utils.image.ImageHelper
 import kotlinx.coroutines.delay
 import javax.inject.Inject

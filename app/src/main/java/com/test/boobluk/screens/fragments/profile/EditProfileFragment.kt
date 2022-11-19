@@ -2,7 +2,6 @@ package com.test.boobluk.screens.fragments.profile
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -11,17 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.ktx.Firebase
-import com.test.boobluk.R
 import com.test.boobluk.app.App
 import com.test.boobluk.databinding.FragmentEditProfileBinding
-import com.test.boobluk.firebase.database.getCurrentUserFieldsForFragmentEditProfile
-import com.test.boobluk.screens.fragments.chat.ChatFragment
-import com.test.boobluk.screens.fragments.search.SearchFragment
-import com.test.boobluk.screens.fragments.settings.SettingsFragment
-import com.test.boobluk.utils.navigation.changeFragment
 import com.test.boobluk.utils.navigation.goToAddNewFragment
-import com.test.boobluk.utils.toast.showDarkMotionInfoColorToast
-import com.test.boobluk.utils.toast.showDarkMotionSuccessColorToast
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -63,7 +54,7 @@ class EditProfileFragment : Fragment() {
 
     private fun initConfig() {
         binding.mainBottomNavigationView.background = null
-        getCurrentUserFieldsForFragmentEditProfile(
+        editProfileViewModel.getCurrentUserFieldsForFragmentEditProfile(
             firebase = firebase,
             binding = binding,
             context = requireContext()

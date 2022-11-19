@@ -12,6 +12,7 @@
 	<color name="white">#FFFFFFFF</color>
 
 	<color name="light_brown">#7E4F2C</color>
+	<color name="very_light_orange">#8BEC7F0A</color>
 	<color name="dark_red">#B91212</color>
 	<color name="red">#FF0000</color>
 </resources>

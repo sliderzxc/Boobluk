@@ -1,7 +1,11 @@
 package com.test.boobluk.utils.binding
 
 import android.view.View
+import com.test.boobluk.adapter.ChatAdapter
+import com.test.boobluk.adapter.UserAdapter
+import com.test.boobluk.databinding.FragmentAddNewChatBinding
 import com.test.boobluk.databinding.FragmentEditProfileBinding
+import com.test.boobluk.databinding.FragmentListOfChatsBinding
 
 fun hideEditProfileFragmentDesignAndShowProgressBar(
     binding: FragmentEditProfileBinding
@@ -29,4 +33,22 @@ fun hideProgressBarAndShowProfileFragmentDesign(
     binding.textInputLayoutEmail.visibility = View.VISIBLE
     binding.textInputLayoutPassword.visibility = View.VISIBLE
     binding.pbDownloadData.visibility = View.GONE
+}
+
+fun UserAdapter.checkIfRecyclerViewIsEmptyForAddNewChatFragment(binding: FragmentAddNewChatBinding) {
+    if (this.itemCount > 0) {
+        binding.progressBar.visibility = View.GONE
+    } else {
+        binding.progressBar.visibility = View.VISIBLE
+    }
+}
+
+fun ChatAdapter.checkIfRecycleViewIsEmpty(binding: FragmentListOfChatsBinding) {
+    if (this.itemCount > 0) {
+        binding.tvYouDoNotHaveAnyChats.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
+    } else {
+        binding.tvYouDoNotHaveAnyChats.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+    }
 }

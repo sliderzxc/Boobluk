@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.databinding.FragmentLoginBinding
-import com.test.boobluk.firebase.utils.login.LoginFirebaseHelper
+import com.test.boobluk.firebase.login.LoginFirebaseHelper
 import com.test.boobluk.utils.navigation.goToMainFragment
 
 class LoginViewModel(

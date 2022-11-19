@@ -5,21 +5,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.R
 import com.test.boobluk.app.App
+import com.test.boobluk.data.entities.MessageForClient
 import com.test.boobluk.databinding.FragmentSettingsBinding
-import com.test.boobluk.screens.fragments.chat.ChatFragment
+import com.test.boobluk.screens.fragments.chats.ListOfChatsFragment
 import com.test.boobluk.screens.fragments.profile.EditProfileFragment
 import com.test.boobluk.screens.fragments.search.SearchFragment
+import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.navigation.changeFragment
 import com.test.boobluk.utils.navigation.goToAddNewFragment
-import com.test.boobluk.utils.navigation.goToLoginFragment
+import javax.inject.Inject
 
 class SettingsFragment : Fragment() {
     private val binding by lazy { FragmentSettingsBinding.inflate(layoutInflater) }
+    @Inject
+    lateinit var settingsViewModelFactory: SettingsViewModelFactory
+    private val settingsViewModel: SettingsViewModel by activityViewModels { settingsViewModelFactory }
     private val firebase = Firebase
 
     override fun onCreateView(
@@ -61,20 +67,9 @@ class SettingsFragment : Fragment() {
     }
 
     private fun bottomNavigationViewClickListener() {
-        binding.mainBottomNavigationView.menu.getItem(4).isChecked = true
-        binding.mainBottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.itemChatsNavigation -> {
-                    parentFragmentManager.changeFragment(ChatFragment())
-                }
-                R.id.itemSearchNavigation -> {
-                    parentFragmentManager.changeFragment(SearchFragment())
-                }
-                R.id.itemEditProfileNavigation -> {
-                    parentFragmentManager.changeFragment(EditProfileFragment())
-                }
-                else -> true
-            }
-        }
+        settingsViewModel.bottomNavigationViewClickListener(
+            binding = binding,
+            parentFragmentManager = parentFragmentManager
+        )
     }
 }

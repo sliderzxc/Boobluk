@@ -11,8 +11,8 @@
         tools:layout="@layout/fragment_login"
         android:label="LoginFragment" >
         <action
-            android:id="@+id/actionFromLoginFragmentToMainFragment"
-            app:destination="@id/itemChatsNavigation"
+            android:id="@+id/actionFromLoginFragmentToListOfChatsFragment"
+            app:destination="@id/itemListOfChatsNavigation"
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true"/>
@@ -28,13 +28,19 @@
     </fragment>
 
     <fragment
-        android:id="@+id/itemChatsNavigation"
-        android:name="com.test.boobluk.screens.fragments.chat.ChatFragment"
-        android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat">
+        android:id="@+id/itemListOfChatsNavigation"
+        android:name="com.test.boobluk.screens.fragments.chats.ListOfChatsFragment"
+        android:label="fragment_list_of_chats"
+        tools:layout="@layout/fragment_list_of_chats">
         <action
             android:id="@+id/actionFromChatFragmentToAddNewChatFragment"
             app:destination="@id/addNewChatFragment" />
+        <action
+            android:id="@+id/actionFromListOfChatsFragmentToChatFragment"
+            app:destination="@id/chatFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -94,5 +100,24 @@
         android:id="@+id/addNewChatFragment"
         android:name="com.test.boobluk.screens.fragments.add.AddNewChatFragment"
         android:label="fragment_add_new_chat"
-        tools:layout="@layout/fragment_add_new_chat" />
+        tools:layout="@layout/fragment_add_new_chat" >
+        <action
+            android:id="@+id/actionFromAddNewChatFragmentToChatFragment"
+            app:destination="@id/chatFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.test.boobluk.screens.fragments.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/actionFromChatFragmentToListOfChatsFragment"
+            app:destination="@id/itemListOfChatsNavigation"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

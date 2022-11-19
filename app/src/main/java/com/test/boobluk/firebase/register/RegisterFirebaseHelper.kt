@@ -1,16 +1,22 @@
-package com.test.boobluk.firebase.utils.register
+package com.test.boobluk.firebase.register
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.test.boobluk.R
+import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentRegisterBinding
-import com.test.boobluk.firebase.database.registerAndAddUserToDatabase
 import com.test.boobluk.screens.fragments.authentication.register.RegisterFragment
+import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.constants.Constants.EMAIL_ADDRESS_IS_BUSY
 import com.test.boobluk.utils.constants.Constants.EMAIL_ADDRESS_IS_INCORRECT
 import com.test.boobluk.utils.navigation.goToLoginFragment
 import com.test.boobluk.utils.toast.showDarkMotionInfoColorToast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RegisterFirebaseHelper {
 
@@ -132,5 +138,29 @@ class RegisterFirebaseHelper {
         binding.textInputLayoutUsername.isErrorEnabled = false
     }
 
+    private fun registerAndAddUserToDatabase(
+        firebase: Firebase,
+        binding: FragmentRegisterBinding
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val uid = firebase.auth.currentUser?.uid.toString()
+            val email = binding.etEmail.text.toString()
+            val username = binding.etUsername.text.toString()
+
+            firebase.storage.getReferenceFromUrl(Constants.REFERENCE_NEW_USER_AVATAR).downloadUrl.addOnSuccessListener { uri ->
+                val avatar = uri.toString()
+                val userInfo = UserInfo(
+                    email = email,
+                    isEmailConfirmed = false,
+                    uid = uid,
+                    username = username,
+                    avatar = avatar,
+                    gender = null,
+                    bio = null
+                )
+                firebase.firestore.collection(Constants.REFERENCE_USER_INFO).document(uid).set(userInfo)
+            }
+        }
+    }
 
 }

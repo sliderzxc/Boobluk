@@ -38,6 +38,9 @@ android {
     viewBinding {
         enabled = true
     }
+    dataBinding{
+        enabled = true
+    }
 }
 
 dependencies {
@@ -58,6 +61,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:24.4.0'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.0'
     implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
+    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
     //Navigation Component
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.3"

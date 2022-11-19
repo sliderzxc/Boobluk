@@ -1,7 +1,6 @@
 package com.test.boobluk.utils.image
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 
 class ImageHelper {

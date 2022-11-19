@@ -1,7 +1,9 @@
-package com.test.boobluk.firebase.utils.profile
+package com.test.boobluk.firebase.profile
 
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.core.graphics.drawable.toBitmap
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -10,11 +12,17 @@ import com.google.firebase.storage.ktx.storage
 import com.test.boobluk.R
 import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentEditProfileBinding
+import com.test.boobluk.utils.binding.hideEditProfileFragmentDesignAndShowProgressBar
+import com.test.boobluk.utils.binding.hideProgressBarAndShowProfileFragmentDesign
 import com.test.boobluk.utils.constants.Constants.REFERENCE_PACKAGE_USER_AVATARS
 import com.test.boobluk.utils.constants.Constants.REFERENCE_BIO
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USERNAME
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USER_INFO
 import com.test.boobluk.utils.gender.Gender
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
 class EditProfileFirebaseHelper {
@@ -137,6 +145,29 @@ class EditProfileFirebaseHelper {
                     val currentUser = oldUser.copy(avatar = imageUrl.toString())
                     firebase.firestore.collection(REFERENCE_USER_INFO).document(uid).set(currentUser)
                 }
+        }
+    }
+    
+    fun getCurrentUserFieldsForFragmentEditProfile(
+        firebase: Firebase,
+        binding: FragmentEditProfileBinding,
+        context: Context
+    ) {
+        hideEditProfileFragmentDesignAndShowProgressBar(binding = binding)
+        val uid = firebase.auth.currentUser?.uid.toString()
+
+        firebase.firestore.collection(REFERENCE_USER_INFO).document(uid).get().addOnSuccessListener {
+            val user = it.toObject<UserInfo>()
+            binding.etUsername.setText(user?.username ?: "")
+            binding.etEmail.setText(user?.email ?: "")
+            binding.etBio.setText(user?.bio ?: "")
+            if (user?.gender?.toString() == Gender.Male.name) {
+                binding.rgChooseGender.check(R.id.btnMale)
+            } else if (user?.gender?.toString() == Gender.Female.name) {
+                binding.rgChooseGender.check(R.id.btnFemale)
+            } else { binding.rgChooseGender.check(0) }
+            Glide.with(context).load(user?.avatar).into(binding.ivUserAvatar)
+            hideProgressBarAndShowProfileFragmentDesign(binding = binding)
         }
     }
 }

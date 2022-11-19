@@ -2,7 +2,7 @@ package com.test.boobluk.screens.fragments.authentication.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.test.boobluk.firebase.utils.register.RegisterFirebaseHelper
+import com.test.boobluk.firebase.register.RegisterFirebaseHelper
 import javax.inject.Inject
 
 class RegisterViewModelFactory @Inject constructor(

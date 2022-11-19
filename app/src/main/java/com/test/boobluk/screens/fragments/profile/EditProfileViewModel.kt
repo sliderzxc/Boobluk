@@ -1,32 +1,34 @@
 package com.test.boobluk.screens.fragments.profile
 
+import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.test.boobluk.R
 import com.test.boobluk.databinding.FragmentEditProfileBinding
-import com.test.boobluk.firebase.utils.profile.EditProfileFirebaseHelper
-import com.test.boobluk.screens.fragments.chat.ChatFragment
+import com.test.boobluk.firebase.profile.EditProfileFirebaseHelper
+import com.test.boobluk.screens.fragments.chats.ListOfChatsFragment
 import com.test.boobluk.screens.fragments.search.SearchFragment
 import com.test.boobluk.screens.fragments.settings.SettingsFragment
-import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.image.ImageHelper
 import com.test.boobluk.utils.navigation.changeFragment
 import com.test.boobluk.utils.toast.showDarkMotionSuccessColorToast
-import java.io.ByteArrayOutputStream
 
 class EditProfileViewModel(
     val editProfileFirebaseHelper: EditProfileFirebaseHelper,
     val imageHelper: ImageHelper
 ) : ViewModel() {
+
+    fun getCurrentUserFieldsForFragmentEditProfile(firebase: Firebase, binding: FragmentEditProfileBinding, context: Context) {
+        editProfileFirebaseHelper.getCurrentUserFieldsForFragmentEditProfile(
+            firebase = firebase,
+            binding = binding,
+            context = context
+        )
+    }
 
     fun onClickChooseImageListener(
         binding: FragmentEditProfileBinding,
@@ -55,7 +57,7 @@ class EditProfileViewModel(
         binding.mainBottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.itemChatsNavigation -> {
-                    parentFragmentManager.changeFragment(ChatFragment())
+                    parentFragmentManager.changeFragment(ListOfChatsFragment())
                 }
                 R.id.itemSearchNavigation -> {
                     parentFragmentManager.changeFragment(SearchFragment())

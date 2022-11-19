@@ -5,18 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.test.boobluk.R
-import com.test.boobluk.adapter.ChatAdapter
+import androidx.fragment.app.activityViewModels
+import com.google.firebase.ktx.Firebase
+import com.test.boobluk.adapter.MessageAdapter
 import com.test.boobluk.app.App
 import com.test.boobluk.databinding.FragmentChatBinding
-import com.test.boobluk.screens.fragments.profile.EditProfileFragment
-import com.test.boobluk.screens.fragments.search.SearchFragment
-import com.test.boobluk.screens.fragments.settings.SettingsFragment
-import com.test.boobluk.utils.navigation.changeFragment
-import com.test.boobluk.utils.navigation.goToAddNewFragment
+import javax.inject.Inject
 
 class ChatFragment : Fragment() {
     private val binding by lazy { FragmentChatBinding.inflate(layoutInflater) }
+    @Inject
+    lateinit var chatViewModelFactory: ChatViewModelFactory
+    private val chatViewModel: ChatViewModel by activityViewModels { chatViewModelFactory }
+    private lateinit var messageAdapter: MessageAdapter
+    private val firebase = Firebase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,46 +32,52 @@ class ChatFragment : Fragment() {
 
     private fun init() {
         inject()
-        initConfig()
-        bottomNavigationViewClickListener()
-        buttonAddNewChatClickListener()
-        initRecyclerViewChat()
+        initRecyclerView()
+        onBackPressedClickListeners()
+        getUserDataAndUpdateDesign()
+        getMessagesFromFirebaseAndAddToRecyclerView()
+        sendMessageWhenPressedButtonSend()
     }
 
-    private fun initConfig() {
-        binding.mainBottomNavigationView.background = null
+    private fun getMessagesFromFirebaseAndAddToRecyclerView() {
+        chatViewModel.getMessagesFromFirebaseAndAddToRecyclerView(
+            firebase = firebase,
+            messageAdapter = messageAdapter,
+            binding = binding
+        )
+    }
+
+    private fun getUserDataAndUpdateDesign() {
+        chatViewModel.getUserDataAndUpdateDesign(
+            firebase = firebase,
+            binding = binding
+        )
+    }
+
+    private fun sendMessageWhenPressedButtonSend() {
+        chatViewModel.sendMessage(
+            firebase = firebase,
+            binding = binding,
+            messageAdapter = messageAdapter
+        )
+    }
+
+    private fun onBackPressedClickListeners() {
+        chatViewModel.onBackPressedClickListeners(
+            fragmentActivity = requireActivity(),
+            fragment = this,
+            binding = binding
+        )
+    }
+
+    private fun initRecyclerView() {
+        messageAdapter = MessageAdapter(chatViewModel.username.value.toString())
+        binding.rvMessages.adapter = messageAdapter
+        binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
     }
 
     private fun inject() {
         (activity?.applicationContext as App).appComponent.inject(this)
-    }
-
-    private fun initRecyclerViewChat() {
-        binding.rvChats.adapter = ChatAdapter()
-    }
-
-    private fun buttonAddNewChatClickListener() {
-        binding.itemAddChatNavigation.setOnClickListener {
-            goToAddNewFragment()
-        }
-    }
-
-    private fun bottomNavigationViewClickListener() {
-        binding.mainBottomNavigationView.menu.getItem(0).isChecked = true
-        binding.mainBottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.itemSearchNavigation -> {
-                    parentFragmentManager.changeFragment(SearchFragment())
-                }
-                R.id.itemEditProfileNavigation -> {
-                    parentFragmentManager.changeFragment(EditProfileFragment())
-                }
-                R.id.itemSettingsNavigation -> {
-                    parentFragmentManager.changeFragment(SettingsFragment())
-                }
-                else -> true
-            }
-        }
     }
 
 }

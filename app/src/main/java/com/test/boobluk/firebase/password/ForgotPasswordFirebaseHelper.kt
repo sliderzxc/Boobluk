@@ -1,4 +1,4 @@
-package com.test.boobluk.firebase.utils.password
+package com.test.boobluk.firebase.password
 
 import com.google.firebase.auth.FirebaseAuth
 import com.test.boobluk.R

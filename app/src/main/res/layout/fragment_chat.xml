@@ -4,66 +4,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.activities.main.MainActivity">
+    android:visibility="visible"
+    tools:context=".screens.fragments.chat.ChatFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/linearLayoutNavigationItem"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/light_brown"
+        android:orientation="horizontal"
+        android:padding="@dimen/dimen_5dp"
+        android:paddingStart="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/app_name"
-        app:titleTextColor="@color/white" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChats"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="-40dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/dimen_10dp"
+            android:src="@drawable/icon_back" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
-        android:layout_width="match_parent"
-        android:layout_height="97dp"
+        <com.github.abdularis.civ.CircleImageView
+            android:id="@+id/ivUserAvatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/new_user_icon"
+            app:strokeColor="@color/very_light_orange"
+            app:strokeWidth="1dp" />
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dimen_10dp"
+            android:layout_weight="1"
+            android:gravity="center|start"
+            android:text="vadwwxz"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dimen_34sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutBottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bottom_in_fragment_chat"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/dimen_2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/itemAddChatNavigation"
+        <EditText
+            android:id="@+id/etMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_add"
-            app:layout_anchor="@id/mainBottomNavigationView"
-            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+            android:layout_marginStart="@dimen/dimen_16"
+            android:layout_marginTop="@dimen/dimen_7dp"
+            android:layout_marginEnd="@dimen/dimen_16"
+            android:layout_marginBottom="@dimen/dimen_7dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_text_input_layout"
+            android:drawablePadding="8dp"
+            android:hint="Write the message"
+            android:maxHeight="160dp"
+            android:minHeight="50dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColorHint="#D1C6C6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/mainBottomAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:fabCradleMargin="20dp"
-            app:fabCradleRoundedCornerRadius="20dp"
-            app:fabCradleVerticalOffset="10dp">
+        <com.github.abdularis.civ.CircleImageView
+            android:id="@+id/btnSendMessage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/dimen_5dp"
+            android:layout_marginEnd="@dimen/dimen_10dp"
+            android:layout_marginBottom="@dimen/dimen_5dp"
+            android:src="@drawable/icon_send"
+            app:strokeWidth="10dp" />
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/mainBottomNavigationView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/transparent"
-                app:itemRippleColor="@null"
-                app:menu="@menu/main_navigation_menu" />
+    </LinearLayout>
 
-        </com.google.android.material.bottomappbar.BottomAppBar>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMessages"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutNavigationItem"
+        app:stackFromEnd="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

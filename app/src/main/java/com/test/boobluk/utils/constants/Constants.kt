@@ -10,8 +10,13 @@ object Constants {
     const val PASSWORD_IS_INCORRECT_INFO = "The password is invalid or the user does not have a password."
 
     const val REFERENCE_USER_INFO = "usersInfo"
+    const val REFERENCE_USER_CHATS = "usersChats"
+    const val REFERENCE_CHATS = "chats"
     const val REFERENCE_USERNAME = "username"
     const val REFERENCE_BIO = "bio"
+    const val REFERENCES_INIT_REALTIME_DATABASE = "https://boobluk-default-rtdb.europe-west1.firebasedatabase.app/"
     const val REFERENCE_NEW_USER_AVATAR = "gs://boobluk.appspot.com/userAvatars/no-avatar.png"
     const val REFERENCE_PACKAGE_USER_AVATARS = "gs://boobluk.appspot.com/userAvatars"
+    const val REFERENCE_RECEIVED_MESSAGES = "receivedMessages"
+    const val REFERENCE_SENT_MESSAGES = "sentMessages"
 }
