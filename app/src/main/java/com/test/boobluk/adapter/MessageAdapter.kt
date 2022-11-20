@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.test.boobluk.R
-import com.test.boobluk.data.entities.MessageForClient
+import com.test.boobluk.data.entities.Message
 import com.test.boobluk.databinding.ItemReceivedMessageBinding
 import com.test.boobluk.databinding.ItemSentMessageBinding
 import com.test.boobluk.utils.message.MessageType
@@ -16,12 +16,12 @@ import com.test.boobluk.utils.message.MessageType
 class MessageAdapter(
     private val interlocutorUsername: String
 ) : RecyclerView.Adapter<MessageAdapter.ChatViewHolder>() {
-    private var listOfMessages = mutableListOf<MessageForClient>()
+    private var listOfMessages = mutableListOf<Message>()
 
     class ChatViewHolder(view: View) : ViewHolder(view) {
         private val receivedMessageBinding by lazy { ItemReceivedMessageBinding.bind(view) }
         private val sentMessageBinding by lazy { ItemSentMessageBinding.bind(view) }
-        fun bind(message: MessageForClient, interlocutorUsername: String) {
+        fun bind(message: Message, interlocutorUsername: String) {
             if (message.isReceivedMessage == true) {
                 receivedMessageBinding.tvMessage.text = message.message
                 receivedMessageBinding.tvUsername.text = interlocutorUsername
@@ -72,14 +72,14 @@ class MessageAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun  addData(message: MessageForClient) {
+    fun  addData(message: Message) {
         listOfMessages.add(message)
-        listOfMessages.sortBy { it.sharedData }
+        listOfMessages.sortBy { it.sharedDataForSort }
         notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun removeData(message: MessageForClient) {
+    fun removeData(message: Message) {
         listOfMessages.remove(message)
         notifyDataSetChanged()
     }

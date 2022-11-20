@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
@@ -19,18 +19,17 @@
             android:orientation="vertical"
             android:paddingStart="12dp"
             android:paddingTop="5dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="5dp">
+            android:paddingBottom="@dimen/dimen_5dp">
 
             <LinearLayout
                 android:id="@+id/view_detail"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tvUsername"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center|start"
@@ -44,8 +43,10 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
                     android:fontFamily="@font/font_rg"
                     android:gravity="center"
+                    android:paddingStart="15dp"
                     android:text="20:01 20.05.2007"
                     android:textColor="#CD800E"
                     android:textSize="14sp" />
@@ -56,8 +57,9 @@
                 android:id="@+id/tvMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:paddingEnd="10dp"
                 android:text="This is user message"
                 android:textColor="@color/white"
                 android:textSize="18sp" />

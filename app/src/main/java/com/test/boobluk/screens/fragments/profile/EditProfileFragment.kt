@@ -38,6 +38,7 @@ class EditProfileFragment : Fragment() {
         inject()
         initConfig()
         initLauncher()
+        doOnTextsChanges()
         bottomNavigationViewClickListener()
         buttonAddNewChatClickListener()
         saveChangesClickListenerAndSaveChanges()
@@ -71,6 +72,10 @@ class EditProfileFragment : Fragment() {
 
     private fun inject() {
         (activity?.applicationContext as App).appComponent.inject(this)
+    }
+
+    private fun doOnTextsChanges() {
+        editProfileViewModel.doOnTextChanges(binding = binding)
     }
 
     private fun buttonAddNewChatClickListener() {

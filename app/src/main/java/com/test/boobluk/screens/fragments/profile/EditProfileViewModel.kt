@@ -3,6 +3,7 @@ package com.test.boobluk.screens.fragments.profile
 import android.content.Context
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
@@ -44,11 +45,13 @@ class EditProfileViewModel(
 
     private fun saveAllChanges(
         firebase: Firebase,
-        binding: FragmentEditProfileBinding
+        binding: FragmentEditProfileBinding,
+        fragment: Fragment
     ) {
         editProfileFirebaseHelper.saveAllChanges(
             firebase = firebase,
-            binding = binding
+            binding = binding,
+            fragment = fragment
         )
     }
 
@@ -70,6 +73,17 @@ class EditProfileViewModel(
         }
     }
 
+    fun doOnTextChanges(binding: FragmentEditProfileBinding) {
+        binding.etEmail.doOnTextChanged { _, _, _, _ ->
+            binding.textInputLayoutEmail.error = null
+            binding.textInputLayoutEmail.isErrorEnabled = false
+        }
+        binding.etUsername.doOnTextChanged { _, _, _, _ ->
+            binding.textInputLayoutUsername.error = null
+            binding.textInputLayoutUsername.isErrorEnabled = false
+        }
+    }
+
     fun toolbarClickListenerAndSaveChanges(
         firebase: Firebase,
         binding: FragmentEditProfileBinding,
@@ -80,7 +94,8 @@ class EditProfileViewModel(
                 R.id.saveChanges -> {
                     saveAllChanges(
                         firebase = firebase,
-                        binding = binding
+                        binding = binding,
+                        fragment = fragment
                     )
                     showDarkMotionSuccessColorToast(
                         fragment = fragment,

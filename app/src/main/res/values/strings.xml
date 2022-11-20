@@ -15,6 +15,4 @@
     <string name="all_changes_saved">All changes have been saved</string>
     <string name="username_is_wrong">Username is wrong</string>
     <string name="bio_is_empty">Bio is empty</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

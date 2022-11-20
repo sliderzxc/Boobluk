@@ -45,7 +45,7 @@
             android:layout_marginStart="@dimen/dimen_10dp"
             android:layout_weight="1"
             android:gravity="center|start"
-            android:text="vadwwxz"
+            android:text="username"
             android:textColor="@color/white"
             android:textSize="@dimen/dimen_34sp" />
 
@@ -55,12 +55,16 @@
         android:id="@+id/linearLayoutBottom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/shape_bottom_in_fragment_chat"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="@dimen/dimen_2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
@@ -68,20 +72,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_16"
-            android:layout_marginTop="@dimen/dimen_7dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="@dimen/dimen_16"
-            android:layout_marginBottom="@dimen/dimen_7dp"
+            android:layout_marginBottom="2dp"
             android:layout_weight="1"
-            android:background="@drawable/shape_text_input_layout"
+            android:background="@color/light_brown"
+            android:cursorVisible="true"
             android:drawablePadding="8dp"
             android:hint="Write the message"
             android:maxHeight="160dp"
             android:minHeight="50dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:textColorHint="#D1C6C6"
+            android:textCursorDrawable="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TextContrastCheck" />
 
         <com.github.abdularis.civ.CircleImageView
             android:id="@+id/btnSendMessage"
@@ -99,12 +106,14 @@
         android:id="@+id/rvMessages"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="8dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="@dimen/dimen_1dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutBottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutNavigationItem"
-        app:stackFromEnd="true"/>
+        app:stackFromEnd="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

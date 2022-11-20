@@ -7,17 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.test.boobluk.R
 import com.test.boobluk.app.App
-import com.test.boobluk.data.entities.MessageForClient
 import com.test.boobluk.databinding.FragmentSettingsBinding
-import com.test.boobluk.screens.fragments.chats.ListOfChatsFragment
-import com.test.boobluk.screens.fragments.profile.EditProfileFragment
-import com.test.boobluk.screens.fragments.search.SearchFragment
-import com.test.boobluk.utils.constants.Constants
-import com.test.boobluk.utils.navigation.changeFragment
 import com.test.boobluk.utils.navigation.goToAddNewFragment
 import javax.inject.Inject
 

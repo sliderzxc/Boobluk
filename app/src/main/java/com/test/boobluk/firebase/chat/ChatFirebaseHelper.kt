@@ -11,8 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.MessageAdapter
-import com.test.boobluk.data.entities.MessageForClient
-import com.test.boobluk.data.entities.MessageForServer
+import com.test.boobluk.data.entities.Message
 import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentChatBinding
 import com.test.boobluk.screens.fragments.chat.ChatViewModel
@@ -51,7 +50,7 @@ class ChatFirebaseHelper {
             val uid = firebase.auth.currentUser?.uid.toString()
             val interlocutorUid = chatViewModel.userUid.value.toString()
 
-            val textMessage = binding.etMessage.text.toString()
+            val textMessage = binding.etMessage.text.toString().trim()
             if (textMessage.isEmpty()) {
                 return@setOnClickListener
             }
@@ -64,21 +63,23 @@ class ChatFirebaseHelper {
             sharedDataFormat.timeZone = TimeZone.getTimeZone("GMT+00");
             val sharedData = sharedDataFormat.format(Date())
 
-            val message = MessageForServer(
+            val message = Message(
                 message = textMessage,
                 data = date,
-                sharedData = sharedData
+                sharedData = sharedData,
+                sharedDataForSort = currentTimeMillis
             )
 
             firebase.database(REFERENCES_INIT_REALTIME_DATABASE)
                 .getReference(REFERENCE_USER_CHATS)
                 .child(uid).child(REFERENCE_CHATS).child(interlocutorUid)
-                .child(REFERENCE_SENT_MESSAGES).child(currentTimeMillis).setValue(message)
+                .child(REFERENCE_SENT_MESSAGES).child(currentTimeMillis)
+                .setValue(message.copy(isSentMessage = true))
             firebase.database(REFERENCES_INIT_REALTIME_DATABASE)
                 .getReference(REFERENCE_USER_CHATS)
                 .child(interlocutorUid).child(REFERENCE_CHATS).child(uid)
                 .child(REFERENCE_RECEIVED_MESSAGES).child(currentTimeMillis)
-                .setValue(message)
+                .setValue(message.copy(isReceivedMessage = true))
             binding.etMessage.text.clear()
             binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
         }
@@ -98,15 +99,13 @@ class ChatFirebaseHelper {
             .child(REFERENCE_CHATS).child(interlocutorUid).child(REFERENCE_SENT_MESSAGES)
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                    val message = snapshot.getValue(MessageForClient::class.java)
-                    message?.isSentMessage = true
+                    val message = snapshot.getValue(Message::class.java)
                     message?.let { messageAdapter.addData(it) }
                     binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
                 }
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
                 override fun onChildRemoved(snapshot: DataSnapshot) {
-                    val message = snapshot.getValue(MessageForClient::class.java)
-                    message?.isSentMessage = true
+                    val message = snapshot.getValue(Message::class.java)
                     message?.let { messageAdapter.removeData(it) }
                 }
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
@@ -118,15 +117,13 @@ class ChatFirebaseHelper {
             .child(REFERENCE_CHATS).child(interlocutorUid).child(REFERENCE_RECEIVED_MESSAGES)
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                    val message = snapshot.getValue(MessageForClient::class.java)
-                    message?.isReceivedMessage = true
+                    val message = snapshot.getValue(Message::class.java)
                     message?.let { messageAdapter.addData(it) }
                     binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
                 }
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
                 override fun onChildRemoved(snapshot: DataSnapshot) {
-                    val message = snapshot.getValue(MessageForClient::class.java)
-                    message?.isReceivedMessage = true
+                    val message = snapshot.getValue(Message::class.java)
                     message?.let { messageAdapter.removeData(it) }
                 }
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}

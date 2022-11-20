@@ -4,7 +4,7 @@ import com.test.boobluk.firebase.add.AddNewChatFirebaseHelper
 import com.test.boobluk.firebase.chat.ChatFirebaseHelper
 import com.test.boobluk.firebase.chats.ListOfChatsFirebaseHelper
 import com.test.boobluk.firebase.login.LoginFirebaseHelper
-import com.test.boobluk.firebase.password.ForgotPasswordFirebaseHelper
+import com.test.boobluk.screens.fragments.add.password.ForgotPasswordFirebaseHelper
 import com.test.boobluk.firebase.profile.EditProfileFirebaseHelper
 import com.test.boobluk.firebase.register.RegisterFirebaseHelper
 import com.test.boobluk.firebase.search.SearchFirebaseHelper

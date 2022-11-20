@@ -1,4 +1,4 @@
-package com.test.boobluk.firebase.password
+package com.test.boobluk.screens.fragments.add.password
 
 import com.google.firebase.auth.FirebaseAuth
 import com.test.boobluk.R

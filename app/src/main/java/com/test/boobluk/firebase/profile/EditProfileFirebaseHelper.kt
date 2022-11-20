@@ -2,7 +2,9 @@ package com.test.boobluk.firebase.profile
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.core.graphics.drawable.toBitmap
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -12,30 +14,30 @@ import com.google.firebase.storage.ktx.storage
 import com.test.boobluk.R
 import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentEditProfileBinding
+import com.test.boobluk.databinding.FragmentLoginBinding
 import com.test.boobluk.utils.binding.hideEditProfileFragmentDesignAndShowProgressBar
 import com.test.boobluk.utils.binding.hideProgressBarAndShowProfileFragmentDesign
+import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.constants.Constants.REFERENCE_PACKAGE_USER_AVATARS
 import com.test.boobluk.utils.constants.Constants.REFERENCE_BIO
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USERNAME
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USER_INFO
 import com.test.boobluk.utils.gender.Gender
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
 class EditProfileFirebaseHelper {
 
     fun saveAllChanges(
         firebase: Firebase,
-        binding: FragmentEditProfileBinding
+        binding: FragmentEditProfileBinding,
+        fragment: Fragment
     ) {
         checkIfBioChangedAndSaveIfChanged(firebase, binding)
         checkIfGenderChangedAndSaveIfChanged(firebase, binding)
-        checkIfUsernameChangedAndSaveIfChanged(firebase, binding)
+        checkIfUsernameChangedAndSaveIfChanged(firebase, binding, fragment)
         checkIfPasswordChangedAndSaveIfChanged(firebase, binding)
         checkIfAvatarChangedAndSaveIfChanged(firebase, binding)
+        checkIfEmailChangesAndSaveIfChanged(firebase, binding, fragment)
     }
 
     private fun checkIfBioChangedAndSaveIfChanged(
@@ -93,14 +95,19 @@ class EditProfileFirebaseHelper {
 
     private fun checkIfUsernameChangedAndSaveIfChanged(
         firebase: Firebase,
-        binding: FragmentEditProfileBinding
+        binding: FragmentEditProfileBinding,
+        fragment: Fragment
     ) {
         val uid = firebase.auth.currentUser?.uid.toString()
         val currentUsername = binding.etUsername.text?.trim().toString()
         firebase.firestore.collection(REFERENCE_USER_INFO).document(uid).get()
             .addOnSuccessListener {
                 val oldUsername = it.get(REFERENCE_USERNAME)
-                if (currentUsername == oldUsername || currentUsername.isEmpty()) {
+                if (currentUsername == oldUsername) {
+                    return@addOnSuccessListener
+                }
+                if (currentUsername.isEmpty()) {
+                    binding.etUsername.error = fragment.getString(R.string.username_is_empty)
                     return@addOnSuccessListener
                 }
                 if (currentUsername != oldUsername) {
@@ -147,6 +154,40 @@ class EditProfileFirebaseHelper {
                 }
         }
     }
+
+    private fun checkIfEmailChangesAndSaveIfChanged(
+        firebase: Firebase,
+        binding: FragmentEditProfileBinding,
+        fragment: Fragment
+    ) {
+        val email = binding.etEmail.text?.trim().toString()
+
+        if (email.isEmpty()) {
+            binding.etEmail.error = fragment.getString(R.string.email_is_empty)
+            return
+        }
+
+        firebase.auth.currentUser?.updatePassword(email)
+            ?.addOnSuccessListener {
+                Log.d("MyLog", "Success")
+            }
+            ?.addOnFailureListener {
+            val exception = it.message.toString()
+            Log.d("MyLog", exception)
+
+            if (exception == Constants.EMAIL_ADDRESS_IS_INCORRECT) {
+                clearTextInputLayoutUsernameError(binding = binding)
+                binding.textInputLayoutEmail.error = Constants.EMAIL_ADDRESS_IS_INCORRECT
+                return@addOnFailureListener
+            }
+
+            if (exception == Constants.EMAIL_WAS_NOT_FOUND_INFO) {
+                clearTextInputLayoutUsernameError(binding = binding)
+                binding.textInputLayoutEmail.error = Constants.EMAIL_WAS_NOT_FOUND
+                return@addOnFailureListener
+            }
+        }
+    }
     
     fun getCurrentUserFieldsForFragmentEditProfile(
         firebase: Firebase,
@@ -169,5 +210,10 @@ class EditProfileFirebaseHelper {
             Glide.with(context).load(user?.avatar).into(binding.ivUserAvatar)
             hideProgressBarAndShowProfileFragmentDesign(binding = binding)
         }
+    }
+
+    private fun clearTextInputLayoutUsernameError(binding: FragmentEditProfileBinding) {
+        binding.textInputLayoutUsername.error = null
+        binding.textInputLayoutUsername.isErrorEnabled = false
     }
 }
