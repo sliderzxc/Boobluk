@@ -1,4 +1,4 @@
-package com.test.boobluk.firebase.login
+package com.test.boobluk.firebase.authentication.login
 
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore

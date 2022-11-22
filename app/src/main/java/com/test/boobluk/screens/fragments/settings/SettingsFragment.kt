@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.test.boobluk.R
 import com.test.boobluk.app.App
 import com.test.boobluk.databinding.FragmentSettingsBinding
 import com.test.boobluk.utils.navigation.goToAddNewFragment

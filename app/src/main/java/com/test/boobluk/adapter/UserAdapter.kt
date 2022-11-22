@@ -20,31 +20,33 @@ class UserAdapterDiffUtils(
     override fun getNewListSize() = newList.size
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldToDo = oldList[oldItemPosition]
-        val newToDo = newList[newItemPosition]
-        return oldToDo.uid == newToDo.uid
+        val oldUser = oldList[oldItemPosition]
+        val newUser = newList[newItemPosition]
+        return oldUser.uid == newUser.uid
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldToDo = oldList[oldItemPosition]
-        val newToDo = newList[newItemPosition]
-        return oldToDo == newToDo
+        val oldUser = oldList[oldItemPosition]
+        val newUser = newList[newItemPosition]
+        return oldUser == newUser
     }
 }
 
 class UserAdapter(
-    private val onBodyUserClick: (String) -> Unit
+    private val onBodyUserClick: (String, String) -> Unit
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     private var listOfUsersInfo = listOf<UserInfo>()
 
     class UserViewHolder(item: View) : ViewHolder(item) {
         val binding by lazy { ItemAboutUserBinding.bind(item) }
-        fun bind(userInfo: UserInfo, onBodyUserClick: (String) -> Unit) {
+        fun bind(userInfo: UserInfo, onBodyUserClick: (String, String) -> Unit) {
+            val uid = userInfo.uid.toString()
+            val username = userInfo.username.toString()
             binding.tvUsername.text = userInfo.username
             binding.tvEmail.text = userInfo.email
             Glide.with(itemView).load(userInfo.avatar).into(binding.ivUserIcon)
-            binding.bodyItemAboutUser.setOnClickListener { onBodyUserClick(userInfo.uid.toString()) }
-            binding.ivUserIcon.setOnClickListener { onBodyUserClick(userInfo.uid.toString()) }
+            binding.bodyItemAboutUser.setOnClickListener { onBodyUserClick(uid, username) }
+            binding.ivUserIcon.setOnClickListener { onBodyUserClick(uid, username) }
         }
     }
 

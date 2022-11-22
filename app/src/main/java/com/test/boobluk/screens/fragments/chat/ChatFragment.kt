@@ -1,10 +1,8 @@
 package com.test.boobluk.screens.fragments.chat
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.MessageAdapter
@@ -37,6 +35,7 @@ class ChatFragment : Fragment() {
         getUserDataAndUpdateDesign()
         getMessagesFromFirebaseAndAddToRecyclerView()
         sendMessageWhenPressedButtonSend()
+        getDataChangesAndUpdateMessageAdapter()
     }
 
     private fun getMessagesFromFirebaseAndAddToRecyclerView() {
@@ -44,6 +43,14 @@ class ChatFragment : Fragment() {
             firebase = firebase,
             messageAdapter = messageAdapter,
             binding = binding
+        )
+    }
+
+    private fun getDataChangesAndUpdateMessageAdapter() {
+        chatViewModel.getDataChangesAndUpdateMessageAdapter(
+             firebase = firebase,
+             messageAdapter = messageAdapter,
+             lifecycleOwner = viewLifecycleOwner
         )
     }
 
@@ -71,7 +78,17 @@ class ChatFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        messageAdapter = MessageAdapter(chatViewModel.username.value.toString())
+        val interlocutorUid = chatViewModel.username.value.toString()
+        messageAdapter = MessageAdapter(interlocutorUsername = interlocutorUid) {
+            message -> chatViewModel.showEditMessageBottomDialog(
+                firebase = firebase,
+                requireActivity(),
+                requireContext(),
+                message = message,
+                chatBinding = binding,
+                messageAdapter = messageAdapter
+            )
+        }
         binding.rvMessages.adapter = messageAdapter
         binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
     }

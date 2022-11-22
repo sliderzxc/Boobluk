@@ -1,38 +1,19 @@
 package com.test.boobluk.screens.fragments.chats
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.test.boobluk.R
 import com.test.boobluk.adapter.ChatAdapter
 import com.test.boobluk.app.App
-import com.test.boobluk.data.entities.AboutChat
 import com.test.boobluk.databinding.FragmentListOfChatsBinding
 import com.test.boobluk.screens.fragments.chat.ChatViewModel
 import com.test.boobluk.screens.fragments.chat.ChatViewModelFactory
-import com.test.boobluk.screens.fragments.profile.EditProfileFragment
-import com.test.boobluk.screens.fragments.search.SearchFragment
-import com.test.boobluk.screens.fragments.settings.SettingsFragment
-import com.test.boobluk.utils.binding.checkIfRecycleViewIsEmpty
-import com.test.boobluk.utils.constants.Constants.REFERENCES_INIT_REALTIME_DATABASE
-import com.test.boobluk.utils.constants.Constants.REFERENCE_CHATS
-import com.test.boobluk.utils.constants.Constants.REFERENCE_USER_CHATS
-import com.test.boobluk.utils.constants.Constants.REFERENCE_USER_INFO
-import com.test.boobluk.utils.navigation.changeFragment
 import com.test.boobluk.utils.navigation.goToAddNewFragment
 import com.test.boobluk.utils.navigation.goToChatFragment
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ListOfChatsFragment : Fragment() {

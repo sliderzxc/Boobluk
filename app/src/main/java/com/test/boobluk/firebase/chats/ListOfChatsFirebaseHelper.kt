@@ -21,7 +21,7 @@ class ListOfChatsFirebaseHelper {
     ) {
         binding.progressBar.visibility = View.VISIBLE
         val userUid = firebase.auth.currentUser?.uid.toString()
-        firebase.database(Constants.REFERENCES_INIT_REALTIME_DATABASE).getReference(Constants.REFERENCE_USER_CHATS)
+        firebase.database(Constants.REFERENCE_INIT_REALTIME_DATABASE).getReference(Constants.REFERENCE_USER_CHATS)
             .child(userUid).child(Constants.REFERENCE_CHATS).get().addOnSuccessListener {
                 for (dataSnapshot in it.children) {
                     val interlocutorUid = dataSnapshot.key.toString()

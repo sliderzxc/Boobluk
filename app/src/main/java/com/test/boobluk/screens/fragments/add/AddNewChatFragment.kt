@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 class AddNewChatFragment : Fragment() {
     private val binding by lazy { FragmentAddNewChatBinding.inflate(layoutInflater) }
-    private val userAdapter = UserAdapter { newUserUid -> clickOnItemUserListener(newUserUid) }
+    private val userAdapter = UserAdapter { newUserUid, username -> clickOnItemUserListener(newUserUid, username) }
     @Inject
     lateinit var addNewChatViewModelFactory: AddNewChatViewModelFactory
     private val addNewChatViewModel: AddNewChatViewModel by activityViewModels { addNewChatViewModelFactory }
@@ -57,8 +57,9 @@ class AddNewChatFragment : Fragment() {
         userAdapter.checkIfRecyclerViewIsEmptyForAddNewChatFragment(binding = binding)
     }
 
-    private fun clickOnItemUserListener(newUserUid: String) {
+    private fun clickOnItemUserListener(newUserUid: String, username: String) {
         chatViewModel.changeUserUid(newUserUid = newUserUid)
+        chatViewModel.changeUsername(username = username)
         goToChatFragment()
     }
 

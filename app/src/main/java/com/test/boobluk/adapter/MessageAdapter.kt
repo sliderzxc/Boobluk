@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.test.boobluk.R
@@ -13,22 +14,54 @@ import com.test.boobluk.databinding.ItemReceivedMessageBinding
 import com.test.boobluk.databinding.ItemSentMessageBinding
 import com.test.boobluk.utils.message.MessageType
 
+class MessageAdapterDiffUtils(
+    private val oldList: List<Message>,
+    private val newList: List<Message>
+) : DiffUtil.Callback() {
+
+    override fun getOldListSize() = oldList.size
+    override fun getNewListSize() = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldMessage = oldList[oldItemPosition]
+        val newMessage = newList[newItemPosition]
+        return oldMessage.data == newMessage.data && oldMessage.message == newMessage.message &&
+                oldMessage.sharedData == newMessage.sharedData && oldMessage.sharedDataForSort == newMessage.sharedDataForSort
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldMessage = oldList[oldItemPosition]
+        val newMessage = newList[newItemPosition]
+        return oldMessage == newMessage
+    }
+}
+
 class MessageAdapter(
-    private val interlocutorUsername: String
+    private val interlocutorUsername: String,
+    private val showDialogEditMessage: (Message) -> (Unit),
 ) : RecyclerView.Adapter<MessageAdapter.ChatViewHolder>() {
     private var listOfMessages = mutableListOf<Message>()
 
     class ChatViewHolder(view: View) : ViewHolder(view) {
         private val receivedMessageBinding by lazy { ItemReceivedMessageBinding.bind(view) }
         private val sentMessageBinding by lazy { ItemSentMessageBinding.bind(view) }
-        fun bind(message: Message, interlocutorUsername: String) {
+
+        fun bind(
+            message: Message,
+            interlocutorUsername: String,
+            showDialogEditMessage: (Message) -> (Unit),
+        ) {
             if (message.isReceivedMessage == true) {
                 receivedMessageBinding.tvMessage.text = message.message
                 receivedMessageBinding.tvUsername.text = interlocutorUsername
                 receivedMessageBinding.tvMessageTime.text = message.data
             } else {
                 sentMessageBinding.tvMessage.text = message.message
-                sentMessageBinding.tvMessageTime.text = message.data
+                sentMessageBinding.tvMessageTime.text = message.sharedData
+                sentMessageBinding.bodyItem.setOnLongClickListener {
+                    showDialogEditMessage(message)
+                    true
+                }
             }
         }
 
@@ -47,7 +80,6 @@ class MessageAdapter(
                 ChatViewHolder(view)
             }
             else -> {
-                Log.d("MyLog", "Ordinal == other")
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_sent_message, parent, false)
                 ChatViewHolder(view)
@@ -56,7 +88,11 @@ class MessageAdapter(
     }
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        holder.bind(listOfMessages[position], interlocutorUsername = interlocutorUsername)
+        holder.bind(
+            message = listOfMessages[position],
+            interlocutorUsername = interlocutorUsername,
+            showDialogEditMessage = showDialogEditMessage
+        )
     }
 
     override fun getItemCount() = listOfMessages.size
@@ -71,17 +107,32 @@ class MessageAdapter(
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun  addData(message: Message) {
+    fun addData(message: Message) {
+        val oldList = listOfMessages.toList()
         listOfMessages.add(message)
         listOfMessages.sortBy { it.sharedDataForSort }
-        notifyDataSetChanged()
+        val diffUtilsCallback = MessageAdapterDiffUtils(oldList, listOfMessages)
+        val difResult = DiffUtil.calculateDiff(diffUtilsCallback, true)
+        difResult.dispatchUpdatesTo(this)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun removeData(message: Message) {
+        val oldList = listOfMessages.toList()
         listOfMessages.remove(message)
-        notifyDataSetChanged()
+        val diffUtilsCallback = MessageAdapterDiffUtils(oldList, listOfMessages)
+        val difResult = DiffUtil.calculateDiff(diffUtilsCallback, true)
+        difResult.dispatchUpdatesTo(this)
+    }
+
+    fun updateData(oldMessage: Message, newMessage: Message) {
+        val oldList = listOfMessages.toList()
+        Log.d("MyLog", "updateData")
+        listOfMessages.remove(oldMessage)
+        listOfMessages.add(newMessage)
+        listOfMessages.sortBy { it.sharedDataForSort }
+        val diffUtilsCallback = MessageAdapterDiffUtils(oldList, listOfMessages)
+        val difResult = DiffUtil.calculateDiff(diffUtilsCallback, true)
+        difResult.dispatchUpdatesTo(this)
     }
 
 }

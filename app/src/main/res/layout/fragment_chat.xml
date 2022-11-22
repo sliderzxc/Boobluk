@@ -60,45 +60,75 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/shape_bottom_in_fragment_chat"
         android:gravity="center"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="@dimen/dimen_2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
-        <EditText
-            android:id="@+id/etMessage"
+        <TextView
+            android:id="@+id/tvEditMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_16"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="@dimen/dimen_16"
-            android:layout_marginBottom="2dp"
             android:layout_weight="1"
-            android:background="@color/light_brown"
-            android:cursorVisible="true"
-            android:drawablePadding="8dp"
-            android:hint="Write the message"
-            android:maxHeight="160dp"
-            android:minHeight="50dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:textColorHint="#D1C6C6"
-            android:textCursorDrawable="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="TextContrastCheck" />
+            android:text="Edit message"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:visibility="gone" />
 
-        <com.github.abdularis.civ.CircleImageView
-            android:id="@+id/btnSendMessage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="@dimen/dimen_5dp"
-            android:layout_marginEnd="@dimen/dimen_10dp"
-            android:layout_marginBottom="@dimen/dimen_5dp"
-            android:src="@drawable/icon_send"
-            app:strokeWidth="10dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_16"
+                android:layout_marginTop="@dimen/dimen_2dp"
+                android:layout_marginEnd="@dimen/dimen_16"
+                android:layout_marginBottom="@dimen/dimen_2dp"
+                android:layout_weight="1"
+                android:background="@color/light_brown"
+                android:cursorVisible="true"
+                android:drawablePadding="8dp"
+                android:hint="Write the message"
+                android:maxHeight="160dp"
+                android:minHeight="50dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:textColorHint="#D1C6C6"
+                android:textCursorDrawable="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="TextContrastCheck" />
+
+            <com.github.abdularis.civ.CircleImageView
+                android:id="@+id/btnSendMessage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_marginEnd="@dimen/dimen_10dp"
+                android:layout_marginBottom="@dimen/dimen_5dp"
+                android:src="@drawable/icon_send"
+                android:visibility="visible"
+                app:strokeWidth="10dp" />
+
+            <com.github.abdularis.civ.CircleImageView
+                android:id="@+id/btnEditMessage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/dimen_5dp"
+                android:layout_marginEnd="@dimen/dimen_10dp"
+                android:layout_marginBottom="@dimen/dimen_5dp"
+                android:src="@drawable/icon_done"
+                android:visibility="gone"
+                app:strokeWidth="10dp" />
+        </LinearLayout>
 
     </LinearLayout>
 

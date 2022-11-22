@@ -11,12 +11,15 @@ object Constants {
 
     const val REFERENCE_USER_INFO = "usersInfo"
     const val REFERENCE_USER_CHATS = "usersChats"
+    const val REFERENCE_USERS_DATA = "usersData"
     const val REFERENCE_CHATS = "chats"
     const val REFERENCE_USERNAME = "username"
     const val REFERENCE_BIO = "bio"
-    const val REFERENCES_INIT_REALTIME_DATABASE = "https://boobluk-default-rtdb.europe-west1.firebasedatabase.app/"
+    const val REFERENCE_INIT_REALTIME_DATABASE = "https://boobluk-default-rtdb.europe-west1.firebasedatabase.app/"
     const val REFERENCE_NEW_USER_AVATAR = "gs://boobluk.appspot.com/userAvatars/no-avatar.png"
     const val REFERENCE_PACKAGE_USER_AVATARS = "gs://boobluk.appspot.com/userAvatars"
     const val REFERENCE_RECEIVED_MESSAGES = "receivedMessages"
     const val REFERENCE_SENT_MESSAGES = "sentMessages"
+    const val REFERENCE_DATA = "data"
+    const val REFERENCE_LAST_EDIT_MESSAGE = "lastEditMessage"
 }

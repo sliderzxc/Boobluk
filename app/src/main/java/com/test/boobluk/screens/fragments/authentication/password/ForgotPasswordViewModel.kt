@@ -4,7 +4,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.test.boobluk.databinding.FragmentForgotPasswordBinding
-import com.test.boobluk.screens.fragments.add.password.ForgotPasswordFirebaseHelper
+import com.test.boobluk.firebase.authentication.password.ForgotPasswordFirebaseHelper
 
 class ForgotPasswordViewModel(
     val forgotPasswordFirebaseHelper: ForgotPasswordFirebaseHelper
