@@ -1,6 +1,5 @@
 package com.test.boobluk.firebase.chats
 
-import android.util.Log
 import android.view.View
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
@@ -19,32 +18,6 @@ import com.test.boobluk.utils.constants.Constants
 class ListOfChatsFirebaseHelper {
 
     fun getAllChats(
-        binding:FragmentListOfChatsBinding,
-        firebase: Firebase,
-        chatAdapter: ChatAdapter
-    ) {
-        binding.progressBar.visibility = View.VISIBLE
-        val userUid = firebase.auth.currentUser?.uid.toString()
-        firebase.database(Constants.REFERENCE_INIT_REALTIME_DATABASE).getReference(Constants.REFERENCE_USER_CHATS)
-            .child(userUid).child(Constants.REFERENCE_CHATS).get().addOnSuccessListener {
-                for (dataSnapshot in it.children) {
-                    val interlocutorUid = dataSnapshot.key.toString()
-                    if (interlocutorUid != userUid) {
-                        firebase.firestore.collection(Constants.REFERENCE_USER_INFO)
-                            .document(interlocutorUid).get()
-                            .addOnSuccessListener { documentSnapshot ->
-                                val aboutChat = documentSnapshot.toObject<AboutChat>()
-                                aboutChat?.let { aboutChatItem -> chatAdapter.addNewItem(aboutChatItem) }
-                                chatAdapter.checkIfRecycleViewIsEmpty(binding = binding)
-                            }
-                    }
-                }
-            }.addOnCompleteListener {
-                if (!it.result.exists()) chatAdapter.checkIfRecycleViewIsEmpty(binding = binding)
-            }
-    }
-
-    fun some(
         binding:FragmentListOfChatsBinding,
         firebase: Firebase,
         chatAdapter: ChatAdapter

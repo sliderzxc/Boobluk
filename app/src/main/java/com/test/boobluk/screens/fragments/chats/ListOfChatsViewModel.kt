@@ -21,7 +21,7 @@ class ListOfChatsViewModel(
         firebase: Firebase,
         chatAdapter: ChatAdapter
     ) {
-        listOfChatsFirebaseHelper.some(
+        listOfChatsFirebaseHelper.getAllChats(
             binding = binding,
             firebase = firebase,
             chatAdapter = chatAdapter
