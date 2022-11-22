@@ -8,7 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.databinding.FragmentRegisterBinding
-import com.test.boobluk.firebase.authentication.register.RegisterFirebaseHelper
+import com.test.boobluk.firebase.register.RegisterFirebaseHelper
 
 class RegisterViewModel(
     val registerFirebaseHelper: RegisterFirebaseHelper

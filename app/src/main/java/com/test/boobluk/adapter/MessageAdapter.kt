@@ -1,7 +1,5 @@
 package com.test.boobluk.adapter
 
-import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -126,7 +124,6 @@ class MessageAdapter(
 
     fun updateData(oldMessage: Message, newMessage: Message) {
         val oldList = listOfMessages.toList()
-        Log.d("MyLog", "updateData")
         listOfMessages.remove(oldMessage)
         listOfMessages.add(newMessage)
         listOfMessages.sortBy { it.sharedDataForSort }

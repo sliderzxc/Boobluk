@@ -4,11 +4,34 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.test.boobluk.R
 import com.test.boobluk.data.entities.AboutChat
 import com.test.boobluk.databinding.ItemAboutChatBinding
+
+class ChatAdapterDiffUtils(
+    private val oldList: List<AboutChat>,
+    private val newList: List<AboutChat>
+) : DiffUtil.Callback() {
+
+    override fun getOldListSize() = oldList.size
+    override fun getNewListSize() = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldAboutChat = oldList[oldItemPosition]
+        val newAboutChat = newList[newItemPosition]
+        return oldAboutChat.username == newAboutChat.username && oldAboutChat.avatar == newAboutChat.avatar &&
+                oldAboutChat.uid == newAboutChat.uid && oldAboutChat.lastMessage == newAboutChat.lastMessage
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldAboutChat = oldList[oldItemPosition]
+        val newAboutChat = newList[newItemPosition]
+        return oldAboutChat == newAboutChat
+    }
+}
 
 class ChatAdapter(
     private val onBodyUserClick: (String, String) -> Unit
@@ -40,6 +63,12 @@ class ChatAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun addNewItem(aboutChat: AboutChat) {
         listOfAboutChats.add(aboutChat)
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun removeItem(aboutChat: AboutChat) {
+        listOfAboutChats.remove(aboutChat)
         notifyDataSetChanged()
     }
 

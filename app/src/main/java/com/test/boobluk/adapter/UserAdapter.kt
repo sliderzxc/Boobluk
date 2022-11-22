@@ -22,7 +22,9 @@ class UserAdapterDiffUtils(
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldUser = oldList[oldItemPosition]
         val newUser = newList[newItemPosition]
-        return oldUser.uid == newUser.uid
+        return oldUser.uid == newUser.uid && oldUser.username == newUser.username && oldUser.email == newUser.email &&
+               oldUser.isEmailConfirmed == newUser.isEmailConfirmed && oldUser.gender == newUser.gender &&
+               oldUser.avatar == newUser.avatar && oldUser.bio == newUser.bio
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

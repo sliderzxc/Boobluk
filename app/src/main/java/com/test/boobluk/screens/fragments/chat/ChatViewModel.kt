@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -19,6 +21,7 @@ import com.test.boobluk.databinding.DialogEditMessageBinding
 import com.test.boobluk.databinding.FragmentChatBinding
 import com.test.boobluk.firebase.chat.ChatFirebaseHelper
 import com.test.boobluk.utils.navigation.goToListOfChatsFragment
+
 
 class ChatViewModel(
     val chatFirebaseHelper: ChatFirebaseHelper
@@ -150,7 +153,6 @@ class ChatViewModel(
         context: Context,
         message: Message,
         chatBinding: FragmentChatBinding,
-        messageAdapter: MessageAdapter
     ) {
         val view = activity.layoutInflater.inflate(R.layout.dialog_edit_message, null, false)
         val dialog = BottomSheetDialog(context)

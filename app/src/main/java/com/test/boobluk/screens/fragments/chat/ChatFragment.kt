@@ -85,8 +85,7 @@ class ChatFragment : Fragment() {
                 requireActivity(),
                 requireContext(),
                 message = message,
-                chatBinding = binding,
-                messageAdapter = messageAdapter
+                chatBinding = binding
             )
         }
         binding.rvMessages.adapter = messageAdapter
