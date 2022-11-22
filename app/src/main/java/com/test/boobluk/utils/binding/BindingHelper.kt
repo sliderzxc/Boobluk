@@ -1,11 +1,16 @@
 package com.test.boobluk.utils.binding
 
+import android.util.Log
 import android.view.View
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.ChatAdapter
 import com.test.boobluk.adapter.UserAdapter
 import com.test.boobluk.databinding.FragmentAddNewChatBinding
 import com.test.boobluk.databinding.FragmentEditProfileBinding
 import com.test.boobluk.databinding.FragmentListOfChatsBinding
+import com.test.boobluk.utils.constants.Constants
 
 fun hideEditProfileFragmentDesignAndShowProgressBar(
     binding: FragmentEditProfileBinding
@@ -43,7 +48,9 @@ fun UserAdapter.checkIfRecyclerViewIsEmptyForAddNewChatFragment(binding: Fragmen
     }
 }
 
-fun ChatAdapter.checkIfRecycleViewIsEmpty(binding: FragmentListOfChatsBinding) {
+fun ChatAdapter.checkIfRecycleViewIsEmpty(
+    binding: FragmentListOfChatsBinding,
+) {
     if (this.itemCount > 0) {
         binding.tvYouDoNotHaveAnyChats.visibility = View.GONE
         binding.progressBar.visibility = View.GONE

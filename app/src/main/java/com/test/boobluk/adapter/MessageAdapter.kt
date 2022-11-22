@@ -52,7 +52,7 @@ class MessageAdapter(
             if (message.isReceivedMessage == true) {
                 receivedMessageBinding.tvMessage.text = message.message
                 receivedMessageBinding.tvUsername.text = interlocutorUsername
-                receivedMessageBinding.tvMessageTime.text = message.data
+                receivedMessageBinding.tvMessageTime.text = message.sharedData
             } else {
                 sentMessageBinding.tvMessage.text = message.message
                 sentMessageBinding.tvMessageTime.text = message.sharedData
