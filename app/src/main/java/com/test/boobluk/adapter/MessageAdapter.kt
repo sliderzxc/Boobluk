@@ -132,4 +132,8 @@ class MessageAdapter(
         difResult.dispatchUpdatesTo(this)
     }
 
+    fun clearAllMessages() {
+        listOfMessages = mutableListOf()
+    }
+
 }

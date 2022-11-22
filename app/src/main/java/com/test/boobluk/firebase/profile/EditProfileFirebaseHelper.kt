@@ -14,7 +14,6 @@ import com.google.firebase.storage.ktx.storage
 import com.test.boobluk.R
 import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentEditProfileBinding
-import com.test.boobluk.databinding.FragmentLoginBinding
 import com.test.boobluk.utils.binding.hideEditProfileFragmentDesignAndShowProgressBar
 import com.test.boobluk.utils.binding.hideProgressBarAndShowProfileFragmentDesign
 import com.test.boobluk.utils.constants.Constants
@@ -23,6 +22,7 @@ import com.test.boobluk.utils.constants.Constants.REFERENCE_BIO
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USERNAME
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USER_INFO
 import com.test.boobluk.utils.gender.Gender
+import com.test.boobluk.utils.toast.showDarkMotionSuccessColorToast
 import java.io.ByteArrayOutputStream
 
 class EditProfileFirebaseHelper {
@@ -61,7 +61,8 @@ class EditProfileFirebaseHelper {
                         .addOnSuccessListener { userInfo ->
                             val oldUser = userInfo.toObject<UserInfo>()!!
                             val currentUser = oldUser.copy(bio = currentTextBio)
-                            firebase.firestore.collection(REFERENCE_USER_INFO).document(uid).set(currentUser)
+                            firebase.firestore.collection(REFERENCE_USER_INFO).document(uid)
+                                .set(currentUser)
                         }
                 }
             }
@@ -69,7 +70,7 @@ class EditProfileFirebaseHelper {
 
     private fun checkIfGenderChangedAndSaveIfChanged(
         firebase: Firebase,
-        binding: FragmentEditProfileBinding
+        binding: FragmentEditProfileBinding,
     ) {
         val uid = firebase.auth.currentUser?.uid.toString()
         val gender = binding.rgChooseGender.checkedRadioButtonId
@@ -124,7 +125,7 @@ class EditProfileFirebaseHelper {
 
     private fun checkIfPasswordChangedAndSaveIfChanged(
         firebase: Firebase,
-        binding: FragmentEditProfileBinding
+        binding: FragmentEditProfileBinding,
     ) {
         val password = binding.etPassword.text?.trim().toString()
 
@@ -136,23 +137,31 @@ class EditProfileFirebaseHelper {
 
     private fun checkIfAvatarChangedAndSaveIfChanged(
         firebase: Firebase,
-        binding: FragmentEditProfileBinding
+        binding: FragmentEditProfileBinding,
     ) {
         val uid = firebase.auth.currentUser?.uid.toString()
         val bitmap = (binding.ivUserAvatar.drawable).toBitmap()
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
-        val userReference = firebase.storage.getReferenceFromUrl("$REFERENCE_PACKAGE_USER_AVATARS/$uid")
-        userReference.putBytes(byteArray).continueWithTask { userReference.downloadUrl }.addOnCompleteListener {
-            val imageUrl = it.result
-            firebase.firestore.collection(REFERENCE_USER_INFO).document(uid).get()
-                .addOnSuccessListener { userInfo ->
-                    val oldUser = userInfo.toObject<UserInfo>()!!
-                    val currentUser = oldUser.copy(avatar = imageUrl.toString())
-                    firebase.firestore.collection(REFERENCE_USER_INFO).document(uid).set(currentUser)
+        firebase.storage.getReferenceFromUrl("$REFERENCE_PACKAGE_USER_AVATARS/$uid")
+            .getBytes(10000000).addOnSuccessListener {
+                if (it != null && !it.contentEquals(byteArray)) {
+                    val userReference =
+                        firebase.storage.getReferenceFromUrl("$REFERENCE_PACKAGE_USER_AVATARS/$uid")
+                    userReference.putBytes(byteArray).continueWithTask { userReference.downloadUrl }
+                        .addOnCompleteListener { task ->
+                            val imageUrl = task.result
+                            firebase.firestore.collection(REFERENCE_USER_INFO).document(uid).get()
+                                .addOnSuccessListener { userInfo ->
+                                    val oldUser = userInfo.toObject<UserInfo>()!!
+                                    val currentUser = oldUser.copy(avatar = imageUrl.toString())
+                                    firebase.firestore.collection(REFERENCE_USER_INFO).document(uid)
+                                        .set(currentUser)
+                                }
+                        }
                 }
-        }
+            }
     }
 
     private fun checkIfEmailChangesAndSaveIfChanged(
@@ -167,20 +176,14 @@ class EditProfileFirebaseHelper {
             return
         }
 
-        firebase.auth.currentUser?.updatePassword(email)
-            ?.addOnSuccessListener {
-                Log.d("MyLog", "Success")
-            }
-            ?.addOnFailureListener {
+        firebase.auth.currentUser?.updateEmail(email)?.addOnFailureListener {
             val exception = it.message.toString()
-            Log.d("MyLog", exception)
 
             if (exception == Constants.EMAIL_ADDRESS_IS_INCORRECT) {
                 clearTextInputLayoutUsernameError(binding = binding)
                 binding.textInputLayoutEmail.error = Constants.EMAIL_ADDRESS_IS_INCORRECT
                 return@addOnFailureListener
             }
-
             if (exception == Constants.EMAIL_WAS_NOT_FOUND_INFO) {
                 clearTextInputLayoutUsernameError(binding = binding)
                 binding.textInputLayoutEmail.error = Constants.EMAIL_WAS_NOT_FOUND
@@ -188,7 +191,7 @@ class EditProfileFirebaseHelper {
             }
         }
     }
-    
+
     fun getCurrentUserFieldsForFragmentEditProfile(
         firebase: Firebase,
         binding: FragmentEditProfileBinding,
@@ -197,19 +200,22 @@ class EditProfileFirebaseHelper {
         hideEditProfileFragmentDesignAndShowProgressBar(binding = binding)
         val uid = firebase.auth.currentUser?.uid.toString()
 
-        firebase.firestore.collection(REFERENCE_USER_INFO).document(uid).get().addOnSuccessListener {
-            val user = it.toObject<UserInfo>()
-            binding.etUsername.setText(user?.username ?: "")
-            binding.etEmail.setText(user?.email ?: "")
-            binding.etBio.setText(user?.bio ?: "")
-            if (user?.gender?.toString() == Gender.Male.name) {
-                binding.rgChooseGender.check(R.id.btnMale)
-            } else if (user?.gender?.toString() == Gender.Female.name) {
-                binding.rgChooseGender.check(R.id.btnFemale)
-            } else { binding.rgChooseGender.check(0) }
-            Glide.with(context).load(user?.avatar).into(binding.ivUserAvatar)
-            hideProgressBarAndShowProfileFragmentDesign(binding = binding)
-        }
+        firebase.firestore.collection(REFERENCE_USER_INFO).document(uid).get()
+            .addOnSuccessListener {
+                val user = it.toObject<UserInfo>()
+                binding.etUsername.setText(user?.username ?: "")
+                binding.etEmail.setText(user?.email ?: "")
+                binding.etBio.setText(user?.bio ?: "")
+                if (user?.gender?.toString() == Gender.Male.name) {
+                    binding.rgChooseGender.check(R.id.btnMale)
+                } else if (user?.gender?.toString() == Gender.Female.name) {
+                    binding.rgChooseGender.check(R.id.btnFemale)
+                } else {
+                    binding.rgChooseGender.check(0)
+                }
+                Glide.with(context).load(user?.avatar).into(binding.ivUserAvatar)
+                hideProgressBarAndShowProfileFragmentDesign(binding = binding)
+            }
     }
 
     private fun clearTextInputLayoutUsernameError(binding: FragmentEditProfileBinding) {

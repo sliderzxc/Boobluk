@@ -96,4 +96,9 @@ class ChatFragment : Fragment() {
         (activity?.applicationContext as App).appComponent.inject(this)
     }
 
+    override fun onStop() {
+        super.onStop()
+        messageAdapter.clearAllMessages()
+    }
+
 }
