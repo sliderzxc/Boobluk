@@ -53,4 +53,15 @@ class ListOfChatsFirebaseHelper {
             })
     }
 
+    fun deleteChat(
+        firebase: Firebase,
+        interlocutorUid: String
+    ) {
+        val userUid = firebase.auth.currentUser?.uid.toString()
+        firebase.database(Constants.REFERENCE_INIT_REALTIME_DATABASE).getReference(Constants.REFERENCE_USER_CHATS)
+            .child(userUid).child(Constants.REFERENCE_CHATS).child(interlocutorUid).removeValue()
+        firebase.database(Constants.REFERENCE_INIT_REALTIME_DATABASE).getReference(Constants.REFERENCE_USER_CHATS)
+            .child(interlocutorUid).child(Constants.REFERENCE_CHATS).child(userUid).removeValue()
+    }
+
 }

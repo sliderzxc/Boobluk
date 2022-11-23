@@ -1,11 +1,18 @@
 package com.test.boobluk.screens.fragments.chats
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.view.WindowManager
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.R
 import com.test.boobluk.adapter.ChatAdapter
+import com.test.boobluk.databinding.DialogEditChatBinding
+import com.test.boobluk.databinding.DialogEditMessageBinding
 import com.test.boobluk.databinding.FragmentListOfChatsBinding
 import com.test.boobluk.firebase.chats.ListOfChatsFirebaseHelper
 import com.test.boobluk.screens.fragments.profile.EditProfileFragment
@@ -31,9 +38,43 @@ class ListOfChatsViewModel(
             chatAdapter = chatAdapter
         )
         viewModelScope.launch {
-            delay(10000)
+            delay(5000)
             chatAdapter.checkIfRecycleViewIsEmpty(binding = binding)
         }
+    }
+
+    private fun deleteChat(
+        firebase: Firebase,
+        interlocutorUid: String
+    ) {
+        listOfChatsFirebaseHelper.deleteChat(
+            firebase = firebase,
+            interlocutorUid = interlocutorUid
+        )
+    }
+
+    @SuppressLint("InflateParams")
+    fun showEditMessageBottomDialog(
+        activity: FragmentActivity,
+        context: Context,
+        firebase: Firebase,
+        interlocutorUid: String
+    ) {
+        val view = activity.layoutInflater.inflate(R.layout.dialog_edit_chat, null, false)
+        val dialog = BottomSheetDialog(context)
+        dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        val dialogBinding by lazy { DialogEditChatBinding.bind(view) }
+
+        dialogBinding.tvDeleteChat.setOnClickListener {
+            deleteChat(
+                firebase = firebase,
+                interlocutorUid = interlocutorUid
+            )
+            dialog.hide()
+        }
+
+        dialog.setContentView(view)
+        dialog.show()
     }
 
     fun bottomNavigationViewClickListener(binding: FragmentListOfChatsBinding, parentFragmentManager: FragmentManager) {

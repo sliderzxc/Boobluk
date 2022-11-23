@@ -34,18 +34,29 @@ class ChatAdapterDiffUtils(
 }
 
 class ChatAdapter(
-    private val onBodyUserClick: (String, String) -> Unit
+    private val onBodyUserClick: (String, String) -> Unit,
+    private val onLongBodyUserClick: (String) -> Boolean
 ) : RecyclerView.Adapter<ChatAdapter.ListOfChatsViewHolder>() {
     private var listOfAboutChats = mutableListOf<AboutChat>()
 
     class ListOfChatsViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val binding by lazy { ItemAboutChatBinding.bind(item) }
-        fun bind(aboutChat: AboutChat, onBodyUserClick: (String, String) -> Unit) {
+        fun bind(
+            aboutChat: AboutChat,
+            onBodyUserClick: (String, String) -> Unit,
+            onLongBodyUserClick: (String) -> Boolean
+        ) {
             binding.tvUsername.text = aboutChat.username
             binding.tvLastMessage.text = aboutChat.lastMessage
             Glide.with(itemView).load(aboutChat.avatar).into(binding.ivUserIcon)
             binding.bodyItemAboutChat.setOnClickListener { onBodyUserClick(aboutChat.uid.toString(), aboutChat.username.toString()) }
             binding.ivUserIcon.setOnClickListener { onBodyUserClick(aboutChat.uid.toString(), aboutChat.username.toString()) }
+            binding.bodyItemAboutChat.setOnLongClickListener {
+                onLongBodyUserClick(aboutChat.uid.toString())
+            }
+            binding.ivUserIcon.setOnLongClickListener {
+                onLongBodyUserClick(aboutChat.uid.toString())
+            }
         }
     }
 
@@ -55,7 +66,7 @@ class ChatAdapter(
     }
 
     override fun onBindViewHolder(holder: ListOfChatsViewHolder, position: Int) {
-        holder.bind(listOfAboutChats[position], onBodyUserClick = onBodyUserClick)
+        holder.bind(listOfAboutChats[position], onBodyUserClick = onBodyUserClick, onLongBodyUserClick = onLongBodyUserClick)
     }
 
     override fun getItemCount() = listOfAboutChats.size

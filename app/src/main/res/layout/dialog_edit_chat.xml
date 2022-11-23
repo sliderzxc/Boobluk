@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center">
+
+    <TextView
+        android:id="@+id/tvDeleteChat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingStart="@dimen/dimen_5dp"
+        android:paddingTop="@dimen/dimen_5dp"
+        android:paddingEnd="@dimen/dimen_5dp"
+        android:paddingBottom="@dimen/dimen_5dp"
+        android:text="Delete chat"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimen_30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

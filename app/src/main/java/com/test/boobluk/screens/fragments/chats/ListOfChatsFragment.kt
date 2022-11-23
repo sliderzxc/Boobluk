@@ -18,13 +18,16 @@ import javax.inject.Inject
 
 class ListOfChatsFragment : Fragment() {
     private val binding by lazy { FragmentListOfChatsBinding.inflate(layoutInflater) }
-    private val chatAdapter = ChatAdapter { uid, username -> clickOnItemChatListener(uid, username) }
     @Inject
     lateinit var chatViewModelFactory: ChatViewModelFactory
     private val chatViewModel: ChatViewModel by activityViewModels { chatViewModelFactory }
     @Inject
     lateinit var listOfChatsViewModelFactory: ListOfChatsViewModelFactory
     private val listOfChatViewModel: ListOfChatsViewModel by activityViewModels { listOfChatsViewModelFactory }
+    private val chatAdapter = ChatAdapter (
+        { uid, username -> clickOnItemChatListener(uid, username) },
+        { interlocutorUid -> longClickChatListener(interlocutorUid) }
+    )
     private val firebase = Firebase
 
     override fun onCreateView(
@@ -58,6 +61,16 @@ class ListOfChatsFragment : Fragment() {
         chatViewModel.changeUserUid(newUserUid = newUserUid)
         chatViewModel.changeUsername(username = username)
         goToChatFragment()
+    }
+
+    private fun longClickChatListener(interlocutorUid: String) : Boolean{
+        listOfChatViewModel.showEditMessageBottomDialog(
+            activity = requireActivity(),
+            context = requireContext(),
+            firebase = firebase,
+            interlocutorUid = interlocutorUid
+        )
+        return true
     }
 
     private fun getAllChats() {
