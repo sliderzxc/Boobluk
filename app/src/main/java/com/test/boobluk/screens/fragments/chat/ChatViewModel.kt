@@ -133,19 +133,6 @@ class ChatViewModel(
         )
     }
 
-    fun getDataChangesAndUpdateMessageAdapter(
-        firebase: Firebase,
-        messageAdapter: MessageAdapter,
-        lifecycleOwner: LifecycleOwner
-    ) {
-        chatFirebaseHelper.getDataChangesAndUpdateMessageAdapter(
-            firebase = firebase,
-            messageAdapter = messageAdapter,
-            chatViewModel = this,
-            lifecycleOwner = lifecycleOwner
-        )
-    }
-
     @SuppressLint("InflateParams")
     fun showEditMessageBottomDialog(
         firebase: Firebase,

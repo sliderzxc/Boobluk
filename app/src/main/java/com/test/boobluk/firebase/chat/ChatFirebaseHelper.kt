@@ -118,6 +118,7 @@ class ChatFirebaseHelper {
                         .setValue(oldMessage)
 
                     if (oldMessage != null && newMessage != null) {
+                        Log.d("MyLog", "SentUpdateData")
                         messageAdapter.updateData(oldMessage, newMessage)
                     }
                     binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
@@ -141,7 +142,14 @@ class ChatFirebaseHelper {
                 }
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                     val newMessage = snapshot.getValue(Message::class.java)
-                    newMessage?.let { chatViewModel.changeNewMessage(newMessage = it) }
+                    newMessage?.let {
+                        chatViewModel.changeNewMessage(newMessage = it)
+                        getDataChangesAndUpdateMessageAdapter(
+                            firebase = firebase,
+                            messageAdapter = messageAdapter,
+                            chatViewModel = chatViewModel
+                        )
+                    }
                 }
                 override fun onChildRemoved(snapshot: DataSnapshot) {
                     val message = snapshot.getValue(Message::class.java)
@@ -155,20 +163,19 @@ class ChatFirebaseHelper {
     fun getDataChangesAndUpdateMessageAdapter(
         firebase: Firebase,
         messageAdapter: MessageAdapter,
-        chatViewModel: ChatViewModel,
-        lifecycleOwner: LifecycleOwner
+        chatViewModel: ChatViewModel
     ) {
         val interlocutorUid = chatViewModel.userUid.value.toString()
-
-        chatViewModel.newMessage.observe(lifecycleOwner) { newMessage ->
-            firebase.database(REFERENCE_INIT_REALTIME_DATABASE).getReference(REFERENCE_USERS_DATA)
-                .child(interlocutorUid).child(REFERENCE_DATA).child(REFERENCE_LAST_EDIT_MESSAGE).get().addOnSuccessListener {
-                    val oldMessageFromFirebase = it.getValue(Message::class.java)
-                    oldMessageFromFirebase?.isSentMessage = null
-                    oldMessageFromFirebase?.isReceivedMessage = true
-                    oldMessageFromFirebase?.let { oldMessage -> messageAdapter.updateData(oldMessage, newMessage) }
+        val newMessage = chatViewModel.newMessage.value
+        firebase.database(REFERENCE_INIT_REALTIME_DATABASE).getReference(REFERENCE_USERS_DATA)
+            .child(interlocutorUid).child(REFERENCE_DATA).child(REFERENCE_LAST_EDIT_MESSAGE).get().addOnSuccessListener {
+                val oldMessage = it.getValue(Message::class.java)
+                oldMessage?.isSentMessage = null
+                oldMessage?.isReceivedMessage = true
+                if (oldMessage != null && newMessage != null) {
+                    messageAdapter.updateData(oldMessage, newMessage)
                 }
-        }
+            }
     }
 
     fun deleteMessage(

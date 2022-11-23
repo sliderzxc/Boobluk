@@ -2,6 +2,7 @@ package com.test.boobluk.screens.fragments.chats
 
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.R
 import com.test.boobluk.adapter.ChatAdapter
@@ -10,7 +11,10 @@ import com.test.boobluk.firebase.chats.ListOfChatsFirebaseHelper
 import com.test.boobluk.screens.fragments.profile.EditProfileFragment
 import com.test.boobluk.screens.fragments.search.SearchFragment
 import com.test.boobluk.screens.fragments.settings.SettingsFragment
+import com.test.boobluk.utils.binding.checkIfRecycleViewIsEmpty
 import com.test.boobluk.utils.navigation.changeFragment
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class ListOfChatsViewModel(
     val listOfChatsFirebaseHelper: ListOfChatsFirebaseHelper
@@ -26,6 +30,10 @@ class ListOfChatsViewModel(
             firebase = firebase,
             chatAdapter = chatAdapter
         )
+        viewModelScope.launch {
+            delay(10000)
+            chatAdapter.checkIfRecycleViewIsEmpty(binding = binding)
+        }
     }
 
     fun bottomNavigationViewClickListener(binding: FragmentListOfChatsBinding, parentFragmentManager: FragmentManager) {

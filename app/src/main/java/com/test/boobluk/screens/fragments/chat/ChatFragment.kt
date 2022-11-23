@@ -35,7 +35,6 @@ class ChatFragment : Fragment() {
         getUserDataAndUpdateDesign()
         getMessagesFromFirebaseAndAddToRecyclerView()
         sendMessageWhenPressedButtonSend()
-        getDataChangesAndUpdateMessageAdapter()
     }
 
     private fun getMessagesFromFirebaseAndAddToRecyclerView() {
@@ -43,14 +42,6 @@ class ChatFragment : Fragment() {
             firebase = firebase,
             messageAdapter = messageAdapter,
             binding = binding
-        )
-    }
-
-    private fun getDataChangesAndUpdateMessageAdapter() {
-        chatViewModel.getDataChangesAndUpdateMessageAdapter(
-             firebase = firebase,
-             messageAdapter = messageAdapter,
-             lifecycleOwner = viewLifecycleOwner
         )
     }
 
@@ -88,6 +79,7 @@ class ChatFragment : Fragment() {
                 chatBinding = binding
             )
         }
+        messageAdapter.clearAllMessages()
         binding.rvMessages.adapter = messageAdapter
         binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
     }

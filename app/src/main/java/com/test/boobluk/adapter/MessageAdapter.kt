@@ -1,5 +1,6 @@
 package com.test.boobluk.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,10 @@ class MessageAdapter(
     private val showDialogEditMessage: (Message) -> (Unit),
 ) : RecyclerView.Adapter<MessageAdapter.ChatViewHolder>() {
     private var listOfMessages = mutableListOf<Message>()
+
+    init {
+        listOfMessages = mutableListOf()
+    }
 
     class ChatViewHolder(view: View) : ViewHolder(view) {
         private val receivedMessageBinding by lazy { ItemReceivedMessageBinding.bind(view) }
