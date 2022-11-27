@@ -54,7 +54,7 @@ class ChatFirebaseHelper {
     ) {
         val currentUid = firebase.auth.currentUser?.uid.toString()
         firebase.database(REFERENCE_INIT_REALTIME_DATABASE).getReference(REFERENCE_USERS_DATA)
-            .child(currentUid).child(REFERENCE_DATA).setValue(hashMapOf(REFERENCE_IN_CHAT_WITH to null))
+            .child(currentUid).child(REFERENCE_DATA).child(REFERENCE_IN_CHAT_WITH).removeValue()
     }
 
     fun checkIfExistsAndClearNotificationsInThisChat(

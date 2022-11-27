@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.ChatAdapter
 import com.test.boobluk.adapter.UserAdapter
@@ -11,6 +12,9 @@ import com.test.boobluk.databinding.FragmentAddNewChatBinding
 import com.test.boobluk.databinding.FragmentEditProfileBinding
 import com.test.boobluk.databinding.FragmentListOfChatsBinding
 import com.test.boobluk.utils.constants.Constants
+import com.test.boobluk.utils.constants.Constants.REFERENCE_CHATS
+import com.test.boobluk.utils.constants.Constants.REFERENCE_INIT_REALTIME_DATABASE
+import com.test.boobluk.utils.constants.Constants.REFERENCE_USER_CHATS
 
 fun hideEditProfileFragmentDesignAndShowProgressBar(
     binding: FragmentEditProfileBinding
@@ -50,12 +54,19 @@ fun UserAdapter.checkIfRecyclerViewIsEmptyForAddNewChatFragment(binding: Fragmen
 
 fun ChatAdapter.checkIfRecycleViewIsEmpty(
     binding: FragmentListOfChatsBinding,
+    firebase: Firebase
 ) {
     if (this.itemCount > 0) {
         binding.tvYouDoNotHaveAnyChats.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
     } else {
-        binding.tvYouDoNotHaveAnyChats.visibility = View.VISIBLE
-        binding.progressBar.visibility = View.GONE
+        val userUid = firebase.auth.currentUser?.uid.toString()
+        firebase.database(REFERENCE_INIT_REALTIME_DATABASE).getReference(REFERENCE_USER_CHATS)
+            .child(userUid).child(REFERENCE_CHATS).get().addOnSuccessListener {
+                if (!it.hasChildren()) {
+                    binding.tvYouDoNotHaveAnyChats.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
     }
 }

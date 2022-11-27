@@ -33,7 +33,10 @@ class ListOfChatsFirebaseHelper {
                         .addOnSuccessListener { documentSnapshot ->
                             val aboutChat = documentSnapshot.toObject<AboutChat>()
                             aboutChat?.let { aboutChatItem -> chatAdapter.addNewItem(aboutChatItem) }
-                            chatAdapter.checkIfRecycleViewIsEmpty(binding = binding)
+                            chatAdapter.checkIfRecycleViewIsEmpty(
+                                binding = binding,
+                                firebase = firebase
+                            )
                         }
                 }
 
@@ -44,7 +47,10 @@ class ListOfChatsFirebaseHelper {
                         .addOnSuccessListener { documentSnapshot ->
                             val aboutChat = documentSnapshot.toObject<AboutChat>()
                             aboutChat?.let { aboutChatItem -> chatAdapter.removeItem(aboutChatItem) }
-                            chatAdapter.checkIfRecycleViewIsEmpty(binding = binding)
+                            chatAdapter.checkIfRecycleViewIsEmpty(
+                                binding = binding,
+                                firebase = firebase
+                            )
                         }
                 }
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}

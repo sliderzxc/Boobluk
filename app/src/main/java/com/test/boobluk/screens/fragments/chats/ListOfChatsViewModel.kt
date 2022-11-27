@@ -37,9 +37,13 @@ class ListOfChatsViewModel(
             firebase = firebase,
             chatAdapter = chatAdapter
         )
+
         viewModelScope.launch {
-            delay(5000)
-            chatAdapter.checkIfRecycleViewIsEmpty(binding = binding)
+            delay(8000)
+            chatAdapter.checkIfRecycleViewIsEmpty(
+                binding = binding,
+                firebase = firebase
+            )
         }
     }
 
