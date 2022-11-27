@@ -13,6 +13,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.R
 import com.test.boobluk.adapter.MessageAdapter
@@ -20,6 +22,8 @@ import com.test.boobluk.data.entities.Message
 import com.test.boobluk.databinding.DialogEditMessageBinding
 import com.test.boobluk.databinding.FragmentChatBinding
 import com.test.boobluk.firebase.chat.ChatFirebaseHelper
+import com.test.boobluk.network.viewmodel.NotificationViewModel
+import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.navigation.goToListOfChatsFragment
 
 
@@ -55,6 +59,17 @@ class ChatViewModel(
         _newMessage.value = newMessage
     }
 
+    fun checkIfExistsAndClearNotificationsInThisChat(
+        firebase: Firebase,
+        context: Context
+    ) {
+        chatFirebaseHelper.checkIfExistsAndClearNotificationsInThisChat(
+            interlocutorUid = userUid.value.toString(),
+            firebase = firebase,
+            context = context
+        )
+    }
+
     fun getUserDataAndUpdateDesign(
         firebase: Firebase,
         binding: FragmentChatBinding
@@ -69,13 +84,15 @@ class ChatViewModel(
     fun sendMessage(
         firebase: Firebase,
         binding: FragmentChatBinding,
-        messageAdapter: MessageAdapter
+        messageAdapter: MessageAdapter,
+        notificationViewModel: NotificationViewModel
     ) {
         chatFirebaseHelper.sendMessage(
             firebase = firebase,
             binding = binding,
             chatViewModel = this,
-            messageAdapter = messageAdapter
+            messageAdapter = messageAdapter,
+            notificationViewModel = notificationViewModel
         )
     }
 
@@ -166,6 +183,19 @@ class ChatViewModel(
         }
         dialog.setContentView(view)
         dialog.show()
+    }
+
+    fun changeInChatWithInFirebase(
+        firebase: Firebase
+    ) {
+        chatFirebaseHelper.changeInChatWithInFirebase(
+            firebase = firebase,
+            interlocutorUid = userUid.value.toString()
+        )
+    }
+
+    fun clearInChatWithInFirebase(firebase: Firebase) {
+        chatFirebaseHelper.clearInChatWithInFirebase(firebase)
     }
 
 }

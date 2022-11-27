@@ -22,4 +22,13 @@ object Constants {
     const val REFERENCE_SENT_MESSAGES = "sentMessages"
     const val REFERENCE_DATA = "data"
     const val REFERENCE_LAST_EDIT_MESSAGE = "lastEditMessage"
+    const val REFERENCE_IN_CHAT_WITH = "inChatWith"
+
+    const val AUTHORIZATION_KEY = "key=AAAADOOqXOc:APA91bH7W5tJ63-RtnkMb9sdhYNILNhc5FwxPoDDzyz-CEQMn5jQFsC-oJF9s986kMUxrJ3cZytIFiT2pcklCipaLYFMzXIBPF-M0acwT44fC_PTE9mzDQDbLdrYpgkcUZK3QkWco9Gb"
+    const val BASE_URL = "https://fcm.googleapis.com/"
+
+    const val SHARED_PREFERENCES_NOTIFICATION_ARRAY = "notification_array"
+    const val SHARED_PREFERENCES_NOTIFICATION_PREFERENCES = "notification_preferences"
+
+
 }

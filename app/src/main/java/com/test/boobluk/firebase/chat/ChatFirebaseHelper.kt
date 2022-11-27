@@ -1,6 +1,7 @@
 package com.test.boobluk.firebase.chat
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.LifecycleOwner
@@ -15,22 +16,62 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.MessageAdapter
 import com.test.boobluk.data.entities.Message
+import com.test.boobluk.data.entities.NotificationData
+import com.test.boobluk.data.entities.PushNotification
 import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentChatBinding
+import com.test.boobluk.network.notification.hideNotifications
+import com.test.boobluk.network.viewmodel.NotificationViewModel
 import com.test.boobluk.screens.fragments.chat.ChatViewModel
 import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.constants.Constants.REFERENCE_DATA
 import com.test.boobluk.utils.constants.Constants.REFERENCE_INIT_REALTIME_DATABASE
 import com.test.boobluk.utils.constants.Constants.REFERENCE_LAST_EDIT_MESSAGE
 import com.test.boobluk.utils.constants.Constants.REFERENCE_CHATS
+import com.test.boobluk.utils.constants.Constants.REFERENCE_IN_CHAT_WITH
 import com.test.boobluk.utils.constants.Constants.REFERENCE_RECEIVED_MESSAGES
 import com.test.boobluk.utils.constants.Constants.REFERENCE_SENT_MESSAGES
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USERS_DATA
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USER_CHATS
+import com.test.boobluk.utils.preferences.getArrayFromPreferencesNotificationArray
+import org.jetbrains.annotations.NotNull
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ChatFirebaseHelper {
+
+    fun changeInChatWithInFirebase(
+        firebase: Firebase,
+        interlocutorUid: String
+    ) {
+        val currentUid = firebase.auth.currentUser?.uid.toString()
+        firebase.database(REFERENCE_INIT_REALTIME_DATABASE).getReference(REFERENCE_USERS_DATA)
+            .child(currentUid).child(REFERENCE_DATA).setValue(hashMapOf(REFERENCE_IN_CHAT_WITH to interlocutorUid))
+    }
+
+    fun clearInChatWithInFirebase(
+        firebase: Firebase
+    ) {
+        val currentUid = firebase.auth.currentUser?.uid.toString()
+        firebase.database(REFERENCE_INIT_REALTIME_DATABASE).getReference(REFERENCE_USERS_DATA)
+            .child(currentUid).child(REFERENCE_DATA).setValue(hashMapOf(REFERENCE_IN_CHAT_WITH to null))
+    }
+
+    fun checkIfExistsAndClearNotificationsInThisChat(
+        interlocutorUid: String,
+        firebase: Firebase,
+        context: Context
+    ) {
+        firebase.firestore.collection(Constants.REFERENCE_USER_INFO).document(interlocutorUid).get().addOnSuccessListener { snapshot ->
+            val user = snapshot.toObject(UserInfo::class.java)
+            val arrayOfNotificationId = context.getArrayFromPreferencesNotificationArray(user?.username.toString())
+            hideNotifications(
+                context = context,
+                notifyIdArray = arrayOfNotificationId,
+                username = user?.username.toString()
+            )
+        }
+    }
 
     fun getUserDataAndUpdateDesign(
         interlocutorUid: String,
@@ -50,7 +91,8 @@ class ChatFirebaseHelper {
         firebase: Firebase,
         binding: FragmentChatBinding,
         chatViewModel: ChatViewModel,
-        messageAdapter: MessageAdapter
+        messageAdapter: MessageAdapter,
+        notificationViewModel: NotificationViewModel
     ) {
         binding.btnSendMessage.setOnClickListener {
             val uid = firebase.auth.currentUser?.uid.toString()
@@ -75,6 +117,28 @@ class ChatFirebaseHelper {
                 sharedData = sharedData,
                 sharedDataForSort = currentTimeMillis
             )
+
+            firebase.firestore.collection(Constants.REFERENCE_USER_INFO).document(uid).get().addOnSuccessListener { userSnapshot ->
+                val currentUser = userSnapshot.toObject(UserInfo::class.java)
+                firebase.firestore.collection(Constants.REFERENCE_USER_INFO).document(interlocutorUid).get().addOnSuccessListener { interlocutorSnapshot ->
+                    val interlocutorUser = interlocutorSnapshot.toObject(UserInfo::class.java)
+                    firebase.database(REFERENCE_INIT_REALTIME_DATABASE).getReference(REFERENCE_USERS_DATA)
+                        .child(interlocutorUid).child(REFERENCE_DATA).child(REFERENCE_IN_CHAT_WITH).get().addOnSuccessListener {
+                            val inChatWith = it.value.toString()
+                            if (inChatWith != uid) {
+                                notificationViewModel.sendNotification(
+                                    PushNotification(
+                                        to = interlocutorUser?.token.toString(),
+                                        notification = NotificationData(
+                                            title = currentUser?.username.toString(),
+                                            body = textMessage
+                                        )
+                                    )
+                                )
+                            }
+                        }
+                }
+            }
 
             firebase.database(REFERENCE_INIT_REALTIME_DATABASE)
                 .getReference(REFERENCE_USER_CHATS)
@@ -118,7 +182,6 @@ class ChatFirebaseHelper {
                         .setValue(oldMessage)
 
                     if (oldMessage != null && newMessage != null) {
-                        Log.d("MyLog", "SentUpdateData")
                         messageAdapter.updateData(oldMessage, newMessage)
                     }
                     binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)

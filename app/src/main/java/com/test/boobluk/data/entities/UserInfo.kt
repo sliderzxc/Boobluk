@@ -9,5 +9,6 @@ data class UserInfo(
     val username: String? = null,
     val avatar: String? = null,
     val gender: Gender? = null,
-    var bio: String? = null
+    var bio: String? = null,
+    var token: String? = null
 )

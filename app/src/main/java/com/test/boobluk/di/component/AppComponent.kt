@@ -1,6 +1,7 @@
 package com.test.boobluk.di.component
 
 import com.test.boobluk.di.modules.AppModule
+import com.test.boobluk.di.modules.RetrofitModule
 import com.test.boobluk.screens.activities.main.MainActivity
 import com.test.boobluk.screens.fragments.authentication.login.LoginFragment
 import com.test.boobluk.screens.fragments.authentication.password.ForgotPasswordFragment
@@ -16,7 +17,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ViewModelModule::class, AppModule::class])
+@Component(modules = [ViewModelModule::class, AppModule::class, RetrofitModule::class])
 interface AppComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(listOfChatsFragment: ListOfChatsFragment)

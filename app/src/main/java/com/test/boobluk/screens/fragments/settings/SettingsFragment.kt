@@ -1,20 +1,21 @@
 package com.test.boobluk.screens.fragments.settings
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import com.test.boobluk.R
 import com.test.boobluk.app.App
 import com.test.boobluk.databinding.FragmentSettingsBinding
 import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.navigation.goToAddNewFragment
+import com.test.boobluk.utils.preferences.addNewItemToPreferencesNotificationArray
+import com.test.boobluk.utils.preferences.getArrayFromPreferencesNotificationArray
 import javax.inject.Inject
 
 class SettingsFragment : Fragment() {
@@ -40,6 +41,9 @@ class SettingsFragment : Fragment() {
         bottomNavigationViewClickListener()
         buttonAddNewChatClickListener()
         signOutClickListener()
+        binding.button.setOnClickListener {
+
+        }
     }
 
     private fun inject() {

@@ -8,6 +8,8 @@ import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.MessageAdapter
 import com.test.boobluk.app.App
 import com.test.boobluk.databinding.FragmentChatBinding
+import com.test.boobluk.network.viewmodel.NotificationViewModel
+import com.test.boobluk.network.viewmodel.NotificationViewModelFactory
 import javax.inject.Inject
 
 class ChatFragment : Fragment() {
@@ -15,6 +17,9 @@ class ChatFragment : Fragment() {
     @Inject
     lateinit var chatViewModelFactory: ChatViewModelFactory
     private val chatViewModel: ChatViewModel by activityViewModels { chatViewModelFactory }
+    @Inject
+    lateinit var notificationViewModelFactory: NotificationViewModelFactory
+    private val notificationViewModel: NotificationViewModel by activityViewModels { notificationViewModelFactory }
     private lateinit var messageAdapter: MessageAdapter
     private val firebase = Firebase
 
@@ -34,6 +39,8 @@ class ChatFragment : Fragment() {
         onBackPressedClickListeners()
         getUserDataAndUpdateDesign()
         getMessagesFromFirebaseAndAddToRecyclerView()
+        checkIfExistsAndClearNotificationsInThisChat()
+        changeInChatWithInFirebase()
         sendMessageWhenPressedButtonSend()
     }
 
@@ -52,11 +59,16 @@ class ChatFragment : Fragment() {
         )
     }
 
+    private fun changeInChatWithInFirebase() {
+        chatViewModel.changeInChatWithInFirebase(firebase)
+    }
+
     private fun sendMessageWhenPressedButtonSend() {
         chatViewModel.sendMessage(
             firebase = firebase,
             binding = binding,
-            messageAdapter = messageAdapter
+            messageAdapter = messageAdapter,
+            notificationViewModel = notificationViewModel
         )
     }
 
@@ -88,9 +100,17 @@ class ChatFragment : Fragment() {
         (activity?.applicationContext as App).appComponent.inject(this)
     }
 
+    private fun checkIfExistsAndClearNotificationsInThisChat() {
+        chatViewModel.checkIfExistsAndClearNotificationsInThisChat(
+            firebase = firebase,
+            context = requireContext()
+        )
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         messageAdapter.clearAllMessages()
+        chatViewModel.clearInChatWithInFirebase(firebase)
     }
 
 }
