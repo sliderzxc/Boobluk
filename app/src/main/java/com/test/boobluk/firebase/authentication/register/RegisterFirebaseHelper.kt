@@ -8,6 +8,7 @@ import com.google.firebase.storage.ktx.storage
 import com.test.boobluk.R
 import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentRegisterBinding
+import com.test.boobluk.interfaces.authentication.register.RegisterFirebaseInterface
 import com.test.boobluk.screens.fragments.authentication.register.RegisterFragment
 import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.constants.Constants.EMAIL_ADDRESS_IS_BUSY
@@ -18,15 +19,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class RegisterFirebaseHelper {
+class RegisterFirebaseHelper : RegisterFirebaseInterface {
 
-    fun checkIfUserRegisteredAndConfirmedEmail(auth: FirebaseAuth, registerFragment: RegisterFragment) {
+    override fun checkIfUserRegisteredAndConfirmedEmail(auth: FirebaseAuth, registerFragment: RegisterFragment) {
         if (auth.currentUser != null && auth.currentUser?.isEmailVerified == true) {
             registerFragment.goToLoginFragment()
         }
     }
 
-    fun createUserAndCheckValidEditTexts(
+    override fun createUserAndCheckValidEditTexts(
         registerFragment: RegisterFragment,
         binding: FragmentRegisterBinding,
         firebase: Firebase
@@ -138,7 +139,7 @@ class RegisterFirebaseHelper {
         binding.textInputLayoutUsername.isErrorEnabled = false
     }
 
-    private fun registerAndAddUserToDatabase(
+    override fun registerAndAddUserToDatabase(
         firebase: Firebase,
         binding: FragmentRegisterBinding
     ) {

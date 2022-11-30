@@ -5,9 +5,10 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.test.boobluk.databinding.FragmentForgotPasswordBinding
 import com.test.boobluk.firebase.authentication.password.ForgotPasswordFirebaseHelper
+import com.test.boobluk.interfaces.authentication.password.ForgotPasswordFirebaseInterface
 
 class ForgotPasswordViewModel(
-    val forgotPasswordFirebaseHelper: ForgotPasswordFirebaseHelper
+    val forgotPasswordFirebaseInterface: ForgotPasswordFirebaseInterface
 ) : ViewModel() {
 
     fun doOnTextChanged(binding: FragmentForgotPasswordBinding) {
@@ -22,7 +23,7 @@ class ForgotPasswordViewModel(
         forgotPasswordFragment: ForgotPasswordFragment,
         auth: FirebaseAuth
     ) {
-        forgotPasswordFirebaseHelper.sendPasswordResetAndValidEditTexts(
+        forgotPasswordFirebaseInterface.sendPasswordResetAndValidEditTexts(
             binding = binding,
             forgotPasswordFragment = forgotPasswordFragment,
             auth = auth

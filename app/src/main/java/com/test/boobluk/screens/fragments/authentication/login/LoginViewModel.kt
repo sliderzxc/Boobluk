@@ -2,14 +2,13 @@ package com.test.boobluk.screens.fragments.authentication.login
 
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.databinding.FragmentLoginBinding
 import com.test.boobluk.firebase.authentication.login.LoginFirebaseHelper
-import com.test.boobluk.utils.navigation.goToMainFragment
+import com.test.boobluk.interfaces.authentication.login.LoginFirebaseInterface
 
 class LoginViewModel(
-    val loginFirebaseHelper: LoginFirebaseHelper
+    val loginFirebaseInterface: LoginFirebaseInterface
 ) : ViewModel() {
 
     fun signInAndValidEditTexts(
@@ -17,7 +16,7 @@ class LoginViewModel(
         loginFragment: LoginFragment,
         firebase: Firebase
     ) {
-        loginFirebaseHelper.signInAndValidEditTexts(
+        loginFirebaseInterface.signInAndValidEditTexts(
             binding = binding,
             loginFragment = loginFragment,
             firebase = firebase
@@ -25,7 +24,7 @@ class LoginViewModel(
     }
 
     fun checkIfUserLoginAndConfirmedEmail(firebase: Firebase, loginFragment: LoginFragment) {
-        loginFirebaseHelper.checkIfUserLoginAndConfirmedEmail(
+        loginFirebaseInterface.checkIfUserLoginAndConfirmedEmail(
             firebase = firebase,
             loginFragment = loginFragment
         )

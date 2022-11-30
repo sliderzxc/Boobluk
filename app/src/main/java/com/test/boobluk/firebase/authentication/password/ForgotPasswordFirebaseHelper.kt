@@ -3,13 +3,14 @@ package com.test.boobluk.firebase.authentication.password
 import com.google.firebase.auth.FirebaseAuth
 import com.test.boobluk.R
 import com.test.boobluk.databinding.FragmentForgotPasswordBinding
+import com.test.boobluk.interfaces.authentication.password.ForgotPasswordFirebaseInterface
 import com.test.boobluk.screens.fragments.authentication.password.ForgotPasswordFragment
 import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.toast.showDarkMotionInfoColorToast
 
-class ForgotPasswordFirebaseHelper {
+class ForgotPasswordFirebaseHelper : ForgotPasswordFirebaseInterface {
 
-    fun sendPasswordResetAndValidEditTexts(
+    override fun sendPasswordResetAndValidEditTexts(
         binding: FragmentForgotPasswordBinding,
         forgotPasswordFragment: ForgotPasswordFragment,
         auth: FirebaseAuth

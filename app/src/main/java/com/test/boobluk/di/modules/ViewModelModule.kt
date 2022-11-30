@@ -1,16 +1,18 @@
 package com.test.boobluk.di.modules
 
-import com.test.boobluk.firebase.add.AddNewChatFirebaseHelper
 import com.test.boobluk.firebase.chat.ChatFirebaseHelper
 import com.test.boobluk.firebase.chats.ListOfChatsFirebaseHelper
-import com.test.boobluk.firebase.authentication.login.LoginFirebaseHelper
 import com.test.boobluk.firebase.authentication.password.ForgotPasswordFirebaseHelper
 import com.test.boobluk.firebase.profile.EditProfileFirebaseHelper
 import com.test.boobluk.firebase.authentication.register.RegisterFirebaseHelper
 import com.test.boobluk.firebase.search.SearchFirebaseHelper
 import com.test.boobluk.firebase.settings.SettingsFirebaseHelper
+import com.test.boobluk.interfaces.add.AddNewChatFirebaseInterface
+import com.test.boobluk.interfaces.authentication.login.LoginFirebaseInterface
+import com.test.boobluk.interfaces.authentication.password.ForgotPasswordFirebaseInterface
+import com.test.boobluk.interfaces.authentication.register.RegisterFirebaseInterface
+import com.test.boobluk.interfaces.chat.ChatFirebaseInterface
 import com.test.boobluk.network.repository.NotificationRepository
-import com.test.boobluk.network.viewmodel.NotificationViewModel
 import com.test.boobluk.network.viewmodel.NotificationViewModelFactory
 import com.test.boobluk.screens.fragments.add.AddNewChatViewModelFactory
 import com.test.boobluk.screens.fragments.authentication.login.LoginViewModelFactory
@@ -30,28 +32,28 @@ class ViewModelModule {
 
     @Provides
     fun provideRegisterViewModelFactory(
-        registerFirebaseHelper: RegisterFirebaseHelper
+        registerFirebaseInterface: RegisterFirebaseInterface
     ) : RegisterViewModelFactory {
         return RegisterViewModelFactory(
-            registerFirebaseHelper = registerFirebaseHelper
+            registerFirebaseInterface = registerFirebaseInterface
         )
     }
 
     @Provides
     fun provideForgotPasswordViewModelFactory(
-        forgotPasswordFirebaseHelper: ForgotPasswordFirebaseHelper
+        forgotPasswordFirebaseInterface: ForgotPasswordFirebaseInterface
     ) : ForgotPasswordViewModelFactory {
         return ForgotPasswordViewModelFactory(
-            forgotPasswordFirebaseHelper = forgotPasswordFirebaseHelper
+            forgotPasswordFirebaseInterface = forgotPasswordFirebaseInterface
         )
     }
 
     @Provides
     fun provideLoginViewModelFactory(
-        loginFirebaseHelper: LoginFirebaseHelper
+        loginFirebaseInterface: LoginFirebaseInterface
     ) : LoginViewModelFactory {
         return LoginViewModelFactory(
-            loginFirebaseHelper = loginFirebaseHelper
+            loginFirebaseInterface = loginFirebaseInterface
         )
     }
 
@@ -68,19 +70,19 @@ class ViewModelModule {
 
     @Provides
     fun provideChatViewModelFactory(
-        chatFirebaseHelper: ChatFirebaseHelper
+        chatFirebaseInterface: ChatFirebaseInterface
     ) : ChatViewModelFactory {
         return ChatViewModelFactory(
-            chatFirebaseHelper = chatFirebaseHelper
+            chatFirebaseInterface = chatFirebaseInterface
         )
     }
 
     @Provides
     fun provideAddNewChatViewModelFactory(
-        addNewChatFirebaseHelper: AddNewChatFirebaseHelper
+        addNewChatFirebaseInterface: AddNewChatFirebaseInterface
     ) : AddNewChatViewModelFactory {
         return AddNewChatViewModelFactory(
-            addNewChatFirebaseHelper = addNewChatFirebaseHelper
+            addNewChatFirebaseInterface = addNewChatFirebaseInterface
         )
     }
 

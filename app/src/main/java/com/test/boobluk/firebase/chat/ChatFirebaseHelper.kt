@@ -20,10 +20,12 @@ import com.test.boobluk.data.entities.NotificationData
 import com.test.boobluk.data.entities.PushNotification
 import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentChatBinding
+import com.test.boobluk.interfaces.chat.ChatFirebaseInterface
 import com.test.boobluk.network.notification.hideNotifications
 import com.test.boobluk.network.viewmodel.NotificationViewModel
 import com.test.boobluk.screens.fragments.chat.ChatViewModel
 import com.test.boobluk.utils.constants.Constants
+import com.test.boobluk.utils.constants.Constants.IMAGE_APP_ICON
 import com.test.boobluk.utils.constants.Constants.REFERENCE_DATA
 import com.test.boobluk.utils.constants.Constants.REFERENCE_INIT_REALTIME_DATABASE
 import com.test.boobluk.utils.constants.Constants.REFERENCE_LAST_EDIT_MESSAGE
@@ -38,9 +40,9 @@ import org.jetbrains.annotations.NotNull
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ChatFirebaseHelper {
+class ChatFirebaseHelper : ChatFirebaseInterface {
 
-    fun changeInChatWithInFirebase(
+    override fun changeInChatWithInFirebase(
         firebase: Firebase,
         interlocutorUid: String
     ) {
@@ -49,15 +51,13 @@ class ChatFirebaseHelper {
             .child(currentUid).child(REFERENCE_DATA).setValue(hashMapOf(REFERENCE_IN_CHAT_WITH to interlocutorUid))
     }
 
-    fun clearInChatWithInFirebase(
-        firebase: Firebase
-    ) {
+    override fun clearInChatWithInFirebase(firebase: Firebase) {
         val currentUid = firebase.auth.currentUser?.uid.toString()
         firebase.database(REFERENCE_INIT_REALTIME_DATABASE).getReference(REFERENCE_USERS_DATA)
             .child(currentUid).child(REFERENCE_DATA).child(REFERENCE_IN_CHAT_WITH).removeValue()
     }
 
-    fun checkIfExistsAndClearNotificationsInThisChat(
+    override fun checkIfExistsAndClearNotificationsInThisChat(
         interlocutorUid: String,
         firebase: Firebase,
         context: Context
@@ -73,7 +73,7 @@ class ChatFirebaseHelper {
         }
     }
 
-    fun getUserDataAndUpdateDesign(
+    override fun getUserDataAndUpdateDesign(
         interlocutorUid: String,
         firebase: Firebase,
         binding: FragmentChatBinding
@@ -87,7 +87,7 @@ class ChatFirebaseHelper {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun sendMessage(
+    override fun sendMessage(
         firebase: Firebase,
         binding: FragmentChatBinding,
         chatViewModel: ChatViewModel,
@@ -131,7 +131,8 @@ class ChatFirebaseHelper {
                                         to = interlocutorUser?.token.toString(),
                                         notification = NotificationData(
                                             title = currentUser?.username.toString(),
-                                            body = textMessage
+                                            body = textMessage,
+                                            image = IMAGE_APP_ICON
                                         )
                                     )
                                 )
@@ -155,7 +156,7 @@ class ChatFirebaseHelper {
         }
     }
 
-    fun getMessagesFromFirebaseAndAddToRecyclerView(
+    override fun getMessagesFromFirebaseAndAddToRecyclerView(
         firebase: Firebase,
         chatViewModel: ChatViewModel,
         messageAdapter: MessageAdapter,
@@ -223,7 +224,7 @@ class ChatFirebaseHelper {
             })
     }
 
-    fun getDataChangesAndUpdateMessageAdapter(
+    override fun getDataChangesAndUpdateMessageAdapter(
         firebase: Firebase,
         messageAdapter: MessageAdapter,
         chatViewModel: ChatViewModel
@@ -241,7 +242,7 @@ class ChatFirebaseHelper {
             }
     }
 
-    fun deleteMessage(
+    override fun deleteMessage(
         firebase: Firebase,
         chatViewModel: ChatViewModel,
         message: Message
@@ -261,7 +262,7 @@ class ChatFirebaseHelper {
             .child(REFERENCE_RECEIVED_MESSAGES).child(currentTimeMillis).removeValue()
     }
 
-    fun editMessage(
+    override fun editMessage(
         firebase: Firebase,
         chatViewModel: ChatViewModel,
         message: Message,

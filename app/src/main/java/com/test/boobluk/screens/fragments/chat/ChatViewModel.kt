@@ -4,17 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.R
 import com.test.boobluk.adapter.MessageAdapter
@@ -22,13 +17,13 @@ import com.test.boobluk.data.entities.Message
 import com.test.boobluk.databinding.DialogEditMessageBinding
 import com.test.boobluk.databinding.FragmentChatBinding
 import com.test.boobluk.firebase.chat.ChatFirebaseHelper
+import com.test.boobluk.interfaces.chat.ChatFirebaseInterface
 import com.test.boobluk.network.viewmodel.NotificationViewModel
-import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.navigation.goToListOfChatsFragment
 
 
 class ChatViewModel(
-    val chatFirebaseHelper: ChatFirebaseHelper
+    val chatFirebaseInterface: ChatFirebaseInterface
 ) : ViewModel() {
 
     private val _oldMessage = MutableLiveData<Message>()
@@ -63,7 +58,7 @@ class ChatViewModel(
         firebase: Firebase,
         context: Context
     ) {
-        chatFirebaseHelper.checkIfExistsAndClearNotificationsInThisChat(
+        chatFirebaseInterface.checkIfExistsAndClearNotificationsInThisChat(
             interlocutorUid = userUid.value.toString(),
             firebase = firebase,
             context = context
@@ -74,7 +69,7 @@ class ChatViewModel(
         firebase: Firebase,
         binding: FragmentChatBinding
     ) {
-        chatFirebaseHelper.getUserDataAndUpdateDesign(
+        chatFirebaseInterface.getUserDataAndUpdateDesign(
             interlocutorUid = userUid.value.toString(),
             firebase = firebase,
             binding = binding
@@ -87,7 +82,7 @@ class ChatViewModel(
         messageAdapter: MessageAdapter,
         notificationViewModel: NotificationViewModel
     ) {
-        chatFirebaseHelper.sendMessage(
+        chatFirebaseInterface.sendMessage(
             firebase = firebase,
             binding = binding,
             chatViewModel = this,
@@ -100,7 +95,7 @@ class ChatViewModel(
         firebase: Firebase,
         message: Message
     ) {
-       chatFirebaseHelper.deleteMessage(
+       chatFirebaseInterface.deleteMessage(
            firebase = firebase,
            chatViewModel = this,
            message = message
@@ -112,7 +107,7 @@ class ChatViewModel(
         message: Message,
         chatBinding: FragmentChatBinding,
     ) {
-        chatFirebaseHelper.editMessage(
+        chatFirebaseInterface.editMessage(
             firebase = firebase,
             chatViewModel = this,
             message = message,
@@ -142,7 +137,7 @@ class ChatViewModel(
         messageAdapter: MessageAdapter,
         binding: FragmentChatBinding
     ) {
-        chatFirebaseHelper.getMessagesFromFirebaseAndAddToRecyclerView(
+        chatFirebaseInterface.getMessagesFromFirebaseAndAddToRecyclerView(
             firebase = firebase,
             chatViewModel = this,
             messageAdapter = messageAdapter,
@@ -188,14 +183,14 @@ class ChatViewModel(
     fun changeInChatWithInFirebase(
         firebase: Firebase
     ) {
-        chatFirebaseHelper.changeInChatWithInFirebase(
+        chatFirebaseInterface.changeInChatWithInFirebase(
             firebase = firebase,
             interlocutorUid = userUid.value.toString()
         )
     }
 
     fun clearInChatWithInFirebase(firebase: Firebase) {
-        chatFirebaseHelper.clearInChatWithInFirebase(firebase)
+        chatFirebaseInterface.clearInChatWithInFirebase(firebase)
     }
 
 }

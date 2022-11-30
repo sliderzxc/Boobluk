@@ -30,5 +30,5 @@ object Constants {
     const val SHARED_PREFERENCES_NOTIFICATION_ARRAY = "notification_array"
     const val SHARED_PREFERENCES_NOTIFICATION_PREFERENCES = "notification_preferences"
 
-
+    const val IMAGE_APP_ICON = ""
 }

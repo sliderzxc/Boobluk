@@ -8,15 +8,16 @@ import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.UserAdapter
 import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentAddNewChatBinding
+import com.test.boobluk.interfaces.add.AddNewChatFirebaseInterface
 import com.test.boobluk.utils.binding.checkIfRecyclerViewIsEmptyForAddNewChatFragment
 import com.test.boobluk.utils.constants.Constants
 
-class AddNewChatFirebaseHelper {
+class AddNewChatFirebaseHelper : AddNewChatFirebaseInterface {
 
-    fun getUsersBySearch(
+    override fun getUsersBySearch(
         firebase: Firebase,
         binding: FragmentAddNewChatBinding,
-        userAdapter: UserAdapter,
+        userAdapter: UserAdapter
     ) {
         val userUid = firebase.auth.currentUser?.uid.toString()
         binding.etUsername.doOnTextChanged { text, _, _, _ ->
@@ -36,10 +37,10 @@ class AddNewChatFirebaseHelper {
         }
     }
 
-    fun getAllUsers(
+    override fun getAllUsers(
         firebase: Firebase,
         binding: FragmentAddNewChatBinding,
-        userAdapter: UserAdapter,
+        userAdapter: UserAdapter
     ) {
         val userUid = firebase.auth.currentUser?.uid.toString()
         val listOfUsers = mutableListOf<UserInfo>()

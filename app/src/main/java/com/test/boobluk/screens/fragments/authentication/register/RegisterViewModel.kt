@@ -2,16 +2,14 @@ package com.test.boobluk.screens.fragments.authentication.register
 
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.databinding.FragmentRegisterBinding
 import com.test.boobluk.firebase.authentication.register.RegisterFirebaseHelper
+import com.test.boobluk.interfaces.authentication.register.RegisterFirebaseInterface
 
 class RegisterViewModel(
-    val registerFirebaseHelper: RegisterFirebaseHelper
+    val registerFirebaseInterface: RegisterFirebaseInterface
 ) : ViewModel() {
 
     fun createUserAndCheckValidEditTexts(
@@ -19,7 +17,7 @@ class RegisterViewModel(
         binding: FragmentRegisterBinding,
         firebase: Firebase
     ) {
-        registerFirebaseHelper.createUserAndCheckValidEditTexts(
+        registerFirebaseInterface.createUserAndCheckValidEditTexts(
             registerFragment = registerFragment,
             binding = binding,
             firebase = firebase
@@ -30,7 +28,7 @@ class RegisterViewModel(
         firebase: Firebase,
         registerFragment:
         RegisterFragment) {
-        registerFirebaseHelper.checkIfUserRegisteredAndConfirmedEmail(
+        registerFirebaseInterface.checkIfUserRegisteredAndConfirmedEmail(
             auth = firebase.auth,
             registerFragment = registerFragment
         )

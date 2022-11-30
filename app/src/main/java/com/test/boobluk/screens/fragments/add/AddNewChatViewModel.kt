@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.UserAdapter
 import com.test.boobluk.databinding.FragmentAddNewChatBinding
-import com.test.boobluk.firebase.add.AddNewChatFirebaseHelper
+import com.test.boobluk.interfaces.add.AddNewChatFirebaseInterface
 
 class AddNewChatViewModel(
-    val addNewChatFirebaseHelper: AddNewChatFirebaseHelper
+    val addNewChatFirebaseInterface: AddNewChatFirebaseInterface
 ) : ViewModel() {
 
     fun getUsersBySearch(
@@ -15,7 +15,7 @@ class AddNewChatViewModel(
         binding: FragmentAddNewChatBinding,
         userAdapter: UserAdapter
     ) {
-        addNewChatFirebaseHelper.getUsersBySearch(
+        addNewChatFirebaseInterface.getUsersBySearch(
             firebase = firebase,
             binding = binding,
             userAdapter = userAdapter
@@ -27,7 +27,7 @@ class AddNewChatViewModel(
         binding: FragmentAddNewChatBinding,
         userAdapter: UserAdapter
     ) {
-        addNewChatFirebaseHelper.getAllUsers(
+        addNewChatFirebaseInterface.getAllUsers(
             firebase = firebase,
             binding = binding,
             userAdapter = userAdapter

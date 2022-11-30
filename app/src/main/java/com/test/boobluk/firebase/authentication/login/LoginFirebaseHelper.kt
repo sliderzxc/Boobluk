@@ -8,6 +8,7 @@ import com.google.firebase.storage.ktx.storage
 import com.test.boobluk.R
 import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentLoginBinding
+import com.test.boobluk.interfaces.authentication.login.LoginFirebaseInterface
 import com.test.boobluk.screens.fragments.authentication.login.LoginFragment
 import com.test.boobluk.utils.constants.Constants
 import com.test.boobluk.utils.navigation.goToMainFragment
@@ -16,9 +17,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginFirebaseHelper {
+class LoginFirebaseHelper : LoginFirebaseInterface {
 
-    fun signInAndValidEditTexts(binding: FragmentLoginBinding, loginFragment: LoginFragment, firebase: Firebase) {
+    override fun signInAndValidEditTexts(
+        binding: FragmentLoginBinding,
+        loginFragment: LoginFragment,
+        firebase: Firebase
+    ) {
         val username = binding.etUsername.text?.trim()
         val email = binding.etEmail.text?.trim()
         val password = binding.etPassword.text?.trim()
@@ -96,7 +101,10 @@ class LoginFirebaseHelper {
         }
     }
 
-    fun checkIfUserLoginAndConfirmedEmail(firebase: Firebase, loginFragment: LoginFragment) {
+    override fun checkIfUserLoginAndConfirmedEmail(
+        firebase: Firebase,
+        loginFragment: LoginFragment
+    ) {
         if (firebase.auth.currentUser != null && firebase.auth.currentUser?.isEmailVerified == true) {
             loginFragment.goToMainFragment()
         }
@@ -117,7 +125,7 @@ class LoginFirebaseHelper {
         binding.textInputLayoutUsername.isErrorEnabled = false
     }
 
-    private fun loginAndUpdateUserInDatabase(
+    override fun loginAndUpdateUserInDatabase(
         firebase: Firebase,
         binding: FragmentLoginBinding,
         loginFragment: LoginFragment,

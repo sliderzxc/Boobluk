@@ -9,6 +9,11 @@ import com.test.boobluk.firebase.profile.EditProfileFirebaseHelper
 import com.test.boobluk.firebase.authentication.register.RegisterFirebaseHelper
 import com.test.boobluk.firebase.search.SearchFirebaseHelper
 import com.test.boobluk.firebase.settings.SettingsFirebaseHelper
+import com.test.boobluk.interfaces.add.AddNewChatFirebaseInterface
+import com.test.boobluk.interfaces.authentication.login.LoginFirebaseInterface
+import com.test.boobluk.interfaces.authentication.password.ForgotPasswordFirebaseInterface
+import com.test.boobluk.interfaces.authentication.register.RegisterFirebaseInterface
+import com.test.boobluk.interfaces.chat.ChatFirebaseInterface
 import com.test.boobluk.utils.image.ImageHelper
 import dagger.Module
 import dagger.Provides
@@ -18,22 +23,32 @@ import dagger.Provides
 class AppModule {
 
     @Provides
-    fun provideRegisterFirebaseHelper() = RegisterFirebaseHelper()
+    fun provideRegisterFirebaseHelper() : RegisterFirebaseInterface {
+        return RegisterFirebaseHelper()
+    }
 
     @Provides
-    fun provideForgotPasswordFirebaseHelper() = ForgotPasswordFirebaseHelper()
+    fun provideForgotPasswordFirebaseHelper() : ForgotPasswordFirebaseInterface {
+        return ForgotPasswordFirebaseHelper()
+    }
 
     @Provides
-    fun provideLoginFirebaseHelper() = LoginFirebaseHelper()
+    fun provideLoginFirebaseHelper() : LoginFirebaseInterface {
+        return LoginFirebaseHelper()
+    }
 
     @Provides
     fun provideEditProfileFirebaseHelper() = EditProfileFirebaseHelper()
 
     @Provides
-    fun provideChatFirebaseHelper() = ChatFirebaseHelper()
+    fun provideChatFirebaseHelper() : ChatFirebaseInterface {
+        return ChatFirebaseHelper()
+    }
 
     @Provides
-    fun provideAddNewChatFirebaseHelper() = AddNewChatFirebaseHelper()
+    fun provideAddNewChatFirebaseHelper() : AddNewChatFirebaseInterface {
+        return AddNewChatFirebaseHelper()
+    }
 
     @Provides
     fun provideListOfChatsFirebaseHelper() = ListOfChatsFirebaseHelper()
