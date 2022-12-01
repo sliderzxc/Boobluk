@@ -1,4 +1,6 @@
 package com.test.boobluk.firebase.search
 
-class SearchFirebaseHelper {
+import com.test.boobluk.interfaces.search.SearchFirebaseInterface
+
+class SearchFirebaseHelper : SearchFirebaseInterface {
 }

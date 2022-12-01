@@ -38,7 +38,11 @@
         <action
             android:id="@+id/actionFromListOfChatsFragmentToChatFragment"
             app:destination="@id/chatFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
@@ -104,7 +108,11 @@
         <action
             android:id="@+id/actionFromAddNewChatFragmentToChatFragment"
             app:destination="@id/chatFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
             app:launchSingleTop="true"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>

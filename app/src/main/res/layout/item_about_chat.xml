@@ -31,7 +31,7 @@
         android:layout_marginEnd="6dp"
         android:text="Username"
         android:textColor="#252525"
-        android:textSize="22sp"
+        android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivUserIcon"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:text="Last Message"
         android:textColor="#555555"
-        android:textSize="17sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/tvUsername"
         app:layout_constraintStart_toStartOf="@+id/tvUsername"
         app:layout_constraintTop_toBottomOf="@+id/tvUsername" />

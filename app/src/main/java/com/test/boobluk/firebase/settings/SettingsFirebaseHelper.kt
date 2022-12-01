@@ -1,4 +1,6 @@
 package com.test.boobluk.firebase.settings
 
-class SettingsFirebaseHelper {
+import com.test.boobluk.interfaces.settings.SettingsFirebaseInterface
+
+class SettingsFirebaseHelper : SettingsFirebaseInterface {
 }

@@ -14,6 +14,10 @@ import com.test.boobluk.interfaces.authentication.login.LoginFirebaseInterface
 import com.test.boobluk.interfaces.authentication.password.ForgotPasswordFirebaseInterface
 import com.test.boobluk.interfaces.authentication.register.RegisterFirebaseInterface
 import com.test.boobluk.interfaces.chat.ChatFirebaseInterface
+import com.test.boobluk.interfaces.chats.ListOfChatsFirebaseInterface
+import com.test.boobluk.interfaces.profile.EditProfileFirebaseInterface
+import com.test.boobluk.interfaces.search.SearchFirebaseInterface
+import com.test.boobluk.interfaces.settings.SettingsFirebaseInterface
 import com.test.boobluk.utils.image.ImageHelper
 import dagger.Module
 import dagger.Provides
@@ -38,7 +42,9 @@ class AppModule {
     }
 
     @Provides
-    fun provideEditProfileFirebaseHelper() = EditProfileFirebaseHelper()
+    fun provideEditProfileFirebaseHelper() : EditProfileFirebaseInterface {
+        return EditProfileFirebaseHelper()
+    }
 
     @Provides
     fun provideChatFirebaseHelper() : ChatFirebaseInterface {
@@ -51,13 +57,19 @@ class AppModule {
     }
 
     @Provides
-    fun provideListOfChatsFirebaseHelper() = ListOfChatsFirebaseHelper()
+    fun provideListOfChatsFirebaseHelper() : ListOfChatsFirebaseInterface {
+        return ListOfChatsFirebaseHelper()
+    }
 
     @Provides
-    fun provideSearchFirebaseHelper() = SearchFirebaseHelper()
+    fun provideSearchFirebaseHelper() : SearchFirebaseInterface {
+        return SearchFirebaseHelper()
+    }
 
     @Provides
-    fun provideSettingsFirebaseHelper() = SettingsFirebaseHelper()
+    fun provideSettingsFirebaseHelper() : SettingsFirebaseInterface {
+        return SettingsFirebaseHelper()
+    }
 
     @Provides
     fun provideImageHelper() = ImageHelper()

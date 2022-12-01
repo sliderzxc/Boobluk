@@ -3,16 +3,15 @@ package com.test.boobluk.screens.fragments.search
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import com.test.boobluk.R
-import com.test.boobluk.databinding.FragmentChatBinding
 import com.test.boobluk.databinding.FragmentSearchBinding
-import com.test.boobluk.firebase.search.SearchFirebaseHelper
+import com.test.boobluk.interfaces.search.SearchFirebaseInterface
 import com.test.boobluk.screens.fragments.chats.ListOfChatsFragment
 import com.test.boobluk.screens.fragments.profile.EditProfileFragment
 import com.test.boobluk.screens.fragments.settings.SettingsFragment
 import com.test.boobluk.utils.navigation.changeFragment
 
 class SearchViewModel(
-    val searchFirebaseHelper: SearchFirebaseHelper
+    val searchFirebaseInterface: SearchFirebaseInterface
 ) : ViewModel() {
 
     fun bottomNavigationViewClickListener(

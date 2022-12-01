@@ -2,16 +2,16 @@ package com.test.boobluk.screens.fragments.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.test.boobluk.firebase.search.SearchFirebaseHelper
 import com.test.boobluk.firebase.settings.SettingsFirebaseHelper
+import com.test.boobluk.interfaces.settings.SettingsFirebaseInterface
 import javax.inject.Inject
 
 class SettingsViewModelFactory @Inject constructor(
-    val settingsFirebaseHelper: SettingsFirebaseHelper
+    val settingsFirebaseInterface: SettingsFirebaseInterface
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return SettingsViewModel(
-            settingFirebaseHelper = settingsFirebaseHelper
+            settingFirebaseInterface = settingsFirebaseInterface
         ) as T
     }
 }

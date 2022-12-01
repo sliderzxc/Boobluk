@@ -63,4 +63,10 @@ interface ChatFirebaseInterface {
         chatBinding: FragmentChatBinding,
     )
 
+    fun updateLastMessage(
+        firebase: Firebase,
+        uid: String,
+        interlocutorUid: String
+    )
+
 }

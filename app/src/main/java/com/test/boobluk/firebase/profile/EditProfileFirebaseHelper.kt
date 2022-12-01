@@ -14,6 +14,7 @@ import com.google.firebase.storage.ktx.storage
 import com.test.boobluk.R
 import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentEditProfileBinding
+import com.test.boobluk.interfaces.profile.EditProfileFirebaseInterface
 import com.test.boobluk.utils.binding.hideEditProfileFragmentDesignAndShowProgressBar
 import com.test.boobluk.utils.binding.hideProgressBarAndShowProfileFragmentDesign
 import com.test.boobluk.utils.constants.Constants
@@ -25,9 +26,9 @@ import com.test.boobluk.utils.gender.Gender
 import com.test.boobluk.utils.toast.showDarkMotionSuccessColorToast
 import java.io.ByteArrayOutputStream
 
-class EditProfileFirebaseHelper {
+class EditProfileFirebaseHelper : EditProfileFirebaseInterface {
 
-    fun saveAllChanges(
+    override fun saveAllChanges(
         firebase: Firebase,
         binding: FragmentEditProfileBinding,
         fragment: Fragment
@@ -192,7 +193,7 @@ class EditProfileFirebaseHelper {
         }
     }
 
-    fun getCurrentUserFieldsForFragmentEditProfile(
+    override fun getCurrentUserFieldsForFragmentEditProfile(
         firebase: Firebase,
         binding: FragmentEditProfileBinding,
         context: Context

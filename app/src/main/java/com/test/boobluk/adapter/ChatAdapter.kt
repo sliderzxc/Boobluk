@@ -41,13 +41,22 @@ class ChatAdapter(
 
     class ListOfChatsViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val binding by lazy { ItemAboutChatBinding.bind(item) }
+
+        @SuppressLint("SetTextI18n")
         fun bind(
             aboutChat: AboutChat,
             onBodyUserClick: (String, String) -> Unit,
             onLongBodyUserClick: (String) -> Boolean
         ) {
             binding.tvUsername.text = aboutChat.username
-            binding.tvLastMessage.text = aboutChat.lastMessage
+            //if
+            if (aboutChat.lastMessage?.sentMessage == true) {
+                binding.tvLastMessage.text = aboutChat.lastMessage?.message
+            } else if (aboutChat.lastMessage?.receivedMessage == true) {
+                binding.tvLastMessage.text = aboutChat.lastMessage?.message
+            } else {
+                binding.tvLastMessage.text = "You don't have any messages"
+            }
             Glide.with(itemView).load(aboutChat.avatar).into(binding.ivUserIcon)
             binding.bodyItemAboutChat.setOnClickListener { onBodyUserClick(aboutChat.uid.toString(), aboutChat.username.toString()) }
             binding.ivUserIcon.setOnClickListener { onBodyUserClick(aboutChat.uid.toString(), aboutChat.username.toString()) }

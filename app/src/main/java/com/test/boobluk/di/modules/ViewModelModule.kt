@@ -1,17 +1,15 @@
 package com.test.boobluk.di.modules
 
-import com.test.boobluk.firebase.chat.ChatFirebaseHelper
-import com.test.boobluk.firebase.chats.ListOfChatsFirebaseHelper
-import com.test.boobluk.firebase.authentication.password.ForgotPasswordFirebaseHelper
-import com.test.boobluk.firebase.profile.EditProfileFirebaseHelper
-import com.test.boobluk.firebase.authentication.register.RegisterFirebaseHelper
-import com.test.boobluk.firebase.search.SearchFirebaseHelper
 import com.test.boobluk.firebase.settings.SettingsFirebaseHelper
 import com.test.boobluk.interfaces.add.AddNewChatFirebaseInterface
 import com.test.boobluk.interfaces.authentication.login.LoginFirebaseInterface
 import com.test.boobluk.interfaces.authentication.password.ForgotPasswordFirebaseInterface
 import com.test.boobluk.interfaces.authentication.register.RegisterFirebaseInterface
 import com.test.boobluk.interfaces.chat.ChatFirebaseInterface
+import com.test.boobluk.interfaces.chats.ListOfChatsFirebaseInterface
+import com.test.boobluk.interfaces.profile.EditProfileFirebaseInterface
+import com.test.boobluk.interfaces.search.SearchFirebaseInterface
+import com.test.boobluk.interfaces.settings.SettingsFirebaseInterface
 import com.test.boobluk.network.repository.NotificationRepository
 import com.test.boobluk.network.viewmodel.NotificationViewModelFactory
 import com.test.boobluk.screens.fragments.add.AddNewChatViewModelFactory
@@ -59,11 +57,11 @@ class ViewModelModule {
 
     @Provides
     fun provideEditProfileViewModelFactory(
-        editProfileFirebaseHelper: EditProfileFirebaseHelper,
+        editProfileFirebaseInterface: EditProfileFirebaseInterface,
         imageHelper: ImageHelper
     ) : EditProfileViewModelFactory {
         return EditProfileViewModelFactory(
-            editProfileFirebaseHelper =  editProfileFirebaseHelper,
+            editProfileFirebaseInterface =  editProfileFirebaseInterface,
             imageHelper = imageHelper
         )
     }
@@ -88,28 +86,28 @@ class ViewModelModule {
 
     @Provides
     fun provideListOfChatsViewModelFactory(
-        listOfChatsFirebaseHelper: ListOfChatsFirebaseHelper
+        listOfChatsFirebaseInterface: ListOfChatsFirebaseInterface
     ) : ListOfChatsViewModelFactory {
         return ListOfChatsViewModelFactory(
-            listOfChatsFirebaseHelper = listOfChatsFirebaseHelper
+            listOfChatsFirebaseInterface = listOfChatsFirebaseInterface
         )
     }
 
     @Provides
     fun provideSearchViewModelFactory(
-        searchFirebaseHelper: SearchFirebaseHelper
+        searchFirebaseInterface: SearchFirebaseInterface
     ) : SearchViewModelFactory {
         return SearchViewModelFactory(
-            searchFirebaseHelper = searchFirebaseHelper
+            searchFirebaseInterface = searchFirebaseInterface
         )
     }
 
     @Provides
     fun provideSettingsViewModelFactory(
-        settingsFirebaseHelper: SettingsFirebaseHelper
+        settingsFirebaseInterface: SettingsFirebaseInterface
     ) : SettingsViewModelFactory {
         return SettingsViewModelFactory(
-            settingsFirebaseHelper = settingsFirebaseHelper
+            settingsFirebaseInterface = settingsFirebaseInterface
         )
     }
 

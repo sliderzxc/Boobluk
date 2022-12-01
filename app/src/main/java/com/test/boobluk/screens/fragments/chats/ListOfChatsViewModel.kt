@@ -12,9 +12,9 @@ import com.google.firebase.ktx.Firebase
 import com.test.boobluk.R
 import com.test.boobluk.adapter.ChatAdapter
 import com.test.boobluk.databinding.DialogEditChatBinding
-import com.test.boobluk.databinding.DialogEditMessageBinding
 import com.test.boobluk.databinding.FragmentListOfChatsBinding
 import com.test.boobluk.firebase.chats.ListOfChatsFirebaseHelper
+import com.test.boobluk.interfaces.chats.ListOfChatsFirebaseInterface
 import com.test.boobluk.screens.fragments.profile.EditProfileFragment
 import com.test.boobluk.screens.fragments.search.SearchFragment
 import com.test.boobluk.screens.fragments.settings.SettingsFragment
@@ -24,7 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ListOfChatsViewModel(
-    val listOfChatsFirebaseHelper: ListOfChatsFirebaseHelper
+    val listOfChatsFirebaseInterface: ListOfChatsFirebaseInterface
 ) : ViewModel() {
 
     fun getAllChats(
@@ -32,7 +32,7 @@ class ListOfChatsViewModel(
         firebase: Firebase,
         chatAdapter: ChatAdapter
     ) {
-        listOfChatsFirebaseHelper.getAllChats(
+        listOfChatsFirebaseInterface.getAllChats(
             binding = binding,
             firebase = firebase,
             chatAdapter = chatAdapter
@@ -51,7 +51,7 @@ class ListOfChatsViewModel(
         firebase: Firebase,
         interlocutorUid: String
     ) {
-        listOfChatsFirebaseHelper.deleteChat(
+        listOfChatsFirebaseInterface.deleteChat(
             firebase = firebase,
             interlocutorUid = interlocutorUid
         )
@@ -96,7 +96,5 @@ class ListOfChatsViewModel(
             }
         }
     }
-
-
 
 }

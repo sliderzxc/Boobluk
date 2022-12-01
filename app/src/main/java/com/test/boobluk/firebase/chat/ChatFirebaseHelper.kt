@@ -2,9 +2,7 @@ package com.test.boobluk.firebase.chat
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.View
-import androidx.lifecycle.LifecycleOwner
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
@@ -15,10 +13,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.MessageAdapter
-import com.test.boobluk.data.entities.Message
-import com.test.boobluk.data.entities.NotificationData
-import com.test.boobluk.data.entities.PushNotification
-import com.test.boobluk.data.entities.UserInfo
+import com.test.boobluk.data.entities.*
 import com.test.boobluk.databinding.FragmentChatBinding
 import com.test.boobluk.interfaces.chat.ChatFirebaseInterface
 import com.test.boobluk.network.notification.hideNotifications
@@ -31,12 +26,12 @@ import com.test.boobluk.utils.constants.Constants.REFERENCE_INIT_REALTIME_DATABA
 import com.test.boobluk.utils.constants.Constants.REFERENCE_LAST_EDIT_MESSAGE
 import com.test.boobluk.utils.constants.Constants.REFERENCE_CHATS
 import com.test.boobluk.utils.constants.Constants.REFERENCE_IN_CHAT_WITH
+import com.test.boobluk.utils.constants.Constants.REFERENCE_LAST_MESSAGE
 import com.test.boobluk.utils.constants.Constants.REFERENCE_RECEIVED_MESSAGES
 import com.test.boobluk.utils.constants.Constants.REFERENCE_SENT_MESSAGES
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USERS_DATA
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USER_CHATS
 import com.test.boobluk.utils.preferences.getArrayFromPreferencesNotificationArray
-import org.jetbrains.annotations.NotNull
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -48,7 +43,7 @@ class ChatFirebaseHelper : ChatFirebaseInterface {
     ) {
         val currentUid = firebase.auth.currentUser?.uid.toString()
         firebase.database(REFERENCE_INIT_REALTIME_DATABASE).getReference(REFERENCE_USERS_DATA)
-            .child(currentUid).child(REFERENCE_DATA).setValue(hashMapOf(REFERENCE_IN_CHAT_WITH to interlocutorUid))
+            .child(currentUid).child(REFERENCE_DATA).child(REFERENCE_IN_CHAT_WITH).setValue(interlocutorUid)
     }
 
     override fun clearInChatWithInFirebase(firebase: Firebase) {
@@ -118,6 +113,18 @@ class ChatFirebaseHelper : ChatFirebaseInterface {
                 sharedDataForSort = currentTimeMillis
             )
 
+            val sentMessage = LastMessage(
+                message = textMessage,
+                sentMessage = true,
+                receivedMessage = false
+            )
+
+            val receivedMessage = LastMessage(
+                message = textMessage,
+                sentMessage = false,
+                receivedMessage = true
+            )
+
             firebase.firestore.collection(Constants.REFERENCE_USER_INFO).document(uid).get().addOnSuccessListener { userSnapshot ->
                 val currentUser = userSnapshot.toObject(UserInfo::class.java)
                 firebase.firestore.collection(Constants.REFERENCE_USER_INFO).document(interlocutorUid).get().addOnSuccessListener { interlocutorSnapshot ->
@@ -151,6 +158,16 @@ class ChatFirebaseHelper : ChatFirebaseInterface {
                 .child(interlocutorUid).child(REFERENCE_CHATS).child(uid)
                 .child(REFERENCE_RECEIVED_MESSAGES).child(currentTimeMillis)
                 .setValue(message.copy(isReceivedMessage = true))
+
+            firebase.database(REFERENCE_INIT_REALTIME_DATABASE)
+                .getReference(REFERENCE_USER_CHATS).child(uid)
+                .child(REFERENCE_CHATS).child(interlocutorUid).child(REFERENCE_LAST_MESSAGE)
+                .setValue(sentMessage)
+            firebase.database(REFERENCE_INIT_REALTIME_DATABASE)
+                .getReference(REFERENCE_USER_CHATS).child(interlocutorUid)
+                .child(REFERENCE_CHATS).child(uid).child(REFERENCE_LAST_MESSAGE)
+                .setValue(receivedMessage)
+
             binding.etMessage.text.clear()
             binding.rvMessages.scrollToPosition(messageAdapter.itemCount-1)
         }
@@ -260,6 +277,12 @@ class ChatFirebaseHelper : ChatFirebaseInterface {
             .getReference(REFERENCE_USER_CHATS)
             .child(interlocutorUid).child(REFERENCE_CHATS).child(uid)
             .child(REFERENCE_RECEIVED_MESSAGES).child(currentTimeMillis).removeValue()
+
+        updateLastMessage(
+            firebase = firebase,
+            uid = uid,
+            interlocutorUid = interlocutorUid
+        )
     }
 
     override fun editMessage(
@@ -305,11 +328,79 @@ class ChatFirebaseHelper : ChatFirebaseInterface {
                 .getReference(REFERENCE_USER_CHATS)
                 .child(interlocutorUid).child(REFERENCE_CHATS).child(uid)
                 .child(REFERENCE_RECEIVED_MESSAGES).child(currentTimeMillis).updateChildren(newReceivedMessageHashMap)
+
+            updateLastMessage(
+                firebase = firebase,
+                uid = uid,
+                interlocutorUid = interlocutorUid
+            )
+
             chatBinding.etMessage.text.clear()
             chatBinding.tvEditMessage.visibility = View.GONE
             chatBinding.btnEditMessage.visibility = View.GONE
             chatBinding.btnSendMessage.visibility = View.VISIBLE
         }
+    }
+
+    override fun updateLastMessage(
+        firebase: Firebase,
+        uid: String,
+        interlocutorUid: String
+    ) {
+        firebase.database(REFERENCE_INIT_REALTIME_DATABASE)
+            .getReference(REFERENCE_USER_CHATS).child(uid)
+            .child(REFERENCE_CHATS).child(interlocutorUid)
+            .child(REFERENCE_SENT_MESSAGES).get().addOnSuccessListener { dataSnapshot ->
+                var lastSentMessage = LastMessage()
+                var lastReceivedMessage = LastMessage()
+                for (i in dataSnapshot.children) {
+                    val messageFromFirebase = i.getValue(Message::class.java)
+                    if ((messageFromFirebase?.sharedDataForSort?.toLong() ?: 0) >= lastSentMessage.sharedDataForSort) {
+                        lastSentMessage = LastMessage(
+                            message = messageFromFirebase?.message,
+                            sentMessage = true,
+                            receivedMessage = false,
+                            sharedDataForSort = messageFromFirebase?.sharedDataForSort?.toLong() ?: 0
+                        )
+                        lastReceivedMessage = LastMessage(
+                            message = messageFromFirebase?.message,
+                            sentMessage = false,
+                            receivedMessage = true,
+                            sharedDataForSort = messageFromFirebase?.sharedDataForSort?.toLong() ?: 0
+                        )
+                    }
+                }
+                firebase.database(REFERENCE_INIT_REALTIME_DATABASE)
+                    .getReference(REFERENCE_USER_CHATS).child(uid)
+                    .child(REFERENCE_CHATS).child(interlocutorUid)
+                    .child(REFERENCE_RECEIVED_MESSAGES).get().addOnSuccessListener {
+                        for (i in dataSnapshot.children) {
+                            val messageFromFirebase = i.getValue(Message::class.java)
+                            if ((messageFromFirebase?.sharedDataForSort?.toLong() ?: 0) >= lastSentMessage.sharedDataForSort) {
+                                lastSentMessage = LastMessage(
+                                    message = messageFromFirebase?.message,
+                                    sentMessage = true,
+                                    receivedMessage = false,
+                                    sharedDataForSort = messageFromFirebase?.sharedDataForSort?.toLong() ?: 0
+                                )
+                                lastReceivedMessage = LastMessage(
+                                    message = messageFromFirebase?.message,
+                                    sentMessage = false,
+                                    receivedMessage = true,
+                                    sharedDataForSort = messageFromFirebase?.sharedDataForSort?.toLong() ?: 0
+                                )
+                            }
+                        }
+                        firebase.database(REFERENCE_INIT_REALTIME_DATABASE)
+                            .getReference(REFERENCE_USER_CHATS).child(uid)
+                            .child(REFERENCE_CHATS).child(interlocutorUid).child(REFERENCE_LAST_MESSAGE)
+                            .setValue(lastSentMessage)
+                        firebase.database(REFERENCE_INIT_REALTIME_DATABASE)
+                            .getReference(REFERENCE_USER_CHATS).child(interlocutorUid)
+                            .child(REFERENCE_CHATS).child(uid).child(REFERENCE_LAST_MESSAGE)
+                            .setValue(lastReceivedMessage)
+                    }
+            }
     }
 
 }
