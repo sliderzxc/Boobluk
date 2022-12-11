@@ -1,4 +1,4 @@
-package com.test.boobluk.data.entities
+package com.test.boobluk.data.entities.messages
 
 data class LastMessage(
     val message: String? = null,

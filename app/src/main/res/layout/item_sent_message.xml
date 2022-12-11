@@ -31,7 +31,7 @@
                 android:background="@drawable/shape_send_message"
                 android:paddingTop="3dp"
                 android:text="This is the sent message"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="end"
                 android:text="20.05.2022 21:00"
-                android:textColor="#CD800E" />
+                android:textColor="@color/light_brown" />
 
         </LinearLayout>
 

@@ -10,8 +10,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.ChatAdapter
-import com.test.boobluk.data.entities.AboutChat
-import com.test.boobluk.data.entities.LastMessage
+import com.test.boobluk.data.entities.chat.AboutChat
+import com.test.boobluk.data.entities.messages.LastMessage
 import com.test.boobluk.databinding.FragmentListOfChatsBinding
 import com.test.boobluk.interfaces.chats.ListOfChatsFirebaseInterface
 import com.test.boobluk.utils.binding.checkIfRecycleViewIsEmpty

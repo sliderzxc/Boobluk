@@ -5,21 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.UserAdapter
 import com.test.boobluk.app.App
-import com.test.boobluk.data.entities.UserInfo
 import com.test.boobluk.databinding.FragmentAddNewChatBinding
 import com.test.boobluk.screens.fragments.chat.ChatViewModel
 import com.test.boobluk.screens.fragments.chat.ChatViewModelFactory
 import com.test.boobluk.utils.binding.checkIfRecyclerViewIsEmptyForAddNewChatFragment
-import com.test.boobluk.utils.constants.Constants.REFERENCE_USER_INFO
 import com.test.boobluk.utils.navigation.goToChatFragment
 import javax.inject.Inject
 

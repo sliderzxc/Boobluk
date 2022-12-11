@@ -11,7 +11,7 @@
         android:id="@+id/linearLayoutNavigationItem"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/light_brown"
+        android:background="@color/orange"
         android:orientation="horizontal"
         android:padding="@dimen/dimen_5dp"
         android:paddingStart="0dp"
@@ -35,7 +35,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:src="@drawable/new_user_icon"
-            app:strokeColor="@color/very_light_orange"
+            app:strokeColor="@color/red_100"
             app:strokeWidth="1dp" />
 
         <TextView
@@ -46,7 +46,7 @@
             android:layout_weight="1"
             android:gravity="center|start"
             android:text="username"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="@dimen/dimen_34sp" />
 
     </LinearLayout>
@@ -93,7 +93,7 @@
                 android:layout_marginEnd="@dimen/dimen_16"
                 android:layout_marginBottom="@dimen/dimen_2dp"
                 android:layout_weight="1"
-                android:background="@color/light_brown"
+                android:background="@color/orange"
                 android:cursorVisible="true"
                 android:drawablePadding="8dp"
                 android:hint="Write the message"
@@ -101,7 +101,7 @@
                 android:minHeight="50dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:textColorHint="#D1C6C6"
+                android:textColorHint="#434343"
                 android:textCursorDrawable="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

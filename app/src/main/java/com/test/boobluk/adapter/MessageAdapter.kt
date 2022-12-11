@@ -1,6 +1,5 @@
 package com.test.boobluk.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.test.boobluk.R
-import com.test.boobluk.data.entities.Message
+import com.test.boobluk.data.entities.messages.Message
 import com.test.boobluk.databinding.ItemReceivedMessageBinding
 import com.test.boobluk.databinding.ItemSentMessageBinding
 import com.test.boobluk.utils.message.MessageType

@@ -6,7 +6,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.test.boobluk.R
-import com.test.boobluk.data.entities.UserInfo
+import com.test.boobluk.data.entities.user.UserInfo
 import com.test.boobluk.databinding.FragmentRegisterBinding
 import com.test.boobluk.interfaces.authentication.register.RegisterFirebaseInterface
 import com.test.boobluk.screens.fragments.authentication.register.RegisterFragment

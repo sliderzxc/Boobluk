@@ -62,7 +62,7 @@
                 android:layout_marginBottom="3dp"
                 android:paddingEnd="10dp"
                 android:text="This is user message"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
         </LinearLayout>

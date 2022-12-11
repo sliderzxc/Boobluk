@@ -4,6 +4,8 @@ pluginManagement {
         google()
         maven { url 'https://jitpack.io' }
         mavenCentral()
+        //noinspection JcenterRepositoryObsolete
+        jcenter()
     }
 }
 dependencyResolutionManagement {
@@ -12,6 +14,8 @@ dependencyResolutionManagement {
         google()
         maven { url 'https://jitpack.io' }
         mavenCentral()
+        //noinspection JcenterRepositoryObsolete
+        jcenter()
     }
 }
 rootProject.name = "Boobluk"

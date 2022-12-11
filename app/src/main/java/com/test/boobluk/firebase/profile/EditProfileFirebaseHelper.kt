@@ -2,7 +2,6 @@ package com.test.boobluk.firebase.profile
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -12,7 +11,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.test.boobluk.R
-import com.test.boobluk.data.entities.UserInfo
+import com.test.boobluk.data.entities.user.UserInfo
 import com.test.boobluk.databinding.FragmentEditProfileBinding
 import com.test.boobluk.interfaces.profile.EditProfileFirebaseInterface
 import com.test.boobluk.utils.binding.hideEditProfileFragmentDesignAndShowProgressBar
@@ -23,7 +22,6 @@ import com.test.boobluk.utils.constants.Constants.REFERENCE_BIO
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USERNAME
 import com.test.boobluk.utils.constants.Constants.REFERENCE_USER_INFO
 import com.test.boobluk.utils.gender.Gender
-import com.test.boobluk.utils.toast.showDarkMotionSuccessColorToast
 import java.io.ByteArrayOutputStream
 
 class EditProfileFirebaseHelper : EditProfileFirebaseInterface {

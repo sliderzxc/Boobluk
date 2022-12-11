@@ -1,6 +1,6 @@
 package com.test.boobluk.network.repository
 
-import com.test.boobluk.data.entities.PushNotification
+import com.test.boobluk.data.entities.notification.PushNotification
 import com.test.boobluk.network.api.NotificationApi
 import retrofit2.Response
 

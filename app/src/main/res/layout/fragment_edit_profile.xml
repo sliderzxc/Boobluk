@@ -10,13 +10,13 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_brown"
+        android:background="@color/orange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/edit_profile_menu"
         app:title="@string/app_name"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/black" />
 
     <com.github.abdularis.civ.CircleImageView
         android:id="@+id/ivUserAvatar"
@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:strokeColor="@color/light_brown"
+        app:strokeColor="@color/orange"
         app:strokeWidth="3dp" />
 
     <TextView
@@ -38,7 +38,7 @@
         android:layout_marginTop="3dp"
         android:gravity="center"
         android:text="Upload new avatar"
-        android:textColor="@color/light_brown"
+        android:textColor="@color/orange"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="@+id/ivUserAvatar"
         app:layout_constraintStart_toStartOf="@+id/ivUserAvatar"
@@ -141,7 +141,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/textInputLayoutEmail"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutEmail"
-        app:startIconDrawable="@drawable/icon_key">
+        app:startIconDrawable="@drawable/icon_password">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword"

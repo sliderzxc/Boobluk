@@ -2,7 +2,7 @@ package com.test.boobluk.network.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.test.boobluk.data.entities.PushNotification
+import com.test.boobluk.data.entities.notification.PushNotification
 import com.test.boobluk.network.repository.NotificationRepository
 import kotlinx.coroutines.launch
 

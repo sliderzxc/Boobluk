@@ -1,7 +1,9 @@
 package com.test.boobluk.screens.fragments.search
 
+import android.content.Context
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
+import com.google.firebase.ktx.Firebase
 import com.test.boobluk.R
 import com.test.boobluk.databinding.FragmentSearchBinding
 import com.test.boobluk.interfaces.search.SearchFirebaseInterface
@@ -33,6 +35,18 @@ class SearchViewModel(
                 else -> true
             }
         }
+    }
+
+    fun iniCardStackView(
+        firebase: Firebase,
+        context: Context,
+        binding: FragmentSearchBinding
+    ) {
+        searchFirebaseInterface.initCardStackView(
+            firebase = firebase,
+            context = context,
+            binding = binding
+        )
     }
 
 }

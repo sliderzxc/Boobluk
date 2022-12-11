@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.test.boobluk.R
-import com.test.boobluk.data.entities.AboutChat
+import com.test.boobluk.data.entities.chat.AboutChat
 import com.test.boobluk.databinding.ItemAboutChatBinding
 
 class ChatAdapterDiffUtils(

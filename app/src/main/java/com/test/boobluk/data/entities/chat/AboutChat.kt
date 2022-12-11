@@ -1,4 +1,6 @@
-package com.test.boobluk.data.entities
+package com.test.boobluk.data.entities.chat
+
+import com.test.boobluk.data.entities.messages.LastMessage
 
 data class AboutChat(
     val username: String? = null,

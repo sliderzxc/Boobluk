@@ -48,7 +48,14 @@ class EditProfileFragment : Fragment() {
     private fun initLauncher() {
         launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                binding.ivUserAvatar.setImageURI(result.data?.data)
+                val dataUri = result.data?.data
+                dataUri?.let { uri ->
+                    editProfileViewModel.checkIfImageIsSquare(
+                        uri = uri,
+                        context = requireContext(),
+                        binding = binding
+                    )
+                }
             }
         }
     }

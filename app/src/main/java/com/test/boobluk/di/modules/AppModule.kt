@@ -18,59 +18,77 @@ import com.test.boobluk.interfaces.chats.ListOfChatsFirebaseInterface
 import com.test.boobluk.interfaces.profile.EditProfileFirebaseInterface
 import com.test.boobluk.interfaces.search.SearchFirebaseInterface
 import com.test.boobluk.interfaces.settings.SettingsFirebaseInterface
+import com.test.boobluk.utils.binding.CardStackView
 import com.test.boobluk.utils.image.ImageHelper
 import dagger.Module
 import dagger.Provides
+import javax.inject.Singleton
 
 
 @Module
 class AppModule {
 
     @Provides
+    @Singleton
     fun provideRegisterFirebaseHelper() : RegisterFirebaseInterface {
         return RegisterFirebaseHelper()
     }
 
     @Provides
+    @Singleton
     fun provideForgotPasswordFirebaseHelper() : ForgotPasswordFirebaseInterface {
         return ForgotPasswordFirebaseHelper()
     }
 
     @Provides
+    @Singleton
     fun provideLoginFirebaseHelper() : LoginFirebaseInterface {
         return LoginFirebaseHelper()
     }
 
     @Provides
+    @Singleton
     fun provideEditProfileFirebaseHelper() : EditProfileFirebaseInterface {
         return EditProfileFirebaseHelper()
     }
 
     @Provides
+    @Singleton
     fun provideChatFirebaseHelper() : ChatFirebaseInterface {
         return ChatFirebaseHelper()
     }
 
     @Provides
+    @Singleton
     fun provideAddNewChatFirebaseHelper() : AddNewChatFirebaseInterface {
         return AddNewChatFirebaseHelper()
     }
 
     @Provides
+    @Singleton
     fun provideListOfChatsFirebaseHelper() : ListOfChatsFirebaseInterface {
         return ListOfChatsFirebaseHelper()
     }
 
     @Provides
-    fun provideSearchFirebaseHelper() : SearchFirebaseInterface {
-        return SearchFirebaseHelper()
+    @Singleton
+    fun provideSearchFirebaseHelper(
+        cardStackView: CardStackView
+    ) : SearchFirebaseInterface {
+        return SearchFirebaseHelper(cardStackView)
     }
 
     @Provides
+    @Singleton
     fun provideSettingsFirebaseHelper() : SettingsFirebaseInterface {
         return SettingsFirebaseHelper()
     }
 
     @Provides
+    @Singleton
     fun provideImageHelper() = ImageHelper()
+
+    @Provides
+    @Singleton
+    fun provideCardStackView() = CardStackView()
 }

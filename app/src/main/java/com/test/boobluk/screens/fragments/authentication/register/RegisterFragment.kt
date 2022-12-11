@@ -58,7 +58,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun signInClickListener() {
-        binding.tvSignIn.setOnClickListener {
+        binding.tvHaveAnAccount.setOnClickListener {
             goToLoginFragment()
         }
     }

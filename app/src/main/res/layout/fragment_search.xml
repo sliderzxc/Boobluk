@@ -10,12 +10,23 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_brown"
+        android:background="@color/orange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/app_name"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/black" />
+
+    <com.yuyakaido.android.cardstackview.CardStackView
+        android:id="@+id/cardStackView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@id/linearLayoutWithFab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
@@ -54,5 +65,45 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutWithFab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="-25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/coordinatorLayout">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabCustomSize="70dp"
+            app:maxImageSize="35dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/icon_dislike"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <Space
+            android:layout_width="60dp"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabCustomSize="70dp"
+            app:maxImageSize="35dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/icon_like"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

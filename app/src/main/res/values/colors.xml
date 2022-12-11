@@ -15,4 +15,9 @@
 	<color name="very_light_orange">#8BEC7F0A</color>
 	<color name="dark_red">#B91212</color>
 	<color name="red">#FF0000</color>
+
+	<color name="light_green">#6AFF00</color>
+	<color name="orange">#FFA800</color>
+	<color name="red_200">#FF0000</color>
+	<color name="red_100">#FF5100</color>
 </resources>

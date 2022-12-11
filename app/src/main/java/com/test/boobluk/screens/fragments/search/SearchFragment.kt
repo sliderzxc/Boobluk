@@ -1,11 +1,12 @@
 package com.test.boobluk.screens.fragments.search
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.firebase.ktx.Firebase
 import com.test.boobluk.app.App
 import com.test.boobluk.databinding.FragmentSearchBinding
 import com.test.boobluk.utils.navigation.goToAddNewFragment
@@ -16,6 +17,7 @@ class SearchFragment : Fragment() {
     @Inject
     lateinit var searchViewModelFactory: SearchViewModelFactory
     private val searchViewModel: SearchViewModel by activityViewModels { searchViewModelFactory }
+    private val firebase = Firebase
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +34,7 @@ class SearchFragment : Fragment() {
         initConfig()
         bottomNavigationViewClickListener()
         buttonAddNewChatClickListener()
+        initCardStackView()
     }
 
     private fun inject() {
@@ -52,6 +55,14 @@ class SearchFragment : Fragment() {
         searchViewModel.bottomNavigationViewClickListener(
             binding = binding,
             parentFragmentManager = parentFragmentManager
+        )
+    }
+
+    private fun initCardStackView() {
+        searchViewModel.iniCardStackView(
+            firebase = firebase,
+            context = requireContext(),
+            binding = binding
         )
     }
 }

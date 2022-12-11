@@ -6,7 +6,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.UserAdapter
-import com.test.boobluk.data.entities.UserInfo
+import com.test.boobluk.data.entities.user.UserInfo
 import com.test.boobluk.databinding.FragmentAddNewChatBinding
 import com.test.boobluk.interfaces.add.AddNewChatFirebaseInterface
 import com.test.boobluk.utils.binding.checkIfRecyclerViewIsEmptyForAddNewChatFragment

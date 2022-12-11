@@ -5,7 +5,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.test.boobluk.data.entities.UserInfo
+import com.test.boobluk.data.entities.user.UserInfo
 import com.test.boobluk.network.notification.showNotification
 import com.test.boobluk.utils.constants.Constants
 

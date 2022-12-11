@@ -2,6 +2,7 @@ package com.test.boobluk.screens.fragments.profile
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -106,6 +107,18 @@ class EditProfileViewModel(
             }
             true
         }
+    }
+
+    fun checkIfImageIsSquare(
+        uri: Uri,
+        context: Context,
+        binding: FragmentEditProfileBinding
+    ) {
+        imageHelper.checkIfImageIsSquare(
+            uri = uri,
+            context = context,
+            binding = binding
+        )
     }
 
 }

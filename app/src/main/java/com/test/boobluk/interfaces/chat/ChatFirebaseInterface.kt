@@ -3,7 +3,7 @@ package com.test.boobluk.interfaces.chat
 import android.content.Context
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.MessageAdapter
-import com.test.boobluk.data.entities.Message
+import com.test.boobluk.data.entities.messages.Message
 import com.test.boobluk.databinding.FragmentChatBinding
 import com.test.boobluk.network.viewmodel.NotificationViewModel
 import com.test.boobluk.screens.fragments.chat.ChatViewModel

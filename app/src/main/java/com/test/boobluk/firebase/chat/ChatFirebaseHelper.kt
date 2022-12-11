@@ -14,13 +14,17 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.test.boobluk.adapter.MessageAdapter
 import com.test.boobluk.data.entities.*
+import com.test.boobluk.data.entities.messages.LastMessage
+import com.test.boobluk.data.entities.messages.Message
+import com.test.boobluk.data.entities.notification.NotificationData
+import com.test.boobluk.data.entities.notification.PushNotification
+import com.test.boobluk.data.entities.user.UserInfo
 import com.test.boobluk.databinding.FragmentChatBinding
 import com.test.boobluk.interfaces.chat.ChatFirebaseInterface
 import com.test.boobluk.network.notification.hideNotifications
 import com.test.boobluk.network.viewmodel.NotificationViewModel
 import com.test.boobluk.screens.fragments.chat.ChatViewModel
 import com.test.boobluk.utils.constants.Constants
-import com.test.boobluk.utils.constants.Constants.IMAGE_APP_ICON
 import com.test.boobluk.utils.constants.Constants.REFERENCE_DATA
 import com.test.boobluk.utils.constants.Constants.REFERENCE_INIT_REALTIME_DATABASE
 import com.test.boobluk.utils.constants.Constants.REFERENCE_LAST_EDIT_MESSAGE
@@ -138,8 +142,7 @@ class ChatFirebaseHelper : ChatFirebaseInterface {
                                         to = interlocutorUser?.token.toString(),
                                         notification = NotificationData(
                                             title = currentUser?.username.toString(),
-                                            body = textMessage,
-                                            image = IMAGE_APP_ICON
+                                            body = textMessage
                                         )
                                     )
                                 )
@@ -402,5 +405,4 @@ class ChatFirebaseHelper : ChatFirebaseInterface {
                     }
             }
     }
-
 }
